@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elite: Dangerous - Engineer's Companion</title>
+  <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet"/>
+  <link rel="stylesheet" href="bootstrap-3.3.6-dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="css/theme.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<script type="text/template" id="material-tpl">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">
+        <%= title %>
+        <span class="badge" style="text-transform:capitalize"><%= type %></span>
+        <span class="badge" style="text-transform:capitalize"><%= rarity %></span>
+        <div class="pull-right">
+          <% if(inventory){ %> <span><%= inventory %></span><% } %>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="text-muted">Ship Salvage (Transport ships), Signal Source</div>
+    </div>
+    <div class="panel-footer">
+      <div class="btn-group btn-group-justified">
+        <a href="#" class="btn btn-default btn-sm favorite"><span
+            class="glyphicon glyphicon-plus"></span> Start Collecting</a>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/template" id="track-material-tpl">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">
+        <%= material.title %>
+        <span class="badge badge-default" style="text-transform:capitalize"><%= material.type %></span>
+        <span class="badge badge-default" style="text-transform:capitalize"><%= material.rarity %></span>
+        <div class="pull-right">
+          <span><%= inventory %></span> / <small><%= quantity %></small>
+          <a href="#" class="btn btn-default btn-sm inventory-minus">
+            <span class="glyphicon glyphicon-minus"></span></a>
+          <a href="#" class="btn btn-default btn-sm inventory-plus">
+            <span class="glyphicon glyphicon-plus"></span></a>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="text-muted">Ship Salvage (Transport ships), Signal Source</div>
+    </div>
+  </div>
+</script>
+
+<script type="text/template" id="blueprint-tpl">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">
+        <%= title %> <span class="badge"><%= level %></span>
+        <span class="badge"><%=type%></span>
+        <div class="pull-right">
+          <% if (tracked) { %>
+          <span><%=quantity%></span>
+          <a href="#" class="btn btn-primary btn-sm track"><span
+              class="glyphicon glyphicon-plus"></span></a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body text-muted" style="white-space: nowrap">
+      <% for (var i=0; i < ingredients.length; ++i) { %>
+      <div class="row" style="font-size: 0.9em">
+        <div class="col-xs-8"><%= ingredients[i].material.title %></div>
+        <div class="col-xs-4 text-right"><%= ingredients[i].quantity %></div>
+      </div>
+      <% } %>
+    </div>
+    <div class="panel-footer">
+      <div class="btn-group btn-group-justified">
+      <% if (tracked) { %>
+        <a href="#" class="btn btn-default btn-sm remove"><span
+            class="glyphicon glyphicon-remove"></span> Remove</a>
+        <a href="#" class="btn btn-default btn-sm craft"><span
+            class="glyphicon glyphicon-ok"></span> Craft</a>
+      <% } else { %>
+          <a href="#" class="btn btn-default btn-sm track"><span
+              class="glyphicon glyphicon-plus"></span>
+            Start Collecting</a>
+      <% } %>
+      </div>
+    </div>
+  </div>
+</script>
+
+<br/>
+
+<div class="container">
+  <div class="well well-sm">
+    <div id="track-toolbar">
+      <ul class="nav nav-pills nav-justified" id="track-tab-view">
+        <li role="presentation"><a href="#" data-tab="#track-blueprints">Blueprints
+          <span class="badge numBlueprints">0</span></a></li>
+        <li role="presentation" class="active"><a href="#"
+            data-tab="#track-materials">Materials <span class="badge numMaterials">0</span></a>
+        </li>
+      </ul>
+      <div class="row">
+        <div class="col-xs-3">
+          <div class="btn-group" style="width:100%">
+            <button class="btn btn-default dropdown-toggle" type="button"
+                id="menu-filter-1" data-toggle="dropdown"
+                style="width:100%;text-align:left">
+              <span class="glyphicon glyphicon-filter"></span>
+              <span class="pull-right"><span class="caret"></span></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#">Option</a></li>
+              <li><a href="#">Option</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-7">
+          <input type="text" class="form-control" placeholder="Search..."/>
+        </div>
+        <div class="col-xs-2 text-right">
+          <div class="btn-group" style="width:100%">
+            <button class="btn btn-default dropdown-toggle" type="button"
+                id="menu-sort-by-1" data-toggle="dropdown"
+                style="width:100%;text-align:left">Sort by
+              <span class="pull-right"><span class="caret"></span></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#">Title</a></li>
+              <li><a href="#">Rarity</a></li>
+              <li><a href="#">Grade</a></li>
+              <li><a href="#">Inventory</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" id="track-blueprints" style="display: none"></div>
+  <div class="row" id="track-materials"></div>
+
+  <div id="resources-toolbar" style="margin-bottom:1em">
+    <ul class="nav nav-pills nav-justified" id="catalog-filter-category">
+      <li role="presentation" class="active"><a href="#"
+          data-category="blueprints">Blueprints <span id="num-blueprints"
+          class="badge">0</span></a>
+      </li>
+      <li role="presentation"><a href="#" data-category="materials">Materials
+        <span id="num-materials" class="badge">0</span></a></li>
+      <li role="presentation"><a href="#" data-category="engineers">Engineers
+        </a></li>
+    </ul>
+    <div class="row">
+      <div class="col-xs-3">
+        <div class="btn-group" style="width:100%">
+          <button class="btn btn-default dropdown-toggle" type="button"
+              id="menu-filter-2" data-toggle="dropdown"
+              style="width:100%;text-align:left;">
+            <span id="catalog-filter-type-sel">All</span>
+            <span class="pull-right"><span class="caret"></span></span>
+          </button>
+          <ul class="dropdown-menu" id="catalog-filter-types">
+            <li><a href="#" data-type="">All</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-xs-7">
+        <input type="text" class="form-control" placeholder="Search..."
+            id="catalog-filter-search" />
+      </div>
+      <div class="col-xs-2 text-right">
+        <div class="btn-group" style="width:100%">
+          <button class="btn btn-default dropdown-toggle" type="button"
+              id="sort-by-2" data-toggle="dropdown"
+              style="width:100%;text-align:left;">Sort by
+            <span class="pull-right"><span class="caret"></span></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Title</a></li>
+            <li><a href="#">Rarity</a></li>
+            <li><a href="#">Grade</a></li>
+            <li><a href="#">Inventory</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div id="catalog-blueprints"></div>
+    <div id="catalog-materials" style="display:none"></div>
+    <div id="catalog-engineers" style="display:none"></div>
+  </div>
+  <nav>
+    <ul class="pager">
+      <li class="previous"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span> Previous</a></li>
+      <li class="next"><a href="#">Next <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+    </ul>
+  </nav>
+</div>
+
+<script src="js/libs/underscore.js"></script>
+<script src="js/libs/backbone.min.js"></script>
+<script src="js/libs/backbone.localStorage.js"></script>
+
+<script src="js/app/material-model.js"></script>
+<script src="js/app/blueprint-model.js"></script>
+<script src="js/app/material-view.js"></script>
+<script src="js/app/blueprint-view.js"></script>
+<script src="js/app/blueprint-collection.js"></script>
+<script src="js/app/material-collection.js"></script>
+
+<script src="js/app/tracking.js"></script>
+<script src="js/app/inventory.js"></script>
+<script src="js/app/catalog-filter.js"></script>
+<script src="js/app/app-view.js"></script>
+<script src="js/app/app.js"></script>
+</body>
+</html>
