@@ -39,13 +39,13 @@ def material_factory(db, row):
     if inst:
         inst.type = material_type(row["type"])
         inst.description = row["description"]
-        inst.rarity = rarity(row["rarity"])
+        inst._rarity = rarity(row["rarity"])
     else:
         inst = Material(
             title=row["title"],
             type=material_type(row["type"]),
             description=row["description"],
-            rarity=rarity(row["rarity"])
+            _rarity=rarity(row["rarity"])
         )
     db.add(inst)
     return inst
