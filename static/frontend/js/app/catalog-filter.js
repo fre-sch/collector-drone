@@ -28,22 +28,15 @@ var app = app || {};
             type: "",
             search: ""
         },
-        getFilter: function() {
-            if (this.get("category") == "blueprints")
-                return this.get("blueprintsFilter")
-            else if (this.get("category") == "materials")
-                return this.get("materialsFilter")
-        },
 	    getQuery: function() {
 	        var query = {and: []}
-	        var filter = this.getFilter()
-            if (filter.search) {
+            if (this.get("search")) {
                 query.and.push({ilike: {
-                    title: "%" + fiter.search + "%"
+                    title: "%" + this.get("search") + "%"
                 }})
             }
-            if (filter.type) {
-                query.and.push({eq: {type: filter.type}})
+            if (this.get("type")) {
+                query.and.push({eq: {type: this.get("type")}})
             }
             return query
 	    }
