@@ -18,14 +18,20 @@
     <div class="panel-heading">
       <div class="panel-title">
         <%= title %>
-        <span class="badge" style="text-transform:capitalize"><%= type %></span>
-        <span class="badge" style="text-transform:capitalize"><%= rarity %></span>
         <div class="pull-right">
           <% if(inventory){ %> <span><%= inventory %></span><% } %>
+          <a href="#" class="btn btn-default btn-sm inventory-minus">
+            <span class="glyphicon glyphicon-minus"></span></a>
+          <a href="#" class="btn btn-default btn-sm inventory-plus">
+            <span class="glyphicon glyphicon-plus"></span></a>
         </div>
       </div>
     </div>
     <div class="panel-body">
+      <div>
+      <span class="badge" style="text-transform:capitalize"><%= type %></span>
+      <span class="badge" style="text-transform:capitalize"><%= rarity %></span>
+      </div>
       <div class="text-muted">Ship Salvage (Transport ships), Signal Source
         <span class="label label-info">TODO:implement</span></div>
     </div>
@@ -44,8 +50,6 @@
     <div class="panel-heading">
       <div class="panel-title">
         <%= material.title %>
-        <span class="badge badge-default" style="text-transform:capitalize"><%= material.type %></span>
-        <span class="badge badge-default" style="text-transform:capitalize"><%= material.rarity %></span>
         <div class="pull-right">
           <span><%= inventory %></span> / <small><%= quantity %></small>
           <a href="#" class="btn btn-default btn-sm inventory-minus">
@@ -56,6 +60,10 @@
       </div>
     </div>
     <div class="panel-body">
+      <div>
+      <span class="badge" style="text-transform:capitalize"><%= material.type %></span>
+      <span class="badge" style="text-transform:capitalize"><%= material.rarity %></span>
+      </div>
       <div class="text-muted">Ship Salvage (Transport ships), Signal Source
         <span class="label label-info">TODO:implement</span></div>
     </div>
