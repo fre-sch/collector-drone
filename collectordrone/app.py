@@ -3,19 +3,24 @@ from flask import g as context
 from sqlalchemy import create_engine, distinct
 from sqlalchemy.orm import sessionmaker, joinedload, subqueryload
 import logging
+import logging.config
+import yaml
 
 import criteria
 from errors import ServiceError
 from model_filter import model_filter
 from models import Material, Blueprint, Ingredient, Engineer
+from utils import DotDict
 
 
+config = DotDict()
+with open("config.yml", "r") as fp:
+    config.update(yaml.load(fp))
+
+logging.config.dictConfig(config["logging"])
 log = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG,
-    format="%(levelname)s %(name)s %(message)s")
-app = Flask(__name__, static_folder='/home/frederik/Projekte/ed-blueprint-db/static')
-dbpath = "/home/frederik/Projekte/ed-blueprint-db/data.db"
-engine = create_engine("sqlite:///" + dbpath, echo=True)
+app = Flask(__name__, static_folder=config["static.path"])
+engine = create_engine(config["db.url"], echo=config["db.echo"])
 Session = sessionmaker(bind=engine)
 
 
