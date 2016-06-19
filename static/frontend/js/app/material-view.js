@@ -26,9 +26,14 @@ var app = app || {};
 		template: _.template($('#material-tpl').html()),
 		className: "col-md-4 material",
 		events: {
+			"click a.inventory-minus": "inventoryMinus",
+			"click a.inventory-plus": "inventoryPlus"
 		},
 		initialize: function () {
-		    this.inventory = app.inventory.get(this.model.id)
+		    this.inventory = (
+		    	app.inventory.get(this.model.id)
+		    	|| app.inventory.create({id: this.model.id, quantity: 0})
+	    	)
 		    this.listenTo(this.inventory, "change", this.render)
 			this.listenTo(this.model, 'change', this.render)
 			this.listenTo(this.model, 'destroy', this.remove)
@@ -38,6 +43,12 @@ var app = app || {};
 		    data.inventory = this.inventory ? this.inventory.get("quantity") : 0
 			this.$el.html(this.template(data))
 			return this
+		},
+		inventoryPlus: function() {
+			this.inventory.quantityPlus(1)
+		},
+		inventoryMinus: function() {
+			this.inventory.quantityPlus(-1)
 		}
 	});
 })(jQuery);
