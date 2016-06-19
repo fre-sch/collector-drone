@@ -1,0 +1,23 @@
+# copy this file and rename it to "config.yml"
+static:
+  path: <path/to/app>/static
+db:
+  # url: sqlite:///<path/to/app/data.db
+  url: <sqlalchemy db url>
+  echo: false # true, if you need to see sql statements
+logging:
+  version: 1
+  disable_existing_loggers: false
+  formatters:
+    standard:
+      format: '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+  handlers:
+    default:
+      level: INFO
+      formatter: standard
+      class: logging.StreamHandler
+  loggers:
+    "":
+      handlers: [default]
+      level: INFO
+      propagate: true
