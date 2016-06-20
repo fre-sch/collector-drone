@@ -25,8 +25,7 @@ var app = app || {};
 	app.Material = Backbone.Model.extend({
 		defaults: {
 			title: '',
-			locations: 'unknown',
-			tracked: false,
+			locations: [],
 			quantity: 0,
 			inventory: 0,
 		},

@@ -39,8 +39,8 @@ var app = app || {};
 			this.listenTo(this.model, 'destroy', this.remove)
 		},
 		render: function () {
-		    var data = this.model.toJSON()
-		    data.inventory = this.inventory ? this.inventory.get("quantity") : 0
+	    var data = this.model.toJSON()
+	    data.inventory = this.inventory ? this.inventory.get("quantity") : 0
 			this.$el.html(this.template(data))
 			return this
 		},

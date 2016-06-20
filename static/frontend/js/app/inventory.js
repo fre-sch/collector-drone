@@ -36,7 +36,13 @@ var app = app || {};
 
 	var MaterialInventory = Backbone.Collection.extend({
 		model: app.InvMaterial,
-		localStorage: new Backbone.LocalStorage("InvMaterial")
+		localStorage: new Backbone.LocalStorage("InvMaterial"),
+		getOrCreate: function(id) {
+			var inst = this.get(id)
+			if (!inst)
+			inst = this.create({id: id, quantity: 0})
+			return inst
+		}
 	})
 
 	app.inventory = new MaterialInventory()

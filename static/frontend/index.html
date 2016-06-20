@@ -32,8 +32,11 @@
       <span class="badge" style="text-transform:capitalize"><%= type %></span>
       <span class="badge" style="text-transform:capitalize"><%= rarity %></span>
       </div>
-      <div class="text-muted">Ship Salvage (Transport ships), Signal Source
-        <span class="label label-info">TODO:implement</span></div>
+      <div class="text-muted">
+        <% for (var i=0; i < locations.length; i++) { %>
+          <%= locations[i].title %>
+        <% } %>
+      </div>
     </div>
     <div class="panel-footer">
       <div class="btn-group btn-group-justified">
@@ -64,8 +67,17 @@
       <span class="badge" style="text-transform:capitalize"><%= material.type %></span>
       <span class="badge" style="text-transform:capitalize"><%= material.rarity %></span>
       </div>
-      <div class="text-muted">Ship Salvage (Transport ships), Signal Source
-        <span class="label label-info">TODO:implement</span></div>
+      <div class="text-muted">
+        <% for (var i=0; i < material.locations.length; i++) { %>
+          <%= material.locations[i].title %>
+        <% } %>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="btn-group btn-group-justified">
+        <a href="#" class="btn btn-default btn-sm remove"><span
+            class="glyphicon glyphicon-remove"></span> Remove</a>
+      </div>
     </div>
   </div>
 </script>

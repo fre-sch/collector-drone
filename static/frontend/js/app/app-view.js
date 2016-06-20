@@ -126,63 +126,47 @@ var app = app || {};
 
 		createMaterialView: function (material) {
 			var view = new app.MaterialView({model: material})
-	        var el = view.render().el
+      var el = view.render().el
 			this.catalogs.materials.append(el)
 		},
 
-		addOneTrackMaterial: function(trackMaterial) {
-		    var createViewAndAppend = _.bind(function(track, material) {
-                var view = new app.TrackMaterialView({
-                    model: track,
-                    material: material
-                })
-                this.$trackMaterials.append(view.render().el)
-		    }, this, trackMaterial)
+		addOneTrackMaterial: function(trackBlueprint, ingredient) {
+	    var createViewAndAppend = _.bind(function(trackBlueprint, material) {
+        var view = new app.TrackMaterialView({
+          model: {
+						material: material,
+						ingredient: ingredient,
+						inventory: app.inventory.getOrCreate({id: material.id}),
+						trackBlueprint: trackBlueprint
+					}
+        })
+        this.$trackMaterials.append(view.render().el)
+	    }, this, trackBlueprint)
 
-		    var material = app.materials.get(trackMaterial.id)
-		    if (material) {
-		        createViewAndAppend(material)
-		    }
-		    else {
-		        app.materials.add({id: trackMaterial.id})
-		            .fetch({success: createViewAndAppend})
-		    }
+	    app.materials.getOrFetch(ingredient.material.id, {
+				success: createViewAndAppend
+			})
 		},
 
 		addTrackingView: function(trackBlueprint) {
-		    var createViewAndAppend = _.bind(function(trackBlueprint, blueprint) {
-		        this.addTrackBlueprintView(trackBlueprint, blueprint)
-		        _.each(blueprint.get("ingredients"), function(ingredient) {
-                    this.addTrackMaterialView(trackBlueprint, ingredient)
-                }, this)
-		    }, this, trackBlueprint)
-		    app.blueprints.getOrFetch(trackBlueprint.id, {
-		        success: createViewAndAppend
-            })
+	    var createViewAndAppend = _.bind(function(trackBlueprint, blueprint) {
+        this.addTrackBlueprintView(trackBlueprint, blueprint)
+        _.each(blueprint.get("ingredients"), function(ingredient) {
+              this.addOneTrackMaterial(trackBlueprint, ingredient)
+            }, this)
+	    }, this, trackBlueprint)
+	    app.blueprints.getOrFetch(trackBlueprint.id, {
+	      success: createViewAndAppend
+	    })
 		},
 
-        addTrackBlueprintView: function(trackBlueprint, blueprint) {
-            var view = new app.TrackBlueprintView({model: {
-                trackBlueprint: trackBlueprint,
-                blueprint: blueprint,
-            }})
-            this.$trackBlueprints.append(view.render().el)
-        },
-
-        addTrackMaterialView: function(trackBlueprint, ingredient) {
-            var inventory = app.inventory.get(ingredient.material.id)
-            if (!inventory)
-                inventory = app.inventory.create({
-                    id: ingredient.material.id,
-                    quantity: 0
-                })
-            var view = new app.TrackMaterialView({model: {
-                inventory: inventory,
-                trackBlueprint: trackBlueprint,
-                ingredient: ingredient
-            }})
-            this.$trackMaterials.append(view.render().el)
-        },
+    addTrackBlueprintView: function(trackBlueprint, blueprint) {
+        var view = new app.TrackBlueprintView({model: {
+            trackBlueprint: trackBlueprint,
+            blueprint: blueprint,
+        }})
+        this.$trackBlueprints.append(view.render().el)
+    },
 
 		catalogFilterChanged: function(catalogFilter, options) {
 		    if (catalogFilter.get("category") == "blueprints") {

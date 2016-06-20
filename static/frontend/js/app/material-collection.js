@@ -35,6 +35,15 @@ var app = app || {};
 		    mdl.fetch(options)
 		    return mdl
 		},
+		getOrFetch: function(id, options) {
+			var mdl = this.get(id)
+			if (!mdl) {
+				this.fetchOne(id, options)
+			}
+			else {
+				options.success(mdl)
+			}
+		},
 		load: function() {
 		    this.fetch({reset: true, method: "POST", data: JSON.stringify({
 		        limit: 12, query: {and: []}

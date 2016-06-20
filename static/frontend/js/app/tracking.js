@@ -36,39 +36,40 @@ var app = app || {};
 
     /*
     new app.TrackMaterialView({model: {
-        inventory: inventoryModel
+        inventory: inventoryModel,
+        ingredient: ingredientJSON,
+        material: materialModel,
         trackBlueprint: trackBlueprint
-        ingredient: ingredientObject
     }})
     */
 	app.TrackMaterialView = Backbone.View.extend({
-	    template: _.template($('#track-material-tpl').html()),
-	    className: "col-md-6",
+    template: _.template($('#track-material-tpl').html()),
+    className: "col-md-4",
 		events: {
 		    "click .inventory-plus": "inventoryPlus",
 		    "click .inventory-minus": "inventoryMinus"
 		},
 		initialize: function(options) {
-		    app.trackingFilter.plus("numMaterials", 1)
+	    app.trackingFilter.plus("numMaterials", 1)
 			this.listenTo(this.model.inventory, 'change', this.render)
 			this.listenTo(this.model.trackBlueprint, "change", this.render)
 			this.listenTo(this.model.trackBlueprint, 'destroy', this.remove)
 			this.listenTo(this.model.trackBlueprint, 'destroy', this.updateTrackingFilter)
 		},
 		render: function() {
-		    var data = {
-		        quantity: this.model.trackBlueprint.get("quantity") * this.model.ingredient.quantity,
-		        inventory: this.model.inventory.get("quantity"),
-		        material: this.model.ingredient.material
-		    }
+      var data = {
+        quantity: this.model.trackBlueprint.get("quantity") * this.model.ingredient.quantity,
+        inventory: this.model.inventory.get("quantity"),
+        material: this.model.material.toJSON()
+      }
 			this.$el.html(this.template(data))
 			return this
 		},
 		updateTrackingFilter: function() {
-		    app.trackingFilter.plus("numMaterials", -1)
+	    app.trackingFilter.plus("numMaterials", -1)
 		},
-		inventoryPlus: function() { this.model.inventory.quantityPlus(1) },
-		inventoryMinus: function() { this.model.inventory.quantityPlus(-1) }
+		inventoryPlus: function() { this._inventory.quantityPlus(1) },
+		inventoryMinus: function() { this._inventory.quantityPlus(-1) }
 	})
 
     /*
