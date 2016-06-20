@@ -20,16 +20,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*global Backbone */
 var app = app || {};
 
-(function () {
-	'use strict';
+(function() {
+  'use strict';
 
-	app.Blueprint = Backbone.Model.extend({
-		defaults: {
-			title: '',
-			ingredients: [],
-			engineers: {},
-			tracked: false
-		},
-		urlRoot: "/blueprints"
-	});
+  app.Blueprint = Backbone.Model.extend({
+    defaults: {
+      title: '',
+      ingredients: [],
+      engineers: {},
+      tracked: false
+    },
+    urlRoot: "/blueprints"
+  });
 })();

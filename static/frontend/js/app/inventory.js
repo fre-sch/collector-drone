@@ -19,31 +19,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*global Backbone */
 var app = app || {};
 
-(function () {
-	'use strict';
+(function() {
+  'use strict';
 
-	app.InvMaterial = Backbone.Model.extend({
-	    defaults: {
-	        id: null,
-	        quantity: 0
-	    },
-	    quantityPlus: function(value) {
-	        var q = this.get("quantity")
-	        q += value
-	        this.save({quantity: q})
-	    }
-	})
+  app.InvMaterial = Backbone.Model.extend({
+    defaults: {
+      id: null,
+      quantity: 0
+    },
+    quantityPlus: function(value) {
+      var q = this.get("quantity")
+      q += value
+      this.save({
+        quantity: q
+      })
+    }
+  })
 
-	var MaterialInventory = Backbone.Collection.extend({
-		model: app.InvMaterial,
-		localStorage: new Backbone.LocalStorage("InvMaterial"),
-		getOrCreate: function(id) {
-			var inst = this.get(id)
-			if (!inst)
-			inst = this.create({id: id, quantity: 0})
-			return inst
-		}
-	})
+  var MaterialInventory = Backbone.Collection.extend({
+    model: app.InvMaterial,
+    localStorage: new Backbone.LocalStorage("InvMaterial"),
+    getOrCreate: function(id) {
+      var inst = this.get(id)
+      if (!inst)
+        inst = this.create({
+          id: id,
+          quantity: 0
+        })
+      return inst
+    }
+  })
 
-	app.inventory = new MaterialInventory()
+  app.inventory = new MaterialInventory()
 })()

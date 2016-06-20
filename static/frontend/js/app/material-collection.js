@@ -19,37 +19,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*global Backbone */
 var app = app || {};
 
-(function () {
-	'use strict';
+(function() {
+  'use strict';
 
-	var Materials = Backbone.Collection.extend({
-		model: app.Material,
-		url: "/materials/search",
-		total: 0,
-		parse: function(data) {
-		    this.total = data.count
-		    return data.items
-		},
-		fetchOne: function(id, options) {
-		    var mdl = this.add({id: id})
-		    mdl.fetch(options)
-		    return mdl
-		},
-		getOrFetch: function(id, options) {
-			var mdl = this.get(id)
-			if (!mdl) {
-				this.fetchOne(id, options)
-			}
-			else {
-				options.success(mdl)
-			}
-		},
-		load: function() {
-		    this.fetch({reset: true, method: "POST", data: JSON.stringify({
-		        limit: 12, query: {and: []}
-		    })})
-		}
-	})
+  var Materials = Backbone.Collection.extend({
+    model: app.Material,
+    url: "/materials/search",
+    total: 0,
+    parse: function(data) {
+      this.total = data.count
+      return data.items
+    },
+    fetchOne: function(id, options) {
+      var mdl = this.add({
+        id: id
+      })
+      mdl.fetch(options)
+      return mdl
+    },
+    getOrFetch: function(id, options) {
+      var mdl = this.get(id)
+      if (!mdl) {
+        this.fetchOne(id, options)
+      } else {
+        options.success(mdl)
+      }
+    },
+    load: function() {
+      this.fetch({
+        reset: true,
+        method: "POST",
+        data: JSON.stringify({
+          limit: 12,
+          query: {
+            and: []
+          }
+        })
+      })
+    }
+  })
 
-	app.materials = new Materials()
+  app.materials = new Materials()
 })()

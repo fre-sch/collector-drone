@@ -19,16 +19,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*global Backbone */
 var app = app || {};
 
-(function () {
-	'use strict';
+(function() {
+  'use strict';
 
-	app.Material = Backbone.Model.extend({
-		defaults: {
-			title: '',
-			locations: [],
-			quantity: 0,
-			inventory: 0,
-		},
-		urlRoot: "/materials"
-	});
+  app.Material = Backbone.Model.extend({
+    defaults: {
+      title: '',
+      locations: [],
+      quantity: 0,
+      inventory: 0,
+    },
+    urlRoot: "/materials"
+  });
 })();
