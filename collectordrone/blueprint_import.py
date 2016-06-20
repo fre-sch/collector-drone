@@ -15,11 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import csv
-
+import click
+import yaml
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
-
-from models import Engineer, Material, Blueprint, PrimaryEffect, Ingredient, Base
+from models import (
+    Engineer, Material, Blueprint, PrimaryEffect, Ingredient, Base, Location)
+from utils import DotDict
 
 
 fields = (
@@ -150,9 +152,26 @@ def ingredients_factory(db, blueprint, row):
             db.add(ingredient)
 
 
-def blueprint_import(session, csvfile):
-    Base.metadata.drop_all(session.bind)
-    Base.metadata.create_all(session.bind)
+def _load_config():
+    config = DotDict()
+    with open("config.yml", "r") as fp:
+        config.update(yaml.load(fp))
+    return config
+
+
+def _configure_db(config):
+    engine = create_engine(config["db.url"], echo=config["db.echo"])
+    Session = sessionmaker(bind=engine)
+    return Session()
+
+
+@click.command()
+@click.argument("csvfile")
+def blueprint_import(csvfile):
+    config = _load_config()
+    db = _configure_db(config)
+    Base.metadata.drop_all(db.bind)
+    Base.metadata.create_all(db.bind)
     with open(csvfile, "rb") as fp:
         fp.readline()  # skip header
         reader = csv.DictReader(fp, fields,
@@ -164,19 +183,13 @@ def blueprint_import(session, csvfile):
             if not len(row["ingredients"]):
                 continue
             # pprint(row)
-            eng = engineer_factory(session, row)
-            rec = blueprint_factory(session, eng, row)
-            effects_factory(session, rec, row)
-            ingredients_factory(session, rec, row)
-    session.commit()
-    session.close()
+            eng = engineer_factory(db, row)
+            rec = blueprint_factory(db, eng, row)
+            effects_factory(db, rec, row)
+            ingredients_factory(db, rec, row)
+    db.commit()
+    db.close()
 
 
-if __name__ == "__main__":
-    import sys
-    args = sys.argv[1:]
-    assert len(args) == 2, "blueprint_import.py <dbpath> <csvfile>"
-    dbpath, csvfile = args
-    engine = create_engine("sqlite:///" + dbpath)
-    Session = sessionmaker(bind=engine)
-    blueprint_import(Session(), csvfile)
+if __name__ == '__main__':
+    blueprint_import()
