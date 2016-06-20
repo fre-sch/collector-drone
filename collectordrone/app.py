@@ -91,25 +91,27 @@ def index():
 @app.route("/materials", methods=["GET"])
 def materials_list():
     sort = parse_sort(request.args.get("sort", "id,asc"), Material)
-    rels = request.args.getlist("rel")
+    rels = request.args.getlist("with")
 
     query = context.db.query(Material).order_by(sort)
 
     if "blueprints" in rels:
-        query.options(subqueryload(Material.blueprints))
+        query = query.options(subqueryload(Material.blueprints))
 
-    # if "locations" in rels:
-    #     query.options(subqueryload(Material.locations))
+    if "locations" in rels:
+        query = query.options(subqueryload(Material.locations))
+
+    query_count = query.count()
 
     if "offset" in request.args:
-        query.offset(parse_int(request.args["offset"]))
+        query = query.offset(parse_int(request.args["offset"]))
 
     if "limit" in request.args:
-        query.limit(parse_int(request.args["limit"]))
+        query = query.limit(parse_int(request.args["limit"]))
 
     result = dict(
         items=[m.to_dict(rels) for m in query],
-        count=query.count()
+        count=query_count
     )
     return jsonify(result)
 
@@ -118,6 +120,7 @@ def materials_list():
 def material_get(id):
     inst = context.db.query(Material)\
         .options(joinedload(Material.blueprints))\
+        .options(subqueryload(Material.locations))\
         .get(id)
     if not inst:
         raise ServiceError("no material for id %s"%id, status_code=404)
@@ -127,20 +130,22 @@ def material_get(id):
 @app.route("/materials/search", methods=["POST"])
 def materials_search():
     query_json = request.get_json()
-    rels = []
+    rels = set(query_json.get("with", []))
+    rels.add("locations")
     offset = 0
     limit = 12
     sort = parse_sort(query_json.get("sort", "id,asc"), Material)
-    criteria_tree = criteria.parse(query_json.get("query", []))
-    sql_filter = model_filter(criteria_tree, Material)
+
     query = context.db.query(Material)\
-        .filter(sql_filter)\
+        .options(subqueryload(Material.locations))\
         .order_by(sort)
 
-    query_count = query.count()
+    if "query" in query_json:
+        criteria_tree = criteria.parse(query_json.get("query", []))
+        sql_filter = model_filter(criteria_tree, Material)
+        query = query.filter(sql_filter)
 
-    if "with" in query_json:
-        rels = query_json["with"]
+    query_count = query.count()
 
     if "offset" in query_json:
         offset = parse_int(query_json["offset"])
@@ -182,24 +187,27 @@ def blueprints_list():
 @app.route("/blueprints/search", methods=["POST"])
 def blueprints_search():
     query_json = request.get_json()
-    rels = ["engineers", "ingredients", "effects"]
+
+    rels = set(query_json.get("with", []))
+    rels.add("ingredients")
+
     offset = 0
     limit = 0
     sort = parse_sort(query_json.get("sort", "id,asc"), Blueprint)
-    criteria_tree = criteria.parse(query_json.get("query", []))
-    sql_filter = model_filter(criteria_tree, Blueprint)
+
     query = context.db.query(Blueprint)\
         .options(subqueryload(Blueprint.ingredients))\
         .options(subqueryload("ingredients.material"))\
         .options(subqueryload(Blueprint.engineers))\
         .options(subqueryload(Blueprint.effects))\
-        .filter(sql_filter) \
         .order_by(sort)
 
-    query_count = query.count()
+    if "query" in query_json:
+        criteria_tree = criteria.parse(query_json.get("query", []))
+        sql_filter = model_filter(criteria_tree, Blueprint)
+        query = query.filter(sql_filter)
 
-    if "with" in query_json:
-        rels = query_json["with"]
+    query_count = query.count()
 
     if "offset" in query_json:
         offset = parse_int(query_json["offset"])
