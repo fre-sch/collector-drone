@@ -190,7 +190,8 @@ var app = app || {};
             query: catalogFilter.getQuery()
           })
         })
-      } else if (catalogFilter.get("category") == "materials") {
+      }
+      else if (catalogFilter.get("category") == "materials") {
         app.materials.fetch({
           reset: true,
           method: "POST",

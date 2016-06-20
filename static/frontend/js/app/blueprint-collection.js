@@ -32,7 +32,9 @@ var app = app || {};
     },
     getOrFetch: function(id, options) {
       var mdl = this.get(id)
-      if (mdl) options.success(mdl)
+      if (mdl) {
+        options.success(mdl)
+      }
       else this.add({
         id: id
       }).fetch(options)

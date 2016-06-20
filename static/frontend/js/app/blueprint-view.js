@@ -53,7 +53,8 @@ var app = app || {};
           id: this.model.id,
           quantity: 1
         })
-      } else {
+      }
+      else {
         trackedBlueprint.quantityPlus(1)
       }
     }

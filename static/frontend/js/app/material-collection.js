@@ -41,7 +41,8 @@ var app = app || {};
       var mdl = this.get(id)
       if (!mdl) {
         this.fetchOne(id, options)
-      } else {
+      }
+      else {
         options.success(mdl)
       }
     },
