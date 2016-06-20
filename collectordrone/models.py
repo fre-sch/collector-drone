@@ -42,10 +42,10 @@ tbl_blueprint_engineer = Table("blueprint_engineer", Base.metadata,
     Column("blueprint_id", Integer, ForeignKey("blueprint.id")),
     Column("engineer_id", Integer, ForeignKey("engineer.id"))
 )
-# tbl_location_material = Table("location_material", Base.metadata,
-#     Column("location_id", Integer, ForeignKey("location.id")),
-#     Column("material_id", Integer, ForeignKey("material.id")),
-# )
+tbl_location_material = Table("location_material", Base.metadata,
+    Column("location_id", Integer, ForeignKey("location.id")),
+    Column("material_id", Integer, ForeignKey("material.id")),
+)
 
 
 class Engineer(Base):
@@ -83,18 +83,24 @@ class Material(Base):
         d = to_dict(self)
         if "blueprints" in rel:
             d["blueprints"] = [r.to_dict() for r in self.blueprints]
-        # if "locations" in rel:
-        #     d["locations"] = [r.to_dict() for r in self.locations]
+        if "locations" in rel:
+            d["locations"] = [r.to_dict() for r in self.locations]
         return d
 
 
-# class Location(Base):
-#     __tablename__ = "location"
-#     id = Column(Integer, primary_key=True)
-#     title = Column(String)
-#     materials = relationship(Material,
-#             secondary=tbl_location_material,
-#             backref=backref("locations"))
+class Location(Base):
+    __tablename__ = "location"
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    materials = relationship(Material,
+            secondary=tbl_location_material,
+            backref=backref("locations"))
+
+    def to_dict(self, rel=list()):
+        d = to_dict(self)
+        if "materials" in rel:
+            d["materials"] = [r.to_dict() for r in self.materials]
+        return d
 
 
 class Blueprint(Base):
