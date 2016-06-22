@@ -54,7 +54,8 @@
       <div class="panel-title">
         <%= material.title %>
         <div class="pull-right">
-          <span><%= inventory %></span> / <small><%= quantity %></small>
+          <span class="inventory"><%= inventory %></span>
+          / <span class="quantity"><%= quantity %></span>
           <a href="#" class="btn btn-default btn-sm inventory-minus">
             <span class="glyphicon glyphicon-minus"></span></a>
           <a href="#" class="btn btn-default btn-sm inventory-plus">
@@ -90,7 +91,7 @@
         <span class="badge"><%=type%></span>
         <div class="pull-right">
           <% if (tracked) { %>
-          <span><%=quantity%></span>
+          <span class="quantity"><%=quantity%></span>
           <a href="#" class="btn btn-primary btn-sm track"><span
               class="glyphicon glyphicon-plus"></span></a>
           <% } %>
@@ -125,16 +126,17 @@
 <br/>
 
 <div class="container">
-  <div class="well well-sm">
+  <div class="well well-sm" style="min-height: 30em">
     <div id="track-toolbar" style="margin-bottom: 1.6em">
       <nav>
         <ul class="nav nav-pills nav-justified" id="track-tab-view">
           <li><a href="#track-blueprints" data-toggle="pill">
-            Blueprints <span class="badge numBlueprints">0</span></a></li>
+            Blueprints <span class="badge num-blueprints">0</span></a></li>
           <li class="active"><a href="#track-materials" data-toggle="pill">
-            Materials <span class="badge numMaterials">0</span></a></li>
+            Materials <span class="badge num-materials">0</span></a></li>
         </ul>
       </nav>
+      <!--
       <div class="row">
         <div class="col-xs-3">
           <div class="btn-group" style="width:100%">
@@ -169,6 +171,7 @@
           </div>
         </div>
       </div>
+      -->
     </div>
 
     <div class="tab-content">

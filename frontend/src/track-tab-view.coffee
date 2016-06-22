@@ -20,12 +20,13 @@ TrackTabView = Backbone.View.extend
   el: "#track-tab-view"
 
   initialize: ->
-    @$numBlueprints = @$el.find("span.numBlueprints")
-    @$numMaterials = @$el.find("span.numMaterials")
-    @listenTo app.trackingFilter, "change", @update
+    @$numBlueprints = @$el.find("span.num-blueprints")
+    @$numMaterials = @$el.find("span.num-materials")
+    @listenTo @model, "reset add remove", @update
 
   update: ->
-    @$numBlueprints.html app.trackingFilter.get "numMaterials"
-    @$numMaterials.html app.trackingFilter.get "numBlueprints"
+    @$numBlueprints.html @model.length
+
 
 app.trackTabView = new TrackTabView
+  model: app.tracking

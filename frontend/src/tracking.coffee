@@ -27,16 +27,18 @@ TrackBlueprint = Backbone.Model.extend
 
 app.TrackMaterialView = Backbone.View.extend
   template: _.template $("#track-material-tpl").html()
+
   className: "col-md-4"
+
   events:
     "click .inventory-plus": "inventoryPlus"
     "click .inventory-minus": "inventoryMinus"
+
   initialize: (options) ->
-    app.trackingFilter.plus("numMaterials", 1)
-    @listenTo @model.inventory, 'change', @render
-    @listenTo @model.trackBlueprint, "change", @render
+    @listenTo @model.inventory, 'change', @update
+    @listenTo @model.trackBlueprint, "change", @update
     @listenTo @model.trackBlueprint, 'destroy', @remove
-    @listenTo @model.trackBlueprint, 'destroy', @updateTrackingFilter
+
   render: ->
     data =
       quantity: @model.trackBlueprint.get("quantity") * @model.ingredient.quantity
@@ -44,24 +46,34 @@ app.TrackMaterialView = Backbone.View.extend
       material: @model.material.toJSON()
     @$el.html @template(data)
     return this
-  updateTrackingFilter: ->
-    app.trackingFilter.plus("numMaterials", -1)
+
+  update: ->
+    @$el.find("span.inventory").html(@model.inventory.get("quantity"))
+    @$el.find("span.quantity").html(
+      @model.trackBlueprint.get("quantity") * @model.ingredient.quantity
+    )
+
   inventoryPlus: ->
     @model.inventory.quantityPlus 1
+
   inventoryMinus: ->
     @model.inventory.quantityPlus -1
 
 
 app.TrackBlueprintView = Backbone.View.extend
   template: _.template $("#blueprint-tpl").html()
+
   className: "col-md-6"
+
   events:
     "click .track": "track"
     "click .remove": "untrack"
     "click .craft": "craft"
+
   initialize: ->
-    @listenTo @model.trackBlueprint, 'change', @render
+    @listenTo @model.trackBlueprint, 'change', @update
     @listenTo @model.trackBlueprint, 'destroy', @remove
+
   render: ->
     data = _.extend(
       @model.trackBlueprint.toJSON(),
@@ -70,10 +82,16 @@ app.TrackBlueprintView = Backbone.View.extend
     data.tracked = true
     @$el.html @template(data)
     return this
+
+  update: ->
+    @$el.find("span.quantity").html @model.trackBlueprint.get("quantity")
+
   track: ->
     @model.trackBlueprint.quantityPlus 1
+
   untrack: ->
     @model.trackBlueprint.destroy()
+
   craft: ->
     @model.trackBlueprint.quantityPlus -1
     if @model.trackBlueprint.get("quantity") <= 0

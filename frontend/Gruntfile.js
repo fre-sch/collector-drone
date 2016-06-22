@@ -23,10 +23,9 @@ module.exports = function(grunt) {
             'src/material-view.coffee',
             'src/blueprints-collection-view.coffee',
             'src/materials-collection-view.coffee',
-            'src/tracking-filter.coffee',
-            'src/track-tab-view.coffee',
             'src/inventory.coffee',
             'src/tracking.coffee',
+            'src/track-tab-view.coffee',
             'src/resource-tabs.coffee',
             'src/app-view.coffee',
             'src/__init__.coffee'
