@@ -14,31 +14,34 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-global = exports ? this
-app = global.app = global.app || {}
-$ = global.jQuery
 
 
-app.Materialview = Backbone.View.extend
+app.MaterialView = Backbone.View.extend
   template: _.template $("#material-tpl").html()
+
   className: "col-md-4 material"
+
   events:
     "click a.inventory-minus": "inventoryMinus"
     "click a.inventory-plus": "inventoryPlus"
+
   initialize: (options) ->
     @inventory = (app.inventory.get(@model.id) or app.inventory.create(id: @model.id, quantity: 0))
     @listenTo @inventory, "change", @render
     @listenTo @model, "change", @render
     @listenTo @model, "destroy", @remove
+    this
 
   render: ->
     data = @model.toJSON()
     data.inventory = if @inventory then @inventory.get("quantity") else 0
     @$el.html @template(data)
-    return this
+    this
 
   inventoryPlus: ->
     @inventory.quantityPlus 1
+    this
 
   inventoryMinus: ->
     @inventory.quantityPlus -1
+    this

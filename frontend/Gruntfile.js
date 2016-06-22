@@ -4,23 +4,40 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     coffee: {
-      compile: {
+      app: {
         options: {
+          join: true,
           sourceMap: true,
-          sourceMapDir: "../static/frontend/js/maps"
+          sourceMapDir: "../static/frontend/js/"
         },
-        expand: true,
-        flatten: true,
-        cwd: 'src/',
-        src: ['*.coffee'],
-        dest: '../static/frontend/js/app',
-        ext: '.js'
+        files: {
+          '../static/frontend/js/app.js': [
+            'src/__lib__.coffee',
+            'src/blueprint-model.coffee',
+            'src/material-model.coffee',
+            'src/blueprints-filter.coffee',
+            'src/materials-filter.coffee',
+            'src/blueprint-collection.coffee',
+            'src/blueprint-view.coffee',
+            'src/material-collection.coffee',
+            'src/material-view.coffee',
+            'src/blueprints-collection-view.coffee',
+            'src/materials-collection-view.coffee',
+            'src/tracking-filter.coffee',
+            'src/track-tab-view.coffee',
+            'src/inventory.coffee',
+            'src/tracking.coffee',
+            'src/resource-tabs.coffee',
+            'src/app-view.coffee',
+            'src/__init__.coffee'
+          ]
+        }
       }
     },
     watch: {
       scripts: {
-        files: ['**/*.coffee'],
-        tasks: ['coffee:compile'],
+        files: ['Gruntfile.js', '**/*.coffee'],
+        tasks: ['default'],
         options: {
           spawn: false,
         },
@@ -31,6 +48,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['coffee:compile']);
+  grunt.registerTask('default', ['coffee:app']);
 
 };

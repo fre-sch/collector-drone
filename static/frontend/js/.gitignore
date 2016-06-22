@@ -1,2 +1,3 @@
-app/
-maps/
+app.js
+app.js.map
+app.src.coffee

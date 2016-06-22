@@ -14,27 +14,32 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-global = exports ? this
-app = global.app = global.app or {}
-$ = global.jQuery
+
 
 Blueprints = Backbone.Collection.extend
   model: app.Blueprint
+
   url: "/blueprints/search"
+
   total: 0
+
+  filter: null
+
+  initialize: (options) ->
+    @filter = options.filter
+    @listenTo @filter, "change", @loadFiltered
+
   parse: (data) ->
     @total = data.count
     data.items
+
   getOrFetch: (id, options) ->
     mdl = @get(id)
     if mdl
       options.success mdl
     else
       @add(id: id).fetch options
-  fetchTypes: () ->
-    $.ajax
-      url: "/blueprints/types"
-      method: "GET"
+
   load: () ->
     @fetch
       reset: true
@@ -42,5 +47,13 @@ Blueprints = Backbone.Collection.extend
       data: JSON.stringify
         limit: 12
         query: and: []
-        
-app.blueprints = new Blueprints
+
+  loadFiltered: () ->
+    @fetch
+      reset: true
+      method: "POST"
+      data: JSON.stringify
+        limit: 12
+        query: @filter.getQuery()
+
+app.blueprints = new Blueprints(filter: app.blueprintsFilter)

@@ -16,21 +16,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-app.InvMaterial = Backbone.Model.extend
-  defaults:
-    id: null
-    quantity: 0
-  quantityPlus: (value) ->
-    q = @get "quantity"
-    @save quantity: q + value
+ResourceTabView = Backbone.View.extend
+  el: "#resource-filter-tabs"
 
-MaterialInventory = Backbone.Collection.extend
-  model: app.InvMaterial
-  localStorage: new Backbone.LocalStorage "InvMaterial"
-  getOrCreate: (id) ->
-    inst = @get id
-    if not inst
-      inst = @create id: id, quantity: 0
-    inst
+  initialize: (options) ->
+    @$badgeNumBlueprints = @$el.find "span.num-blueprints"
+    @$badgeNumMaterials = @$el.find "span.num-materials"
+    @listenTo app.blueprints, "reset", @update
+    @listenTo app.materials, "reset", @update
+    this
 
-app.inventory = new MaterialInventory
+  update: ->
+    @$badgeNumBlueprints.html app.blueprints.total
+    @$badgeNumMaterials.html app.materials.total
+    this
+
+app.resourceTabView = new ResourceTabView

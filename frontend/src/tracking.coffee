@@ -14,9 +14,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-global = exports ? this
-app = global.app = global.app || {}
-$ = global.jQuery
 
 
 TrackBlueprint = Backbone.Model.extend
@@ -26,6 +23,7 @@ TrackBlueprint = Backbone.Model.extend
   quantityPlus: (value) ->
     q = @get "quantity"
     @save(quantity: q + value)
+
 
 app.TrackMaterialView = Backbone.View.extend
   template: _.template $("#track-material-tpl").html()

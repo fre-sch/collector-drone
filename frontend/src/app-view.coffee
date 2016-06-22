@@ -14,46 +14,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-global = exports ? this
-app = global.app = global.app or {}
-$ = global.jQuery
-
-
-TrackingFilter = Backbone.Model.extend
-  defaults:
-    numBlueprints: 0
-    numMaterials: 0
-  initialize: (options) ->
-    @listenTo app.tracking, "add remove reset", @updateQuantities
-  updateQuantities: ->
-    @set "numBlueprints", app.tracking.length
-  plus: (attribute, value) ->
-    t = @get attribute
-    @set attribute, t + value
-
-app.trackingFilter = new TrackingFilter
-
-
-TrackTabView = Backbone.View.extend
-  el: "#track-tab-view"
-  events:
-    "click a": "showTab"
-  initialize: ->
-    @$numBlueprints = @$el.find(".numBlueprints")
-    @$numMaterials = @$el.find(".numMaterials")
-    @listenTo app.trackingFilter, "change", @updateQuantities
-  showTab: (event) ->
-    $target = $(event.target)
-    @$el.find(a).each ->
-      $($(this).data("tab")).hide
-    @$el.children("li").removeClass "active"
-    $($target.data "tab").show
-    $target.parent().addClass "active"
-  updateQuantities: ->
-    @$numBlueprints.html app.trackingFilter.get "numMaterials"
-    @$numMaterials.html app.trackingFilter.get "numBlueprints"
-
-app.trackTabView = new trackTabView
 
 
 app.AppView = Backbone.View.extend
@@ -67,41 +27,33 @@ app.AppView = Backbone.View.extend
     @$trackMaterials = $("#track-materials")
     @$trackBlueprints = $("#track-blueprints")
 
-    @listenTo app.catalogFilter, "change:search change:type", @catalogFilterChanged
-    @listenTo app.blueprints, "reset", @onBlueprintsReset
-    @listenTo app.materials, "reset", @onMaterialsReset
     @listenTo app.tracking, "add", @addTrackingView
     @listenTo app.tracking, "reset", @onTrackingReset
 
-    app.blueprints.fetchTypes()
-      .done (blueprintTypes) ->
-        for item in blueprintTypes.items
-          app.catalogFilterView.addFilterItem(item)
+    app.blueprintsFilter.loadTypes()
+      .done (data) ->
+        app.blueprintsFilterView.setTypes data.items
+        null
+
+    app.materialsFilter.loadTypes()
+      .done (data) ->
+        app.materialsFilterView.setTypes data.items
+        null
+
+    app.blueprintsFilter.loadLevels()
+      .done (data) ->
+        app.blueprintsFilterView.setLevels data
+        null
+
     app.blueprints.load()
     app.materials.load()
     app.inventory.fetch(reset: true)
     app.tracking.fetch(reset: true)
 
-  onBlueprintsReset: (collection, options) ->
-    @catalogs.blueprints.empty()
-    collection.each @createBlueprintView, this
-
-  onMaterialsReset: (collection, options) ->
-    @catalogs.materials.empty()
-    collection.each @createMaterialView, this
-
   onTrackingReset: (collection, options) ->
-    collection.each @addTrackingView, this
-
-  createBlueprintView: (blueprint) ->
-    view = new app.BlueprintView(model: blueprint)
-    el = view.render().el
-    @catalogs.blueprints.append el
-
-  createMaterialView: (material) ->
-    view = new app.MaterialView(model: material)
-    el = view.render().el
-    @catalogs.materials.append el
+    for model in collection.models
+      @addTrackingView(model)
+    return this
 
   addOneTrackMaterial: (trackBlueprint, ingredient) ->
     createViewAndAppend = _.bind((trackBlueprint, material) ->
@@ -116,26 +68,28 @@ app.AppView = Backbone.View.extend
     , this, trackBlueprint)
     app.materials.getOrFetch ingredient.material.id,
       success: createViewAndAppend
+    return this
 
-  addTrackingview: (trackBlueprint) ->
+  addTrackingView: (trackBlueprint) ->
     createViewAndAppend = _.bind((trackBlueprint, blueprint) ->
       @addTrackBlueprintView trackBlueprint, blueprint
       for ingredient in blueprint.get "ingredients"
         @addOneTrackMaterial trackBlueprint, ingredient
     , this, trackBlueprint)
-    app.blueprint.getOrFetch trackBlueprint.id,
+    app.blueprints.getOrFetch trackBlueprint.id,
       success: createViewAndAppend
+    return this
 
   addTrackBlueprintView: (trackBlueprint, blueprint) ->
     view = new app.TrackBlueprintView
       model:
-        trackBlueprint: TrackBlueprint
+        trackBlueprint: trackBlueprint
         blueprint: blueprint
     @$trackBlueprints.append view.render().el
+    return this
 
   catalogFilterChanged: (catalogFilter, options) ->
     if catalogFilter.get("category") == "blueprints"
-      console.info "catalogFilterChanged", catalogFilter.attributes
       app.blueprints.fetch
         reset: true
         method: "POST"
@@ -149,3 +103,4 @@ app.AppView = Backbone.View.extend
         data: JSON.stringify
           limit: 12
           query: catalogFilter.getQuery()
+    return this

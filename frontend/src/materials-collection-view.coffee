@@ -16,21 +16,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-app.InvMaterial = Backbone.Model.extend
-  defaults:
-    id: null
-    quantity: 0
-  quantityPlus: (value) ->
-    q = @get "quantity"
-    @save quantity: q + value
+MaterialsCollectionView = Backbone.View.extend
+  el: $("#materials-collection-view .collection-items")
 
-MaterialInventory = Backbone.Collection.extend
-  model: app.InvMaterial
-  localStorage: new Backbone.LocalStorage "InvMaterial"
-  getOrCreate: (id) ->
-    inst = @get id
-    if not inst
-      inst = @create id: id, quantity: 0
-    inst
+  initialize: ->
+    @listenTo @model, "reset", @render
+    this
 
-app.inventory = new MaterialInventory
+  render: ->
+    @$el.empty()
+    @model.each @createItemView, this
+    this
+
+  createItemView: (model) ->
+    view = new app.MaterialView(model: model)
+    el = view.render().el
+    @$el.append el
+    this
+
+app.materialsCollectionView = new MaterialsCollectionView(model: app.materials)

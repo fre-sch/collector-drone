@@ -14,23 +14,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-app.InvMaterial = Backbone.Model.extend
-  defaults:
-    id: null
-    quantity: 0
-  quantityPlus: (value) ->
-    q = @get "quantity"
-    @save quantity: q + value
-
-MaterialInventory = Backbone.Collection.extend
-  model: app.InvMaterial
-  localStorage: new Backbone.LocalStorage "InvMaterial"
-  getOrCreate: (id) ->
-    inst = @get id
-    if not inst
-      inst = @create id: id, quantity: 0
-    inst
-
-app.inventory = new MaterialInventory
+$ = @jQuery
+@ENTER_KEY = 13
+@ESC_KEY = 27
+$.ajaxSetup(contentType: "application/json")
+app = {}

@@ -14,9 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-global = exports ? this
-app = global.app = global.app or {}
-$ = global.jQuery
+
 
 app.BlueprintView = Backbone.View.extend
   template: _.template $("#blueprint-tpl").html()

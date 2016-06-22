@@ -14,12 +14,4 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-global = exports ? this
-app = global.app = global.app || {}
-$ = global.jQuery
-global.ENTER_KEY = 13
-global.ESC_KEY = 27
-
-$.ajaxSetup(contentType: "application/json")
-
 new app.AppView

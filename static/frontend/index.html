@@ -126,14 +126,15 @@
 
 <div class="container">
   <div class="well well-sm">
-    <div id="track-toolbar">
-      <ul class="nav nav-pills nav-justified" id="track-tab-view">
-        <li role="presentation"><a href="#" data-tab="#track-blueprints">Blueprints
-          <span class="badge numBlueprints">0</span></a></li>
-        <li role="presentation" class="active"><a href="#"
-            data-tab="#track-materials">Materials <span class="badge numMaterials">0</span></a>
-        </li>
-      </ul>
+    <div id="track-toolbar" style="margin-bottom: 1.6em">
+      <nav>
+        <ul class="nav nav-pills nav-justified" id="track-tab-view">
+          <li><a href="#track-blueprints" data-toggle="pill">
+            Blueprints <span class="badge numBlueprints">0</span></a></li>
+          <li class="active"><a href="#track-materials" data-toggle="pill">
+            Materials <span class="badge numMaterials">0</span></a></li>
+        </ul>
+      </nav>
       <div class="row">
         <div class="col-xs-3">
           <div class="btn-group" style="width:100%">
@@ -169,68 +170,131 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="row" id="track-blueprints" style="display: none"></div>
-  <div class="row" id="track-materials"></div>
 
-  <div id="resources-toolbar" style="margin-bottom:1em">
-    <ul class="nav nav-pills nav-justified" id="catalog-filter-category">
-      <li role="presentation" class="active"><a href="#"
-          data-category="blueprints">Blueprints <span id="num-blueprints"
-          class="badge">0</span></a>
-      </li>
-      <li role="presentation"><a href="#" data-category="materials">Materials
-        <span id="num-materials" class="badge">0</span></a></li>
-      <li role="presentation"><a href="#" data-category="engineers">Engineers
-        </a></li>
-    </ul>
-    <div class="row">
-      <div class="col-xs-3">
-        <div class="btn-group" style="width:100%">
-          <button class="btn btn-default dropdown-toggle" type="button"
-              id="menu-filter-2" data-toggle="dropdown"
-              style="width:100%;text-align:left;">
-            <span id="catalog-filter-type-sel">All</span>
-            <span class="pull-right"><span class="caret"></span></span>
-          </button>
-          <ul class="dropdown-menu" id="catalog-filter-types">
-            <li><a href="#" data-type="">All</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-xs-7">
-        <input type="text" class="form-control" placeholder="Search..."
-            id="catalog-filter-search" />
-      </div>
-      <div class="col-xs-2 text-right">
-        <div class="btn-group" style="width:100%">
-          <button class="btn btn-default dropdown-toggle" type="button"
-              id="sort-by-2" data-toggle="dropdown"
-              style="width:100%;text-align:left;">Sort by
-            <span class="pull-right"><span class="caret"></span></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="#">Title</a></li>
-            <li><a href="#">Rarity</a></li>
-            <li><a href="#">Grade</a></li>
-            <li><a href="#">Inventory</a></li>
-          </ul>
-        </div>
-      </div>
+    <div class="tab-content">
+      <div class="tab-pane row" id="track-blueprints"></div>
+      <div class="tab-pane active row" id="track-materials"></div>
     </div>
   </div>
-  <div class="row">
-    <div id="catalog-blueprints"></div>
-    <div id="catalog-materials" style="display:none"></div>
-    <div id="catalog-engineers" style="display:none"></div>
-  </div>
-  <nav>
-    <ul class="pager">
-      <li class="previous"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span> Previous</a></li>
-      <li class="next"><a href="#">Next <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+  <nav id="resource-filter-tabs">
+    <ul class="nav nav-pills nav-justified">
+      <li class="active"><a href="#blueprints-collection-view"
+          data-toggle="pill">Blueprints
+        <span class="badge num-blueprints">0</span></a>
+      </li>
+      <li><a href="#materials-collection-view"
+          data-toggle="pill">Materials
+        <span class="badge num-materials">0</span></a></li>
     </ul>
   </nav>
+  <div class="tab-content">
+    <div id="blueprints-collection-view" class="row tab-pane active">
+      <div id="blueprints-filter" style="margin-bottom:1.6em"
+          class="clearfix">
+        <div class="col-xs-3">
+          <div class="btn-group" style="width:100%">
+            <button class="btn btn-default dropdown-toggle" type="button"
+                id="menu-filter-2" data-toggle="dropdown"
+                style="width:100%;text-align:left;">
+              <span class="blueprints-filter-type" data-type="">All</span>
+              <span class="pull-right"><span class="caret"></span></span>
+            </button>
+            <ul class="dropdown-menu blueprints-filter-type">
+              <li><a href="#" data-type="">All</a></li>
+              <li role="separator" class="divider"></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-2">
+          <div class="btn-group" style="width:100%">
+            <button class="btn btn-default dropdown-toggle" type="button"
+                id="menu-filter-3" data-toggle="dropdown"
+                style="width:100%;text-align:left;">
+              <span class="blueprints-filter-level" data-level="">All</span>
+              <span class="pull-right"><span class="caret"></span></span>
+            </button>
+            <ul class="dropdown-menu blueprints-filter-level">
+              <li><a href="#" data-level="">All</a></li>
+              <li role="separator" class="divider"></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-5">
+          <input type="text"
+            class="form-control blueprints-filter-search"
+            placeholder="Search..."/>
+        </div>
+        <div class="col-xs-2 text-right">
+          <div class="btn-group" style="width:100%">
+            <button class="btn btn-default dropdown-toggle" type="button"
+                id="sort-by-2" data-toggle="dropdown"
+                style="width:100%;text-align:left;">Sort by
+              <span class="pull-right"><span class="caret"></span></span>
+            </button>
+            <ul class="dropdown-menu blueprints-filter-sort">
+              <li><a href="#">Title</a></li>
+              <li><a href="#">Rarity</a></li>
+              <li><a href="#">Grade</a></li>
+              <li><a href="#">Inventory</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="collection-items"></div>
+      <nav class="col-md-12">
+        <ul class="pager">
+          <li class="previous"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span> Previous</a></li>
+          <li class="next"><a href="#">Next <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+        </ul>
+      </nav>
+    </div>
 
+    <div id="materials-collection-view" class="row tab-pane">
+      <div id="materials-filter" style="margin-bottom:1.6em"
+          class="clearfix">
+        <div class="col-xs-3">
+          <div class="btn-group" style="width:100%">
+            <button class="btn btn-default dropdown-toggle" type="button"
+                id="menu-filter-3" data-toggle="dropdown"
+                style="width:100%;text-align:left;">
+              <span class="materials-filter-type">All</span>
+              <span class="pull-right"><span class="caret"></span></span>
+            </button>
+            <ul class="dropdown-menu materials-filter-type">
+              <li><a href="#" data-type="">All</a></li>
+              <li role="separator" class="divider"></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-7">
+          <input type="text" class="form-control materials-filter-search" placeholder="Search..."/>
+        </div>
+        <div class="col-xs-2 text-right">
+          <div class="btn-group" style="width:100%">
+            <button class="btn btn-default dropdown-toggle" type="button"
+                id="sort-by-3" data-toggle="dropdown"
+                style="width:100%;text-align:left;">Sort by
+              <span class="pull-right"><span class="caret"></span></span>
+            </button>
+            <ul class="dropdown-menu materials-filter-sort">
+              <li><a href="#">Title</a></li>
+              <li><a href="#">Rarity</a></li>
+              <li><a href="#">Grade</a></li>
+              <li><a href="#">Inventory</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="collection-items"></div>
+      <nav>
+        <ul class="pager">
+          <li class="previous"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span> Previous</a></li>
+          <li class="next"><a href="#">Next <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 
   <div class="text-muted small text-center">
     <p>Companion web-app for Elite: Dangerous, manage blueprints and material inventory
@@ -244,18 +308,6 @@
 <script src="js/libs/underscore.js"></script>
 <script src="js/libs/backbone.min.js"></script>
 <script src="js/libs/backbone.localStorage.js"></script>
-
-<script src="js/app/material-model.js"></script>
-<script src="js/app/blueprint-model.js"></script>
-<script src="js/app/material-view.js"></script>
-<script src="js/app/blueprint-view.js"></script>
-<script src="js/app/blueprint-collection.js"></script>
-<script src="js/app/material-collection.js"></script>
-
-<script src="js/app/tracking.js"></script>
-<script src="js/app/inventory.js"></script>
-<script src="js/app/catalog-filter.js"></script>
-<script src="js/app/app-view.js"></script>
-<script src="js/app/app.js"></script>
+<script src="js/app.js" charset="utf-8"></script>
 </body>
 </html>

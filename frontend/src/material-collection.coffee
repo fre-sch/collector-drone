@@ -14,28 +14,34 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-global = exports ? this
-app = global.app = global.app || {}
-$ = global.jQuery
 
 
 Materials = Backbone.Collection.extend
   model: app.Material
   url: "/materials/search"
   total: 0
+  filter: null
+
+  initialize: (options) ->
+    @filter = options.filter
+    @listenTo @filter, "change", @loadFiltered
+
   parse: (data) ->
     @total = data.count
     data.items
+
   fetchOne: (id, options) ->
     mdl = @add(id: id)
     mdl.fetch options
     mdl
+
   getOrFetch: (id, options) ->
     mdl = @get id
     if mdl
       options.success mdl
     else
       @fetchOne id, options
+
   load: ->
     @fetch
       reset: true
@@ -44,4 +50,13 @@ Materials = Backbone.Collection.extend
         limit: 12
         query: and: []
 
+  loadFiltered: () ->
+    @fetch
+      reset: true
+      method: "POST"
+      data: JSON.stringify
+        limit: 12
+        query: @filter.getQuery()
+
 app.materials = new Materials
+  filter: app.materialsFilter

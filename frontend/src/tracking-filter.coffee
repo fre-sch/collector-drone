@@ -16,21 +16,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-app.InvMaterial = Backbone.Model.extend
+TrackingFilter = Backbone.Model.extend
   defaults:
-    id: null
-    quantity: 0
-  quantityPlus: (value) ->
-    q = @get "quantity"
-    @save quantity: q + value
+    numBlueprints: 0
+    numMaterials: 0
+  initialize: (options) ->
+    @listenTo app.tracking, "add remove reset", @updateQuantities
+  updateQuantities: ->
+    @set "numBlueprints", app.tracking.length
+  plus: (attribute, value) ->
+    t = @get attribute
+    @set attribute, t + value
 
-MaterialInventory = Backbone.Collection.extend
-  model: app.InvMaterial
-  localStorage: new Backbone.LocalStorage "InvMaterial"
-  getOrCreate: (id) ->
-    inst = @get id
-    if not inst
-      inst = @create id: id, quantity: 0
-    inst
-
-app.inventory = new MaterialInventory
+app.trackingFilter = new TrackingFilter
