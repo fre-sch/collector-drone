@@ -165,6 +165,17 @@ def materials_search():
     return jsonify(result)
 
 
+@app.route("/materials/types", methods=["GET"])
+def materials_types():
+    query = context.db.query(distinct(Material.type))\
+            .order_by(Material.type.asc())
+    result = dict(
+        items=[i[0] for i in query],
+        count=query.count(),
+    )
+    return jsonify(result)
+
+
 @app.route("/blueprints", methods=["GET"])
 def blueprints_list():
     offset = parse_int(request.args.get("offset", 0))
