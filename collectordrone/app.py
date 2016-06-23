@@ -178,18 +178,22 @@ def materials_types():
 
 @app.route("/blueprints", methods=["GET"])
 def blueprints_list():
-    offset = parse_int(request.args.get("offset", 0))
-    limit = parse_int(request.args.get("limit", 10))
     sort = parse_sort(request.args.get("sort", "id,asc"), Blueprint)
 
     query = context.db.query(Blueprint)\
-        .options(subqueryload(Blueprint.engineers))\
         .options(subqueryload(Blueprint.ingredients))\
-        .options(subqueryload(Blueprint.effects))\
         .order_by(sort)
+
+    query_count = query.count()
+
+    if "offset" in request.args:
+        query = query.offset(parse_int(request.args["offset"]))
+
+    if "limit" in request.args:
+        query = query.limit(parse_int(request.args["limit"]))
+
     result = dict(
-        items=[m.to_dict(["engineers", "ingredients", "effects"])
-            for m in query.slice(offset, limit)],
+        items=[m.to_dict(["ingredients"]) for m in query],
         count=query.count()
     )
     return jsonify(result)
