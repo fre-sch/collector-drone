@@ -18,13 +18,8 @@
 
 Materials = Backbone.Collection.extend
   model: app.Material
-  url: "/materials/search"
+  url: "/materials"
   total: 0
-  filter: null
-
-  initialize: (options) ->
-    @filter = options.filter
-    @listenTo @filter, "change", @loadFiltered
 
   parse: (data) ->
     @total = data.count
@@ -42,21 +37,4 @@ Materials = Backbone.Collection.extend
     else
       @fetchOne id, options
 
-  load: ->
-    @fetch
-      reset: true
-      method: "POST"
-      data: JSON.stringify
-        limit: 12
-        query: and: []
-
-  loadFiltered: () ->
-    @fetch
-      reset: true
-      method: "POST"
-      data: JSON.stringify
-        limit: 12
-        query: @filter.getQuery()
-
 app.materials = new Materials
-  filter: app.materialsFilter

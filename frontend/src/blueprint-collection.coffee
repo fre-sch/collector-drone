@@ -19,15 +19,9 @@
 Blueprints = Backbone.Collection.extend
   model: app.Blueprint
 
-  url: "/blueprints/search"
+  url: "/blueprints"
 
   total: 0
-
-  filter: null
-
-  initialize: (options) ->
-    @filter = options.filter
-    @listenTo @filter, "change", @loadFiltered
 
   parse: (data) ->
     @total = data.count
@@ -40,20 +34,4 @@ Blueprints = Backbone.Collection.extend
     else
       @add(id: id).fetch options
 
-  load: () ->
-    @fetch
-      reset: true
-      method: "POST"
-      data: JSON.stringify
-        limit: 12
-        query: and: []
-
-  loadFiltered: () ->
-    @fetch
-      reset: true
-      method: "POST"
-      data: JSON.stringify
-        limit: 12
-        query: @filter.getQuery()
-
-app.blueprints = new Blueprints(filter: app.blueprintsFilter)
+app.blueprints = new Blueprints

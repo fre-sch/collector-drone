@@ -45,8 +45,8 @@ app.AppView = Backbone.View.extend
         app.blueprintsFilterView.setLevels data
         null
 
-    app.blueprints.load()
-    app.materials.load()
+    app.blueprints.fetch(reset: true)
+    app.materials.fetch(reset: true)
     app.inventory.fetch(reset: true)
     app.tracking.fetch(reset: true)
 

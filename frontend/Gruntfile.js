@@ -21,6 +21,7 @@ module.exports = function(grunt) {
             'src/blueprint-view.coffee',
             'src/material-collection.coffee',
             'src/material-view.coffee',
+            'src/pager.coffee',
             'src/blueprints-collection-view.coffee',
             'src/materials-collection-view.coffee',
             'src/inventory.coffee',

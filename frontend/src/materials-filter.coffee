@@ -18,7 +18,6 @@
 
 MaterialsFilter = Backbone.Model.extend
   defaults:
-    category: "blueprints"
     type: ""
     search: ""
 
@@ -27,13 +26,12 @@ MaterialsFilter = Backbone.Model.extend
       url: "/materials/types"
       method: "GET"
 
-  getQuery: ->
-    query = and: []
-    if @get "search"
-      query.and.push(ilike: title: "%#{@get "search"}%")
-    if @get "type"
-      query.and.push(eq: type: @get "type")
-    query
+  where: ->
+    (model) =>
+      type = model.get("type")
+      title = model.get("title")?.toLowerCase()
+      (if @get("type") then @get("type") == type else true
+      ) and (if @get("search") then title.indexOf(@get("search").toLowerCase()) >= 0 else true)
 
 app.materialsFilter = new MaterialsFilter
 

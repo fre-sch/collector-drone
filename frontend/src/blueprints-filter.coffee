@@ -30,15 +30,14 @@ BlueprintsFilter = Backbone.Model.extend
   loadLevels: ->
     $.when [1, 2, 3, 4, 5]
 
-  getQuery: ->
-    query = and: []
-    if @get "search"
-      query.and.push(ilike: title: "%#{@get "search"}%")
-    if @get "level"
-      query.and.push(eq: level: @get "level")
-    if @get "type"
-      query.and.push(eq: type: @get "type")
-    query
+  where: ->
+    (model) =>
+      type = model.get("type")
+      level = model.get("level")
+      title = model.get("title")?.toLowerCase()
+      (if @get("type") then @get("type") == type else true
+      ) and (if @get("level") then @get("level") == level else true
+      ) and (if @get("search") then title.indexOf(@get("search").toLowerCase()) >= 0 else true)
 
 app.blueprintsFilter = new BlueprintsFilter
 
