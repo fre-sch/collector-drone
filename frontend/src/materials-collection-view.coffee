@@ -20,23 +20,21 @@ MaterialsCollectionView = Backbone.View.extend
   el: $("#materials-collection-view .collection-items")
 
   initialize: (options) ->
-    {@filter, @pager} = options
+    {@pager} = options
 
     new PagerView
       el: "#materials-collection-view .pager"
       model: @pager
 
     @listenTo @model, "reset", @render
-    @listenTo @filter, "change", @render
     @listenTo @pager, "change", @render
     return this
 
   render: ->
     @$el.empty()
-    models = @model.filter @filter.where()
     begin = @pager.get("offset")
     end = @pager.get("offset") + @pager.get("limit")
-    @createItemView model for model, i in models.slice begin, end
+    @createItemView model for model, i in @model.slice begin, end
     return this
 
   createItemView: (model) ->
@@ -48,5 +46,4 @@ MaterialsCollectionView = Backbone.View.extend
 
 app.materialsCollectionView = new MaterialsCollectionView
   model: app.materials
-  filter: app.materialsFilter
   pager: new Pager(collection: app.materials)

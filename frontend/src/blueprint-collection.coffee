@@ -34,4 +34,4 @@ Blueprints = Backbone.Collection.extend
     else
       @add(id: id).fetch options
 
-app.blueprints = new Blueprints
+app.blueprints = FilteredCollection(new Blueprints, app.blueprintsFilter)

@@ -27,8 +27,8 @@ ResourceTabView = Backbone.View.extend
     this
 
   update: ->
-    @$badgeNumBlueprints.html app.blueprints.total
-    @$badgeNumMaterials.html app.materials.total
+    @$badgeNumBlueprints.html app.blueprints.length
+    @$badgeNumMaterials.html app.materials.length
     this
 
 app.resourceTabView = new ResourceTabView

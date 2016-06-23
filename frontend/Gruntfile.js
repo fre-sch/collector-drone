@@ -13,6 +13,7 @@ module.exports = function(grunt) {
         files: {
           '../static/frontend/js/app.js': [
             'src/__lib__.coffee',
+            'src/filtered-collection.coffee',
             'src/blueprint-model.coffee',
             'src/material-model.coffee',
             'src/blueprints-filter.coffee',

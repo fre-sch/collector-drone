@@ -28,18 +28,16 @@ BlueprintsCollectionView = Backbone.View.extend
       model: @pager
 
     @listenTo @model, "reset", @render
-    @listenTo @filter, "change", @render
     @listenTo @pager, "change", @render
     return this
 
   render: ->
     @$el.empty()
-    models = @model.filter @filter.where()
     begin = @pager.get("offset")
     end = @pager.get("offset") + @pager.get("limit")
-    @createItemView model for model, i in models.slice begin, end
+    @createItemView model for model, i in @model.slice begin, end
     return this
-    
+
   createItemView: (model) ->
     view = new app.BlueprintView(model: model)
     el = view.render().el
@@ -49,5 +47,4 @@ BlueprintsCollectionView = Backbone.View.extend
 
 app.blueprintsCollectionView = new BlueprintsCollectionView
   model: app.blueprints
-  filter: app.blueprintsFilter
   pager: new Pager(collection: app.blueprints)

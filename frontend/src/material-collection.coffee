@@ -37,4 +37,4 @@ Materials = Backbone.Collection.extend
     else
       @fetchOne id, options
 
-app.materials = new Materials
+app.materials = FilteredCollection(new Materials, app.materialsFilter)

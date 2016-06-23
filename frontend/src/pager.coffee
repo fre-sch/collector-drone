@@ -23,11 +23,13 @@ Pager = Backbone.Model.extend
     collection: null
 
   total: ->
-    @get("collection").total ? @get("collection").size()
+    @get("collection").size()
+
+  max: ->
+    Math.floor((@total() - 1) / @get("limit") ) * @get("limit")
 
   next: ->
-    max = Math.floor((@total() - 1) / @get("limit") ) * @get("limit")
-    offset = Math.min(@get("offset") + @get("limit"), max)
+    offset = Math.min(@get("offset") + @get("limit"), @max())
     @set offset: offset
     return this
 
@@ -36,11 +38,31 @@ Pager = Backbone.Model.extend
     @set offset: offset
     return this
 
+  pages: ->
+    maxPage = @max() / @get("limit")
+    for i in [1..maxPage]
+      page: i
+      offset: (i - 1) * @get("limit")
+
 
 PagerView = Backbone.View.extend
   events:
     "click .previous": "previous"
     "click .next": "next"
+  
+  # pageTpl: _.template('<li class="page"><a href="#" data-offset="<%=offset%>"><%=page%></a></li>')
+  #
+  # initialize: ->
+  #   @$at = @$el.find(".next")
+  #   @listenTo @model, "change", @render
+  #   @listenTo @model.get("collection"), "reset", @render
+  #   return this
+  #
+  # render: ->
+  #   @$el.find(".page").remove()
+  #   for page in @model.pages()
+  #     @$at.before @pageTpl(page)
+  #   return this
 
   next: ->
     @model.next()
