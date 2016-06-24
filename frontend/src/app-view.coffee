@@ -61,7 +61,7 @@ app.AppView = Backbone.View.extend
         model:
           material: material
           ingredient: ingredient
-          inventory: app.inventory.getOrCreate(id: material.id)
+          inventory: app.inventory.getOrCreate(material.id)
           trackBlueprint: trackBlueprint
 
       @$trackMaterials.append(view.render().el)

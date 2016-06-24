@@ -61,18 +61,31 @@ app.TrackMaterialView = Backbone.View.extend
 
 
 app.TrackBlueprintView = Backbone.View.extend
-  template: _.template $("#blueprint-tpl").html()
+  template: _.template $("#track-blueprint-tpl").html()
 
-  className: "col-md-6"
+  className: "col-md-6 track-blueprint"
 
   events:
     "click .track": "track"
     "click .remove": "untrack"
     "click .craft": "craft"
 
+  itemTpl: _.template("""
+    <div class="row <%=itemClass%>" style="font-size: 0.9em">
+      <div class="col-xs-10"><%= title %></div>
+      <div class="col-xs-2 text-right">
+        <span class="inventory"><%= inventory %></span>
+        / <small class="quantity"><%= quantity %></small>
+      </div>
+    </div>""")
+
   initialize: ->
+    for ingredient in @model.blueprint.get("ingredients")
+      inventory = app.inventory.getOrCreate(ingredient.material.id)
+      @listenTo inventory, "change", @update
     @listenTo @model.trackBlueprint, 'change', @update
     @listenTo @model.trackBlueprint, 'destroy', @remove
+    return this
 
   render: ->
     data = _.extend(
@@ -80,11 +93,31 @@ app.TrackBlueprintView = Backbone.View.extend
       @model.blueprint.toJSON()
     )
     data.tracked = true
-    @$el.html @template(data)
+    $html = $(@template(data))
+    for ingredient in data.ingredients
+      itemView = @itemTpl
+        itemClass: "ingredient-#{ingredient.material.id}"
+        title: ingredient.material.title
+        quantity: ingredient.quantity * @model.trackBlueprint.get("quantity")
+        inventory: app.inventory.get(ingredient.material.id).get("quantity")
+
+      $html.find(".ingredients").append(itemView)
+
+    @$el.html $html
     return this
 
   update: ->
-    @$el.find("span.quantity").html @model.trackBlueprint.get("quantity")
+    @$el.find("span.blueprint-quantity").html @model.trackBlueprint.get("quantity")
+
+    for ingredient in @model.blueprint.get("ingredients")
+      quantity = ingredient.quantity * @model.trackBlueprint.get("quantity")
+      inventory = app.inventory.get(ingredient.material.id).get("quantity")
+      @$el.find(".ingredient-#{ingredient.material.id} .quantity"
+      ).html quantity
+      @$el.find(".ingredient-#{ingredient.material.id} .inventory"
+      ).html inventory
+
+    return this
 
   track: ->
     @model.trackBlueprint.quantityPlus 1
