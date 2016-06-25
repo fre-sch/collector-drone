@@ -14,7 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+tracking = require './tracking'
 
 ### BlueprintView ###
 module.exports = Backbone.View.extend
@@ -37,9 +37,9 @@ module.exports = Backbone.View.extend
         alert "not implemented"
 
     track: ->
-        trackedBlueprint = app.tracking.get(@model.id)
+        trackedBlueprint = tracking.get(@model.id)
         if not trackedBlueprint
-            app.tracking.create
+            tracking.create
                 id: @model.id
                 quantity: 1
         else
