@@ -120,6 +120,51 @@ Engineer
 HTTP Endpoints
 ==============
 
+Search query syntax
+-------------------
+
+JSON request body must contain a ``query`` attribute. ``query`` must be an
+object with one attribute matching one of the supported operators:
+
+:and:     array, boolean and, all criteria in array must match
+:or:      array, boolean or, any criteria in array must match
+:eq:      object, case sensitive, field value must match query value
+:ilike:   object, case insensitive, field value contains query value
+:neq:     object, case sensitive, field value must not match query value
+:gt:      object, numeric greater than, field value must be greater than query
+          value
+:gte:     object, numeric greater or equal than, field value must be greater or
+          equal to query value
+:lt:      object, numeric lower than, field value must be lower than query value
+:lte:     object, numeric lower or equal than, field value must be lower or
+          equal to query value
+:null:    string, field value must be null
+:notnull: string, field value must not be null
+
+
+Find blueprints matching title ``faster fsd`` and level greater than ``3``:
+
+::
+
+    {
+        "query": {"and": [
+            {"ilike": {"title": "%faster fsd%"}},
+            {"gt": {"level": 3}}
+        ]}
+    }
+
+Find materials matching type ``commodity`` or type ``element``:
+
+::
+
+    {
+        "query": {"or": [
+            {"eq": {"type": "commodity"}},
+            {"eq": {"type": "element"}}
+        ]}
+    }
+
+
 ``GET /materials{?sort,with,offset,limit}``
 -------------------------------------------
 
