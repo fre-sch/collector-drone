@@ -42,7 +42,7 @@ module.exports = Backbone.View.extend
           model: tracking
 
         @blueprints.fetch(reset: true)
-        @materials.fetch(reset: true)
+        @materials.fetch(reset: true, data: {with: "locations"})
         inventory.fetch(reset: true)
         tracking.fetch(reset: true)
         this

@@ -37,11 +37,12 @@ module.exports = Backbone.View.extend
         @$el.empty()
         begin = @pager.get("offset")
         end = @pager.get("offset") + @pager.get("limit")
-        @createItemView model for model, i in @model.slice begin, end
+        @createItemView model, i for model, i in @model.slice begin, end
         return this
 
-    createItemView: (model) ->
+    createItemView: (model, i) ->
         view = new MaterialView(model: model)
         el = view.render().el
         @$el.append el
+        @$el.append '<div class="clearfix"></div>' if i % 3 == 2
         return this
