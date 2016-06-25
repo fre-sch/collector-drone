@@ -42,19 +42,51 @@ App = ->
     materialsFiltered = FilteredCollection(
         new MaterialCollection, materialsFilter)
 
+    materialsFilter.on "change:sort", (model)->
+        if model.get("sort") == "inventory"
+            materialsFiltered.comparator = (model) ->
+                model.inventoryQuantity()
+        else
+            materialsFiltered.comparator = model.get("sort")
+        materialsFiltered.sort() if materialsFiltered.comparator
+        return
+
     @blueprintsCollectionView = new BlueprintsCollectionView
         model: blueprintsFiltered
         pager: new PagerModel(collection: blueprintsFiltered)
-
-    @blueprintsFilterView = new BlueprintsFilterView
-        model: blueprintsFilter
 
     @materialsCollectionView = new MaterialsCollectionView
         model: materialsFiltered
         pager: new PagerModel(collection: materialsFiltered)
 
-    @materialsFilterView = new MaterialsFilterView
+    blueprintsFilterView = new BlueprintsFilterView
+        model: blueprintsFilter
+
+    materialsFilterView = new MaterialsFilterView
+        el: $("#materials-filter")
         model: materialsFilter
+
+    materialsFilter.loadTypes()
+        .done (result) ->
+            items = []
+            for item in result.items
+                if item != null
+                    items.push label: item, value: item
+            materialsFilterView.typeMenuModel.set items: items
+            return
+
+    blueprintsFilter.loadTypes()
+        .done (result) ->
+            items = []
+            for item in result.items
+                if item != null
+                    items.push label: item, value: item
+            blueprintsFilterView.typeMenuModel.set items: items
+            return
+
+    blueprintsFilterView.levelMenuModel.set items:
+        for item in blueprintsFilter.loadLevels()
+            label: item, value: item
 
     @resourceTabView = new ResourceTabView
         blueprintsCollection: blueprintsFiltered
@@ -64,9 +96,9 @@ App = ->
         blueprints: blueprintsFiltered
         materials: materialsFiltered
         blueprintsFilter: blueprintsFilter
-        blueprintsFilterView: @blueprintsFilterView
+        blueprintsFilterView: blueprintsFilterView
         materialsFilter: materialsFilter
-        materialsFilterView: @materialsFilterView
+        materialsFilterView: materialsFilterView
 
     return this
 

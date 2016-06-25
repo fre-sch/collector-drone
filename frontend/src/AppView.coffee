@@ -38,21 +38,6 @@ module.exports = Backbone.View.extend
         @listenTo tracking, "add", @addTrackingView
         @listenTo tracking, "reset", @onTrackingReset
 
-        blueprintsFilter.loadTypes()
-            .done (data) ->
-                blueprintsFilterView.setTypes data.items
-                null
-
-        materialsFilter.loadTypes()
-            .done (data) ->
-                materialsFilterView.setTypes data.items
-                null
-
-        blueprintsFilter.loadLevels()
-            .done (data) ->
-                blueprintsFilterView.setLevels data
-                null
-
         @trackTabView = new TrackingTabView
           model: tracking
 

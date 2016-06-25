@@ -222,30 +222,30 @@
     <div id="blueprints-collection-view" class="row tab-pane active">
       <div id="blueprints-filter" style="margin-bottom:1.6em"
           class="clearfix">
-        <div class="col-xs-3">
+        <div class="col-xs-3 blueprints-filter-type">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
                 id="menu-filter-2" data-toggle="dropdown"
                 style="width:100%;text-align:left;">
-              <span class="blueprints-filter-type" data-type="">All</span>
+              <span class="btn-label" data-value="">All</span>
               <span class="pull-right"><span class="caret"></span></span>
             </button>
-            <ul class="dropdown-menu blueprints-filter-type">
-              <li><a href="#" data-type="">All</a></li>
+            <ul class="dropdown-menu">
+              <li><a href="#" data-value="">All</a></li>
               <li role="separator" class="divider"></li>
             </ul>
           </div>
         </div>
-        <div class="col-xs-2">
+        <div class="col-xs-2 blueprints-filter-level">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
                 id="menu-filter-3" data-toggle="dropdown"
                 style="width:100%;text-align:left;">
-              <span class="blueprints-filter-level" data-level="">All</span>
+              <span class="btn-label" data-value="">All</span>
               <span class="pull-right"><span class="caret"></span></span>
             </button>
-            <ul class="dropdown-menu blueprints-filter-level">
-              <li><a href="#" data-level="">All</a></li>
+            <ul class="dropdown-menu">
+              <li><a href="#" data-value="">All</a></li>
               <li role="separator" class="divider"></li>
             </ul>
           </div>
@@ -283,12 +283,12 @@
     <div id="materials-collection-view" class="row tab-pane">
       <div id="materials-filter" style="margin-bottom:1.6em"
           class="clearfix">
-        <div class="col-xs-3">
+        <div class="col-xs-3 materials-filter-type">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
                 id="menu-filter-3" data-toggle="dropdown"
                 style="width:100%;text-align:left;">
-              <span class="materials-filter-type">All</span>
+              <span class="materials-filter-type btn-label">All</span>
               <span class="pull-right"><span class="caret"></span></span>
             </button>
             <ul class="dropdown-menu materials-filter-type">
@@ -300,18 +300,17 @@
         <div class="col-xs-7">
           <input type="text" class="form-control materials-filter-search" placeholder="Search..."/>
         </div>
-        <div class="col-xs-2 text-right">
+        <div class="col-xs-2 text-right materials-sort">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
                 id="sort-by-3" data-toggle="dropdown"
-                style="width:100%;text-align:left;">Sort by
+                style="width:100%;text-align:left;">
+                <span class="btn-label">Sort by</span>
               <span class="pull-right"><span class="caret"></span></span>
             </button>
-            <ul class="dropdown-menu materials-filter-sort">
-              <li><a href="#">Title</a></li>
-              <li><a href="#">Rarity</a></li>
-              <li><a href="#">Grade</a></li>
-              <li><a href="#">Inventory</a></li>
+            <ul class="dropdown-menu">
+              <li><a href="#" data-type="">Natural</a></li>
+              <li role="separator" class="divider"></li>
             </ul>
           </div>
         </div>

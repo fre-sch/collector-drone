@@ -14,67 +14,34 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+MenuModel = require './MenuModel'
+MenuView = require './MenuView'
 
 
 ### BlueprintsFilterView ###
 module.exports = Backbone.View.extend
     el: $("#blueprints-filter")
 
-    typeItemTpl: _.template(
-        '<li><a href="#" data-type="<%=type%>"><%=type%></a></li>'
-    )
-
-    levelItemTpl: _.template(
-        '<li><a href="#" data-level="<%=level%>">Level <%=level%></a></li>'
-    )
-
     events:
         "change .blueprints-filter-search": "updateSearch"
-        "click .blueprints-filter-type li a": "updateType"
-        "click .blueprints-filter-level li a": "updateLevel"
 
     initialize: ->
         @$searchInput = @$el.find("input.blueprints-filter-search")
-        @$typeBtn = @$el.find("span.blueprints-filter-type")
-        @$typeMenu = @$el.find("ul.blueprints-filter-type")
-        @$levelBtn = @$el.find("span.blueprints-filter-level")
-        @$levelMenu = @$el.find("ul.blueprints-filter-level")
+        @levelMenuModel = new MenuModel
+        @typeMenuModel = new MenuModel
+        new MenuView
+            el: @$el.find(".blueprints-filter-type")
+            model: @typeMenuModel
+        new MenuView
+            el: @$el.find(".blueprints-filter-level")
+            model: @levelMenuModel
+
+        @listenTo @typeMenuModel, "change:selected", @updateSearch
+        @listenTo @levelMenuModel, "change:selected", @updateSearch
         return this
 
     updateSearch: ->
         @model.set search: @$searchInput.val()
-        return this
-
-    updateType: ->
-        $target = $(event.target)
-        type = $target.data "type"
-        label = $target.html()
-        @$typeBtn.data "type", type
-        @$typeBtn.html label
-        @model.set type: type
-        event.preventDefault()
-        return this
-
-    updateLevel: ->
-        $target = $(event.target)
-        level = $target.data "level"
-        label = $target.html()
-        @$levelBtn.data "level", level
-        @$levelBtn.html label
-        @model.set level: level
-        event.preventDefault()
-        return this
-
-    setTypes: (types) ->
-        for type in types
-            item = @typeItemTpl(type: type)
-            @$typeMenu.append item
-        @delegateEvents()
-        return this
-
-    setLevels: (levels) ->
-        for level in levels
-            item = @levelItemTpl(level: level)
-            @$levelMenu.append item
-        @delegateEvents()
+        @model.set type: @typeMenuModel.get("selected")?.value
+        @model.set level: @levelMenuModel.get("selected")?.value
         return this

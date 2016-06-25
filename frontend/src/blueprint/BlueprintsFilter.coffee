@@ -29,7 +29,7 @@ module.exports = Backbone.Model.extend
             method: "GET"
 
     loadLevels: ->
-        $.when [1, 2, 3, 4, 5]
+        [1, 2, 3, 4, 5]
 
     where: ->
         (model) =>

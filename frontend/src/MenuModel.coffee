@@ -16,21 +16,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-### MaterialsFilter ###
+### MenuModel ###
 module.exports = Backbone.Model.extend
     defaults:
-        type: ""
-        search: ""
-        sort: ""
-
-    where: ->
-        (model) =>
-            type = model.get("type")
-            title = model.get("title")?.toLowerCase()
-            (if @get("type") then @get("type") == type else true
-            ) and (if @get("search") then title.indexOf(@get("search").toLowerCase()) >= 0 else true)
-
-    loadTypes: ->
-        $.ajax
-            url: "/materials/types"
-            method: "GET"
+        items: []
+        selected: null

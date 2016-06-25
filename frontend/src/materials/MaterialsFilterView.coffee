@@ -14,43 +14,41 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+MenuModel = require './MenuModel'
+MenuView = require './MenuView'
 
 
 ### MaterialsFilterView ###
 module.exports = Backbone.View.extend
-    el: $("#materials-filter")
-
-    typeItemTpl: _.template(
-        '<li><a href="#" data-type="<%=type%>"><%=type%></a></li>'
-    )
-
     events:
         "change .materials-filter-search": "updateSearch"
-        "click .materials-filter-type li a": "updateType"
 
     initialize: ->
         @$searchInput = @$el.find("input.materials-filter-search")
-        @$typeBtn = @$el.find("span.materials-filter-type")
-        @$typeMenu = @$el.find("ul.materials-filter-type")
+        @typeMenuModel = new MenuModel
+        @sortMenuModel = new MenuModel
+
+        new MenuView
+            el: @$el.find(".materials-sort")
+            model: @sortMenuModel
+
+        new MenuView
+            el: @$el.find(".materials-filter-type")
+            model: @typeMenuModel
+
+        @sortMenuModel.set items: [
+            {label: "Title", value: "title"}
+            {label: "Type", value: "type"}
+            {label: "Rarity", value: "rarity"}
+            {label: "Inventory", value: "inventory"}
+        ]
+
+        @listenTo @typeMenuModel, "change:selected", @updateFilterModel
+        @listenTo @sortMenuModel, "change:selected", @updateFilterModel
         return this
 
-    updateSearch: ->
+    updateFilterModel: ->
         @model.set search: @$searchInput.val()
-        return this
-
-    updateType: ->
-        $target = $(event.target)
-        type = $target.data "type"
-        label = $target.html()
-        @$typeBtn.data "type", type
-        @$typeBtn.html label
-        @model.set type: type
-        event.preventDefault()
-        return this
-
-    setTypes: (types) ->
-        for type in types when type
-            item = @typeItemTpl(type: type)
-            @$typeMenu.append item
-        @delegateEvents()
+        @model.set type: @typeMenuModel.get("selected")?.value
+        @model.set sort: @sortMenuModel.get("selected")?.value
         return this
