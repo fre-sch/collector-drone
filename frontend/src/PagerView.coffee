@@ -12,10 +12,20 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
+# You should have received a copy of the GNU General Public L icense
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-$ = @jQuery
-@ENTER_KEY = 13
-@ESC_KEY = 27
-$.ajaxSetup(contentType: "application/json")
-app = {}
+
+
+### PagerView ###
+module.exports = Backbone.View.extend
+    events:
+        "click .previous": "previous"
+        "click .next": "next"
+
+    next: ->
+        @model.next()
+        event.preventDefault()
+
+    previous: ->
+        @model.previous()
+        event.preventDefault()

@@ -12,21 +12,35 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
+# You should have received a copy of the GNU General Public L icense
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-TrackTabView = Backbone.View.extend
-  el: "#track-tab-view"
+### PagerModel ###
+module.exports = Backbone.Model.extend
+    defaults:
+        limit: 12
+        offset: 0
+        collection: null
 
-  initialize: ->
-    @$numBlueprints = @$el.find("span.num-blueprints")
-    @$numMaterials = @$el.find("span.num-materials")
-    @listenTo @model, "reset add remove", @update
+    total: ->
+        @get("collection").size()
 
-  update: ->
-    @$numBlueprints.html @model.length
+    max: ->
+        Math.floor((@total() - 1) / @get("limit") ) * @get("limit")
 
+    next: ->
+        offset = Math.min(@get("offset") + @get("limit"), @max())
+        @set offset: offset
+        return this
 
-app.trackTabView = new TrackTabView
-  model: app.tracking
+    previous: ->
+        offset = Math.max(@get("offset") - @get("limit"), 0)
+        @set offset: offset
+        return this
+
+    pages: ->
+        maxPage = @max() / @get("limit")
+        for i in [1..maxPage]
+            page: i
+            offset: (i - 1) * @get("limit")

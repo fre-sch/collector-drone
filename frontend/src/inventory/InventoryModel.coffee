@@ -16,30 +16,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-app.BlueprintView = Backbone.View.extend
-  template: _.template $("#blueprint-tpl").html()
-  className: "col-md-6 blueprint"
-
-  events:
-    "click a.bookmark": "bookmark"
-    "click a.track": "track"
-
-  initialize: (options) ->
-    @listenTo @model, "change", @render
-    @listenTo @model, "destroy", @remove
-
-  render: ->
-    @$el.html @template(@model.toJSON())
-    return this
-
-  bookmark: ->
-    alert "not implemented"
-
-  track: ->
-    trackedBlueprint = app.tracking.get(@model.id)
-    if not trackedBlueprint
-      app.tracking.create
-        id: @model.id
-        quantity: 1
-    else
-      trackedBlueprint.quantityPlus 1
+### InventoryModel ###
+module.exports = Backbone.Model.extend
+    defaults:
+        id: null
+        quantity: 0
+    quantityPlus: (value) ->
+        q = @get "quantity"
+        @save quantity: q + value

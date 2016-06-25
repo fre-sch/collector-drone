@@ -4,40 +4,26 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     coffee: {
-      app: {
+      compile: {
         options: {
-          join: true,
-          sourceMap: true,
-          sourceMapDir: "../static/frontend/js/"
+          bare: true
         },
-        files: {
-          '../static/frontend/js/app.js': [
-            'src/__lib__.coffee',
-            'src/filtered-collection.coffee',
-            'src/blueprint-model.coffee',
-            'src/material-model.coffee',
-            'src/blueprints-filter.coffee',
-            'src/materials-filter.coffee',
-            'src/blueprint-collection.coffee',
-            'src/blueprint-view.coffee',
-            'src/material-collection.coffee',
-            'src/material-view.coffee',
-            'src/pager.coffee',
-            'src/blueprints-collection-view.coffee',
-            'src/materials-collection-view.coffee',
-            'src/inventory.coffee',
-            'src/tracking.coffee',
-            'src/track-tab-view.coffee',
-            'src/resource-tabs.coffee',
-            'src/app-view.coffee',
-            'src/__init__.coffee'
-          ]
-        }
+        expand: true,
+        flatten: true,
+        src: ['src/**/*.coffee'],
+        dest: 'build/',
+        ext: '.js'
+      }
+    },
+    browserify: {
+      dist: {
+        src: 'build/App.js',
+        dest: '../static/frontend/js/dist/app.js'
       }
     },
     watch: {
       scripts: {
-        files: ['Gruntfile.js', '**/*.coffee'],
+        files: ['Gruntfile.js', 'src/**/*.coffee'],
         tasks: ['default'],
         options: {
           spawn: false,
@@ -48,7 +34,8 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-browserify');
 
-  grunt.registerTask('default', ['coffee:app']);
+  grunt.registerTask('default', ['coffee:compile', 'browserify:dist']);
 
 };

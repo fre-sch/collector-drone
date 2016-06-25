@@ -14,34 +14,27 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+MaterialModel = require './MaterialModel'
 
 
-app.MaterialView = Backbone.View.extend
-  template: _.template $("#material-tpl").html()
+### MaterialCollection ###
+module.exports = Backbone.Collection.extend
+    model: MaterialModel
+    url: "/materials"
+    total: 0
 
-  className: "col-md-4 material"
+    parse: (data) ->
+        @total = data.count
+        data.items
 
-  events:
-    "click a.inventory-minus": "inventoryMinus"
-    "click a.inventory-plus": "inventoryPlus"
+    fetchOne: (id, options) ->
+        mdl = @add(id: id)
+        mdl.fetch options
+        mdl
 
-  initialize: (options) ->
-    @inventory = (app.inventory.get(@model.id) or app.inventory.create(id: @model.id, quantity: 0))
-    @listenTo @inventory, "change", @render
-    @listenTo @model, "change", @render
-    @listenTo @model, "destroy", @remove
-    this
-
-  render: ->
-    data = @model.toJSON()
-    data.inventory = if @inventory then @inventory.get("quantity") else 0
-    @$el.html @template(data)
-    this
-
-  inventoryPlus: ->
-    @inventory.quantityPlus 1
-    this
-
-  inventoryMinus: ->
-    @inventory.quantityPlus -1
-    this
+    getOrFetch: (id, options) ->
+        mdl = @get id
+        if mdl
+            options.success mdl
+        else
+            @fetchOne id, options

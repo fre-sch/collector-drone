@@ -15,36 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+## TrackTabView ###
+module.exports = Backbone.View.extend
+  el: "#track-tab-view"
 
-BlueprintsCollectionView = Backbone.View.extend
-  el: $("#blueprints-collection-view .collection-items")
-  limit: 12
-
-  initialize: (options) ->
-    {@filter, @pager} = options
-
-    new PagerView
-      el: "#blueprints-collection-view .pager"
-      model: @pager
-
-    @listenTo @model, "reset", @render
-    @listenTo @pager, "change", @render
+  initialize: ->
+    @$numBlueprints = @$el.find("span.num-blueprints")
+    @$numMaterials = @$el.find("span.num-materials")
+    @listenTo @model, "reset add remove", @update
     return this
 
-  render: ->
-    @$el.empty()
-    begin = @pager.get("offset")
-    end = @pager.get("offset") + @pager.get("limit")
-    @createItemView model for model, i in @model.slice begin, end
+  update: ->
+    @$numBlueprints.html @model.length
     return this
-
-  createItemView: (model) ->
-    view = new app.BlueprintView(model: model)
-    el = view.render().el
-    @$el.append el
-    return this
-
-
-app.blueprintsCollectionView = new BlueprintsCollectionView
-  model: app.blueprints
-  pager: new Pager(collection: app.blueprints)

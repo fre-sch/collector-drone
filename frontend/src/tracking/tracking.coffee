@@ -14,21 +14,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+TrackingCollection = require "./TrackingCollection"
 
 
-ResourceTabView = Backbone.View.extend
-  el: "#resource-filter-tabs"
-
-  initialize: (options) ->
-    @$badgeNumBlueprints = @$el.find "span.num-blueprints"
-    @$badgeNumMaterials = @$el.find "span.num-materials"
-    @listenTo app.blueprints, "reset", @update
-    @listenTo app.materials, "reset", @update
-    this
-
-  update: ->
-    @$badgeNumBlueprints.html app.blueprints.length
-    @$badgeNumMaterials.html app.materials.length
-    this
-
-app.resourceTabView = new ResourceTabView
+### tracking Singleton ###
+module.exports = new TrackingCollection()

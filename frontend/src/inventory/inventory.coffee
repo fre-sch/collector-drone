@@ -14,24 +14,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+InventoryCollection = require './InventoryCollection'
 
 
-Blueprints = Backbone.Collection.extend
-  model: app.Blueprint
-
-  url: "/blueprints"
-
-  total: 0
-
-  parse: (data) ->
-    @total = data.count
-    data.items
-
-  getOrFetch: (id, options) ->
-    mdl = @get(id)
-    if mdl
-      options.success mdl
-    else
-      @add(id: id).fetch options
-
-app.blueprints = FilteredCollection(new Blueprints, app.blueprintsFilter)
+### inventory Singleton ###
+module.exports = new InventoryCollection()

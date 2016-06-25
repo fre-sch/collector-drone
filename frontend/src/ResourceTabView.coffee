@@ -16,25 +16,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-Materials = Backbone.Collection.extend
-  model: app.Material
-  url: "/materials"
-  total: 0
+### ResourceTabView ###
+module.exports = Backbone.View.extend
+    el: "#resource-filter-tabs"
 
-  parse: (data) ->
-    @total = data.count
-    data.items
+    initialize: (options) ->
+      {@blueprintsCollection, @materialsCollection} = options
+      @$badgeNumBlueprints = @$el.find "span.num-blueprints"
+      @$badgeNumMaterials = @$el.find "span.num-materials"
+      @listenTo @blueprintsCollection, "reset", @update
+      @listenTo @materialsCollection, "reset", @update
+      this
 
-  fetchOne: (id, options) ->
-    mdl = @add(id: id)
-    mdl.fetch options
-    mdl
-
-  getOrFetch: (id, options) ->
-    mdl = @get id
-    if mdl
-      options.success mdl
-    else
-      @fetchOne id, options
-
-app.materials = FilteredCollection(new Materials, app.materialsFilter)
+    update: ->
+      @$badgeNumBlueprints.html @blueprintsCollection.length
+      @$badgeNumMaterials.html @materialsCollection.length
+      this

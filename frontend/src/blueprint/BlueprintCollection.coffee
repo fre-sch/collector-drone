@@ -14,36 +14,24 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+BlueprintModel = require "./BlueprintModel"
 
 
-MaterialsCollectionView = Backbone.View.extend
-  el: $("#materials-collection-view .collection-items")
+### BlueprintCollection ###
+module.exports = Backbone.Collection.extend
+    model: BlueprintModel
 
-  initialize: (options) ->
-    {@pager} = options
+    url: "/blueprints"
 
-    new PagerView
-      el: "#materials-collection-view .pager"
-      model: @pager
+    total: 0
 
-    @listenTo @model, "reset", @render
-    @listenTo @pager, "change", @render
-    return this
+    parse: (data) ->
+        @total = data.count
+        data.items
 
-  render: ->
-    @$el.empty()
-    begin = @pager.get("offset")
-    end = @pager.get("offset") + @pager.get("limit")
-    @createItemView model for model, i in @model.slice begin, end
-    return this
-
-  createItemView: (model) ->
-    view = new app.MaterialView(model: model)
-    el = view.render().el
-    @$el.append el
-    return this
-
-
-app.materialsCollectionView = new MaterialsCollectionView
-  model: app.materials
-  pager: new Pager(collection: app.materials)
+    getOrFetch: (id, options) ->
+        mdl = @get(id)
+        if mdl
+            options.success mdl
+        else
+            @add(id: id).fetch options
