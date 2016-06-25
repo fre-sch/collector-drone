@@ -2,6 +2,10 @@ env/
 data/
 data.db
 *.pyc
-__pycache__/**
+__pycache__
 .idea/
 config.yml
+.tags
+.tags1
+frontend/build
+*.log
