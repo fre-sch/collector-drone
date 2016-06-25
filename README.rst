@@ -24,9 +24,17 @@ Copy ``example.config.yml`` to ``config.yml`` and edit.
 Importing data
 ==============
 
-Get data from spreadsheet https://forums.frontier.co.uk/showthread.php/248275-Engineering-Database-And-Calculator-Engineers-Update. Export sheet "Components" as CSV and import using ``collectordrone/blueprint_import.py``.
+Get data from spreadsheet https://forums.frontier.co.uk/showthread.php/248275-Engineering-Database-And-Calculator-Engineers-Update.
+Export sheet "Components" as CSV and import using
+``collectordrone/blueprint_import.py``::
 
-Get data from http://inara.cz/galaxy-components, copy main component table as HTML, import into LibreOffice Calc, OpenOffice Calc or other spreadsheet. Export as CSV and import using ``collectordrone/materials_import.py``.
+    > python collectordrone/blueprint_import.py data/blueprints.csv
+
+Get data from http://inara.cz/galaxy-components, copy main component table as
+HTML, import into LibreOffice Calc, OpenOffice Calc or other spreadsheet. Export
+as CSV and import using ``collectordrone/materials_import.py``::
+
+    > python collectordrone/material_import.py inara_import data/inara-materials.csv
 
 API
 ===
@@ -46,4 +54,6 @@ Frontend is written in Coffeescript and needs to be compiled to JavaScript::
     frontend> npm install
     frontend> grunt
 
-If API is running and frontend is built, visiting ``http://localhost:5000/`` should redirect to the actual app ``http://localhost:5000/static/frontend/index.html``.
+If API is running and frontend is built, visiting ``http://localhost:5000/``
+should redirect to the actual app
+``http://localhost:5000/static/frontend/index.html``.
