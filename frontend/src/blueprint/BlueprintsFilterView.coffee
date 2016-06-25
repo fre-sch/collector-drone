@@ -23,25 +23,41 @@ module.exports = Backbone.View.extend
     el: $("#blueprints-filter")
 
     events:
-        "change .blueprints-filter-search": "updateSearch"
+        "change .blueprints-filter-search": "updateFilterModel"
 
     initialize: ->
         @$searchInput = @$el.find("input.blueprints-filter-search")
         @levelMenuModel = new MenuModel
         @typeMenuModel = new MenuModel
+        @sortMenuModel = new MenuModel
+
         new MenuView
             el: @$el.find(".blueprints-filter-type")
             model: @typeMenuModel
         new MenuView
             el: @$el.find(".blueprints-filter-level")
             model: @levelMenuModel
+        new MenuView
+            el: @$el.find(".blueprints-sort")
+            model: @sortMenuModel
 
-        @listenTo @typeMenuModel, "change:selected", @updateSearch
-        @listenTo @levelMenuModel, "change:selected", @updateSearch
+        @sortMenuModel.set items: [
+            {label: "Title A-Z", value: "title,asc"}
+            {label: "Title Z-A", value: "title,desc"}
+            {label: "Type A-Z", value: "type,asc"}
+            {label: "Type Z-A", value: "type,desc"}
+            {label: "Level 0-9", value: "level,asc"}
+            {label: "Level 9-0", value: "level,desc"}
+        ]
+
+        @listenTo @typeMenuModel, "change:selected", @updateFilterModel
+        @listenTo @levelMenuModel, "change:selected", @updateFilterModel
+        @listenTo @sortMenuModel, "change:selected", @updateFilterModel
         return this
 
-    updateSearch: ->
+    updateFilterModel: ->
         @model.set search: @$searchInput.val()
         @model.set type: @typeMenuModel.get("selected")?.value
         @model.set level: @levelMenuModel.get("selected")?.value
+        @model.set sort: @sortMenuModel.get("selected")?.value
         return this

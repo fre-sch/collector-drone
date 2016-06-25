@@ -14,6 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+utils = require './utils'
 
 
 ### BlueprintsFilter ###
@@ -22,6 +23,7 @@ module.exports = Backbone.Model.extend
         type: ""
         level: null
         search: ""
+        sort: null
 
     loadTypes: ->
         $.ajax
@@ -39,3 +41,12 @@ module.exports = Backbone.Model.extend
             (if @get("type") then @get("type") == type else true
             ) and (if @get("level") then @get("level") == level else true
             ) and (if @get("search") then title.indexOf(@get("search").toLowerCase()) >= 0 else true)
+
+    sort: ->
+        sort = @get "sort"
+        if sort
+            [field, dir] = sort.split(",")
+            if dir == "desc"
+                return (a, b) -> utils.cmp(b.get(field), a.get(field))
+            else if dir == "asc"
+                return (a, b) -> utils.cmp(a.get(field), b.get(field))

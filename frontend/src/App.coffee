@@ -30,8 +30,6 @@ ResourceTabView = require "./ResourceTabView"
 
 ### App.js ###
 App = ->
-    "use strict"
-
     $.ajaxSetup(contentType: "application/json")
 
     blueprintsFilter = new BlueprintsFilter
@@ -41,15 +39,6 @@ App = ->
     materialsFilter = new MaterialsFilter
     materialsFiltered = FilteredCollection(
         new MaterialCollection, materialsFilter)
-
-    materialsFilter.on "change:sort", (model)->
-        if model.get("sort") == "inventory"
-            materialsFiltered.comparator = (model) ->
-                model.inventoryQuantity()
-        else
-            materialsFiltered.comparator = model.get("sort")
-        materialsFiltered.sort() if materialsFiltered.comparator
-        return
 
     @blueprintsCollectionView = new BlueprintsCollectionView
         model: blueprintsFiltered

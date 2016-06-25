@@ -16,19 +16,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-### FilteredCollection ###
-module.exports = (source, filterModel) ->
-    filtered = new source.constructor()
-    # allow this object to have it's own events
-    filtered._callbacks = {}
-    filtered.fetch = (options)-> source.fetch(options)
+### utils ###
 
-    source.on "reset", ()->
-        filtered.reset source.filter(filterModel.where())
+strcmp = (a, b) ->
+    a.localeCompare(b)
 
-    filterModel.on "change", ()->
-        items = source.filter filterModel.where()
-        filtered.comparator = filterModel.sort?()
-        filtered.reset items
+numcmp = (a, b) ->
+    if a > b then 1 else -1
 
-    filtered
+cmp = (a, b) ->
+    if not a
+        return 1
+    else if not b
+        return -1
+    else if a.localeCompare
+        strcmp(a, b)
+    else
+        numcmp(a, b)
+
+module.exports = {strcmp, numcmp, cmp}

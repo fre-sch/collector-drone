@@ -21,7 +21,7 @@ MenuView = require './MenuView'
 ### MaterialsFilterView ###
 module.exports = Backbone.View.extend
     events:
-        "change .materials-filter-search": "updateSearch"
+        "change .materials-filter-search": "updateFilterModel"
 
     initialize: ->
         @$searchInput = @$el.find("input.materials-filter-search")
@@ -37,9 +37,12 @@ module.exports = Backbone.View.extend
             model: @typeMenuModel
 
         @sortMenuModel.set items: [
-            {label: "Title", value: "title"}
-            {label: "Type", value: "type"}
-            {label: "Rarity", value: "rarity"}
+            {label: "Title A-Z", value: "title,asc"}
+            {label: "Title Z-A", value: "title,desc"}
+            {label: "Type A-Z", value: "type,asc"}
+            {label: "Type Z-A", value: "type,desc"}
+            {label: "Rarity A-Z", value: "rarity,asc"}
+            {label: "Rarity Z-A", value: "rarity,desc"}
             {label: "Inventory", value: "inventory"}
         ]
 
