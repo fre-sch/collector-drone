@@ -21,6 +21,7 @@ module.exports = Backbone.Model.extend
     defaults:
         id: null
         quantity: 0
+
     quantityPlus: (value) ->
         q = @get "quantity"
         @save(quantity: q + value)
