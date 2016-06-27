@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 inventory = require './inventory'
+tracking = require "./tracking"
 
 ### MaterialView ###
 module.exports = Backbone.View.extend
@@ -23,8 +24,9 @@ module.exports = Backbone.View.extend
     className: "col-md-4 material"
 
     events:
-        "click a.inventory-minus": "inventoryMinus"
-        "click a.inventory-plus": "inventoryPlus"
+        "click .btn.inventory-minus": "inventoryMinus"
+        "click .btn.inventory-plus": "inventoryPlus"
+        "click .btn.track": "track"
 
     initialize: (options) ->
         @inventoryItem = (inventory.get(@model.id) or
@@ -42,8 +44,15 @@ module.exports = Backbone.View.extend
 
     inventoryPlus: ->
         @inventoryItem.quantityPlus 1
+        event.preventDefault()
         this
 
     inventoryMinus: ->
         @inventoryItem.quantityPlus -1
+        event.preventDefault()
+        this
+
+    track: ->
+        tracking.trackMaterial @model
+        event.preventDefault()
         this
