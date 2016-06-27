@@ -17,11 +17,14 @@
 inventory = require './inventory'
 tracking = require "./tracking"
 
+
 ### MaterialView ###
 module.exports = Backbone.View.extend
     template: _.template $("#material-tpl").html()
 
-    className: "col-md-4 material"
+    className: ->
+        rarity = @model.get("rarity").replace(/\W+/, "-")
+        "col-md-4 material rarity-#{rarity}"
 
     events:
         "click .btn.inventory-minus": "inventoryMinus"

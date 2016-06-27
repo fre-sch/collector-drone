@@ -17,7 +17,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title">
-        <%= title %>
+        <span class="material-icon"></span><%= title %>
         <div class="pull-right">
           <% if(inventory){ %> <span><%= inventory %></span><% } %>
           <a href="#" class="btn btn-default btn-sm inventory-minus">
@@ -32,7 +32,7 @@
       <span class="badge" style="text-transform:capitalize"><%= type %></span>
       <span class="badge" style="text-transform:capitalize"><%= rarity %></span>
       </div>
-      <div class="text-muted">
+      <div>
         <% for (var i=0; i < locations.length; i++) { %>
           <div><%= locations[i].title %></div>
         <% } %>
@@ -65,10 +65,10 @@
     </div>
     <div class="panel-body">
       <div>
-      <span class="badge" style="text-transform:capitalize"><%= material.type %></span>
-      <span class="badge" style="text-transform:capitalize"><%= material.rarity %></span>
+        <span class="badge" style="text-transform:capitalize"><%= material.type %></span>
+        <span class="badge" style="text-transform:capitalize"><%= material.rarity %></span>
       </div>
-      <div class="text-muted">
+      <div>
         <% for (var i=0; i < material.locations.length; i++) { %>
           <%= material.locations[i].title %>
         <% } %>
@@ -100,7 +100,7 @@
         </div>
       </div>
     </div>
-    <div class="panel-body text-muted" style="white-space: nowrap">
+    <div class="panel-body" style="white-space: nowrap">
       <% for (var i=0; i < ingredients.length; ++i) { %>
       <div class="row" style="font-size: 0.9em">
         <div class="col-xs-8"><%= ingredients[i].material.title %></div>
@@ -133,12 +133,12 @@
         <span class="badge"><%=type%></span>
         <div class="pull-right">
           <span class="blueprint-quantity"><%=quantity%></span>
-          <a href="#" class="btn btn-primary btn-sm track"><span
+          <a href="#" class="btn btn-default btn-sm track"><span
               class="glyphicon glyphicon-plus"></span></a>
         </div>
       </div>
     </div>
-    <div class="panel-body text-muted" style="white-space: nowrap">
+    <div class="panel-body" style="white-space: nowrap">
       <div class="ingredients"></div>
     </div>
     <div class="panel-footer">
@@ -155,52 +155,16 @@
 <br/>
 
 <div class="container">
-  <div class="well well-sm" style="min-height: 30em">
+  <div class="well" style="min-height: 30em">
     <div id="track-toolbar" style="margin-bottom: 1.6em">
       <nav>
         <ul class="nav nav-pills nav-justified" id="track-tab-view">
           <li><a href="#track-blueprints" data-toggle="pill">
-            Blueprints <span class="badge num-blueprints">0</span></a></li>
+            Blueprints (<span class="num-blueprints">0</span>)</a></li>
           <li class="active"><a href="#track-materials" data-toggle="pill">
-            Materials <span class="badge num-materials">0</span></a></li>
+            Materials (<span class="num-materials">0</span>)</a></li>
         </ul>
       </nav>
-      <!--
-      <div class="row">
-        <div class="col-xs-3">
-          <div class="btn-group" style="width:100%">
-            <button class="btn btn-default dropdown-toggle" type="button"
-                id="menu-filter-1" data-toggle="dropdown"
-                style="width:100%;text-align:left">
-              <span class="glyphicon glyphicon-filter"></span>
-              <span class="pull-right"><span class="caret"></span></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="#">Option</a></li>
-              <li><a href="#">Option</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-xs-7">
-          <input type="text" class="form-control" placeholder="Search..."/>
-        </div>
-        <div class="col-xs-2 text-right">
-          <div class="btn-group" style="width:100%">
-            <button class="btn btn-default dropdown-toggle" type="button"
-                id="menu-sort-by-1" data-toggle="dropdown"
-                style="width:100%;text-align:left">Sort by
-              <span class="pull-right"><span class="caret"></span></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="#">Title</a></li>
-              <li><a href="#">Rarity</a></li>
-              <li><a href="#">Grade</a></li>
-              <li><a href="#">Inventory</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      -->
     </div>
 
     <div class="tab-content">
@@ -213,11 +177,11 @@
     <ul class="nav nav-pills nav-justified">
       <li class="active"><a href="#blueprints-collection-view"
           data-toggle="pill">Blueprints
-        <span class="badge num-blueprints">0</span></a>
+        (<span class="num-blueprints">0</span>)</a>
       </li>
       <li><a href="#materials-collection-view"
           data-toggle="pill">Materials
-        <span class="badge num-materials">0</span></a></li>
+        (<span class="num-materials">0</span>)</a></li>
     </ul>
   </nav>
   <div class="tab-content">
