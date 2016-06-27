@@ -26,6 +26,8 @@ MaterialsCollectionView = require './MaterialsCollectionView'
 MaterialsFilter = require "./MaterialsFilter"
 MaterialsFilterView = require "./MaterialsFilterView"
 ResourceTabView = require "./ResourceTabView"
+tracking = require './tracking'
+inventory = require './inventory'
 
 
 ### App.js ###
@@ -84,11 +86,12 @@ App = ->
     @view = new AppView
         blueprints: blueprintsFiltered
         materials: materialsFiltered
-        blueprintsFilter: blueprintsFilter
-        blueprintsFilterView: blueprintsFilterView
-        materialsFilter: materialsFilter
-        materialsFilterView: materialsFilterView
 
+    blueprintsFiltered.fetch(reset: true)
+    materialsFiltered.fetch(reset: true, data: {with: "locations"})
+    inventory.fetch(reset: true)
+    tracking.materials.fetch(reset: true)
+    tracking.blueprints.fetch(reset: true)
     return this
 
 new App()

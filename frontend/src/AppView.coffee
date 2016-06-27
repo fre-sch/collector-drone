@@ -26,62 +26,56 @@ module.exports = Backbone.View.extend
     el: 'body'
     events: {}
     initialize: (options) ->
-        {@blueprints,
-        @materials,
-        blueprintsFilter,
-        blueprintsFilterView,
-        materialsFilter,
-        materialsFilterView} = options
+        {@blueprints, @materials} = options
         @$trackMaterials = $("#track-materials")
         @$trackBlueprints = $("#track-blueprints")
 
-        @listenTo tracking, "add", @addTrackingView
-        @listenTo tracking, "reset", @onTrackingReset
+        @listenTo tracking.blueprints, "add", @addTrackBlueprint
+        @listenTo tracking.materials, "add", @addTrackMaterial
+        @listenTo tracking.blueprints, "reset", @onTrackBlueprintsReset
+        @listenTo tracking.materials, "reset", @onTrackMaterialsReset
 
-        @trackTabView = new TrackingTabView
-          model: tracking
-
-        @blueprints.fetch(reset: true)
-        @materials.fetch(reset: true, data: {with: "locations"})
-        inventory.fetch(reset: true)
-        tracking.fetch(reset: true)
-        this
-
-    onTrackingReset: (collection, options) ->
-        for model in collection.models
-            @addTrackingView(model)
+        new TrackingTabView(model: tracking)
         return this
 
-    addOneTrackMaterial: (trackBlueprint, ingredient) ->
-        createViewAndAppend = _.bind((trackBlueprint, material) ->
+    onTrackBlueprintsReset: (collection, options) ->
+        for model in collection.models
+            @addTrackBlueprint(model)
+        return this
+
+    onTrackMaterialsReset: (collection, options) ->
+        for model in collection.models
+            @addTrackMaterial(model)
+        return this
+
+    addTrackMaterial: (trackMaterial) ->
+        createViewAndAppend = _.bind((trackMaterial, material) ->
             view = new TrackMaterialView
-                model:
-                    material: material
-                    ingredient: ingredient
-                    inventory: inventory.getOrCreate(material.id)
-                    trackBlueprint: trackBlueprint
+                model: trackMaterial
+                material: material
+                inventory: inventory.getOrCreate(trackMaterial.id)
 
             @$trackMaterials.append(view.render().el)
-        , this, trackBlueprint)
-        @materials.getOrFetch ingredient.material.id,
+            return
+        , this, trackMaterial)
+
+        @materials.getOrFetch trackMaterial.id,
             success: createViewAndAppend
+
         return this
 
-    addTrackingView: (trackBlueprint) ->
+    addTrackBlueprint: (trackBlueprint) ->
         createViewAndAppend = _.bind((trackBlueprint, blueprint) ->
-            @addTrackBlueprintView trackBlueprint, blueprint
-            for ingredient in blueprint.get "ingredients"
-                @addOneTrackMaterial trackBlueprint, ingredient
+            view = new TrackBlueprintView
+                model:
+                    trackBlueprint: trackBlueprint
+                    blueprint: blueprint
+
+            @$trackBlueprints.append view.render().el
+            return this
         , this, trackBlueprint)
+
         @blueprints.getOrFetch trackBlueprint.id,
             success: createViewAndAppend
-        return this
 
-    addTrackBlueprintView: (trackBlueprint, blueprint) ->
-        view = new TrackBlueprintView
-            model:
-                trackBlueprint: trackBlueprint
-                blueprint: blueprint
-
-        @$trackBlueprints.append view.render().el
         return this

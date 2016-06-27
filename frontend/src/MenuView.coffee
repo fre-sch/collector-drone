@@ -38,7 +38,6 @@ module.exports = Backbone.View.extend
 
     updateButton: ->
         item = @model.get "selected"
-        @$button.data "value", item.value
         @$button.html item.label
 
     itemClicked: ->

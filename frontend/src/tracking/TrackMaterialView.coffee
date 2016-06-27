@@ -25,28 +25,36 @@ module.exports = Backbone.View.extend
     events:
         "click .inventory-plus": "inventoryPlus"
         "click .inventory-minus": "inventoryMinus"
+        "click .btn.remove": "removeTrack"
+        "click .btn.track": "addTrack"
 
     initialize: (options) ->
-        @listenTo @model.inventory, 'change', @update
-        @listenTo @model.trackBlueprint, "change", @update
-        @listenTo @model.trackBlueprint, 'destroy', @remove
+        {@material, @inventory} = options
+        @listenTo @inventory, 'change', @update
+        @listenTo @model, "change", @update
+        @listenTo @model, 'destroy', @remove
 
     render: ->
         data =
-            quantity: @model.trackBlueprint.get("quantity") * @model.ingredient.quantity
-            inventory: @model.inventory.get("quantity")
-            material: @model.material.toJSON()
+            quantity: @model.get("quantity")
+            inventory: @inventory.get("quantity")
+            material: @material.toJSON()
         @$el.html @template(data)
         return this
 
     update: ->
-        @$el.find("span.inventory").html(@model.inventory.get("quantity"))
-        @$el.find("span.quantity").html(
-            @model.trackBlueprint.get("quantity") * @model.ingredient.quantity
-        )
+        @$el.find("span.inventory").html(@inventory.get("quantity"))
+        @$el.find("span.quantity").html @model.get("quantity")
 
     inventoryPlus: ->
-        @model.inventory.quantityPlus 1
+        @inventory.quantityPlus 1
 
     inventoryMinus: ->
-        @model.inventory.quantityPlus -1
+        @inventory.quantityPlus -1
+
+    removeTrack: ->
+        @model.quantityPlus -1
+        @model.destroy() if @model.get("quantity") <= 0
+
+    addTrack: ->
+        @model.quantityPlus 1

@@ -14,10 +14,22 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-TrackBlueprint = require "./TrackBlueprint"
 
 
-### TrackingCollection ###
-module.exports = Backbone.Collection.extend
-    model: TrackBlueprint
-    localStorage: new Backbone.LocalStorage "trackBlueprint"
+## TrackTabView ###
+module.exports = Backbone.View.extend
+  el: "#track-tab-view"
+
+  initialize: ->
+    @$numBlueprints = @$el.find("span.num-blueprints")
+    @$numMaterials = @$el.find("span.num-materials")
+    @listenTo @model.blueprints, "reset add remove", @update
+    @listenTo @model.materials, "reset add remove", @update
+
+    return this
+
+  update: ->
+    @$numBlueprints.html @model.blueprints.length
+    @$numMaterials.html @model.materials.length
+
+    return this

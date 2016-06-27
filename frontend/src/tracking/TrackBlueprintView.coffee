@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 inventory = require './inventory'
+tracking = require './tracking'
 
 
 ### TrackBlueprintview ###
@@ -77,14 +78,14 @@ module.exports = Backbone.View.extend
         return this
 
     track: ->
-        @model.trackBlueprint.quantityPlus 1
+        tracking.trackBlueprint(@model.blueprint)
 
     untrack: ->
-        @model.trackBlueprint.destroy()
+        tracking.untrackBlueprint(@model.blueprint)
 
     craft: ->
         @model.trackBlueprint.quantityPlus -1
-        
+
         for ingredient in @model.blueprint.get("ingredients")
             inventoryItem = inventory.get(ingredient.material.id)
             amount = Math.min(ingredient.quantity, inventoryItem.get("quantity"))

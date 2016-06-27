@@ -14,8 +14,62 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-TrackingCollection = require "./TrackingCollection"
+TrackBlueprintCollection = require "./TrackBlueprintCollection"
+TrackMaterialCollection = require './TrackMaterialCollection'
+TrackMaterial = require './TrackMaterial'
+
+
+### tracking.TrackingController ###
+class TrackingController
+    constructor: (options) ->
+        @blueprints = new TrackBlueprintCollection()
+        @materials = new TrackMaterialCollection()
+
+    trackBlueprint: (model) ->
+        tracked = @blueprints.get(model.id)
+        if not tracked
+            tracked = @blueprints.create
+                id: model.id
+                quantity: 1
+        else
+            tracked.quantityPlus 1
+
+        for ingredient in model.get("ingredients")
+            total = tracked.get("quantity") * ingredient.quantity
+            @trackMaterial ingredient.material, ingredient.quantity, total
+
+        return tracked
+
+    untrackBlueprint: (blueprint) ->
+        tracked = @blueprints.get(blueprint.id)
+        if tracked
+            for ingredient in blueprint.get("ingredients")
+                @untrackMaterial(ingredient.material, ingredient.quantity)
+            tracked.destroy()
+        return this
+
+    trackMaterial: (material, quantity=1, total=null)->
+        total ?= quantity
+        tracked = @materials.get(material.id)
+        if not tracked
+            tracked = @materials.create
+                id: material.id
+                quantity: total
+        else
+            tracked.quantityPlus quantity
+            if tracked.get("quantity") < total
+                tracked.save quantity: total
+
+        return tracked
+
+    untrackMaterial: (material, quantity=1) ->
+        tracked = @materials.get(material.id)
+        if tracked
+            tracked.quantityPlus -quantity
+            tracked.destroy() if tracked.get("quantity") <= 0
+        return this
+
 
 
 ### tracking Singleton ###
-module.exports = new TrackingCollection()
+module.exports = new TrackingController

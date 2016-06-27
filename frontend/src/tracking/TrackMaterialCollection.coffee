@@ -14,24 +14,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-tracking = require './tracking'
+TrackMaterial = require "./TrackMaterial"
 
 
-### BlueprintView ###
-module.exports = Backbone.View.extend
-    template: _.template $("#blueprint-tpl").html()
-    className: "col-md-6 blueprint"
-
-    events:
-        "click a.track": "track"
-
-    initialize: (options) ->
-        @listenTo @model, "change", @render
-        @listenTo @model, "destroy", @remove
-
-    render: ->
-        @$el.html @template(@model.toJSON())
-        return this
-
-    track: ->
-        tracking.trackBlueprint(@model)
+### TrackMaterialCollection ###
+module.exports = Backbone.Collection.extend
+    model: TrackMaterial
+    localStorage: new Backbone.LocalStorage "trackMaterial"

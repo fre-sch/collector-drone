@@ -15,16 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## TrackTabView ###
-module.exports = Backbone.View.extend
-  el: "#track-tab-view"
 
-  initialize: ->
-    @$numBlueprints = @$el.find("span.num-blueprints")
-    @$numMaterials = @$el.find("span.num-materials")
-    @listenTo @model, "reset add remove", @update
-    return this
+### TrackMaterial ###
+module.exports = Backbone.Model.extend
+    defaults:
+        id: null
+        quantity: 0
 
-  update: ->
-    @$numBlueprints.html @model.length
-    return this
+    quantityPlus: (value) ->
+        q = @get "quantity"
+        @save quantity: q + value
