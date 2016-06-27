@@ -3,6 +3,7 @@
   "description": "Companion web-app for Elite: Dangerous, manage blueprints and material inventory for crafting engineer upgrades. Copyright (C) 2016  Frederik Schumacher",
   "version": "0.1.0",
   "license": "GPL-3.0",
+  "private": true,
   "devDependencies": {
     "coffee-script": "^1.10.0",
     "grunt": "^1.0.1",
