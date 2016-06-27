@@ -44,7 +44,8 @@ class TrackingController
         tracked = @blueprints.get(blueprint.id)
         if tracked
             for ingredient in blueprint.get("ingredients")
-                @untrackMaterial(ingredient.material, ingredient.quantity)
+                total = ingredient.quantity * tracked.get("quantity")
+                @untrackMaterial(ingredient.material, total)
             tracked.destroy()
         return this
 
@@ -65,8 +66,9 @@ class TrackingController
     untrackMaterial: (material, quantity=1) ->
         tracked = @materials.get(material.id)
         if tracked
-            tracked.quantityPlus -quantity
-            tracked.destroy() if tracked.get("quantity") <= 0
+            tracked.quantityPlus(-quantity)
+            if tracked.get("quantity") <= 0
+                tracked.destroy()
         return this
 
 

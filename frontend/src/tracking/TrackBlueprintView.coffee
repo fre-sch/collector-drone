@@ -90,6 +90,7 @@ module.exports = Backbone.View.extend
             inventoryItem = inventory.get(ingredient.material.id)
             amount = Math.min(ingredient.quantity, inventoryItem.get("quantity"))
             inventoryItem.quantityPlus(-amount)
+            tracking.untrackMaterial(ingredient.material, ingredient.quantity)
 
         if @model.trackBlueprint.get("quantity") <= 0
             @untrack()
