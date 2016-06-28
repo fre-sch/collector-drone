@@ -17,10 +17,15 @@
 <script type="text/template" id="material-tpl">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <div class="panel-title">
-        <span class="material-icon"></span><%= title %>
-        <span class="badge" style="text-transform:capitalize"><%= type %></span>
-        <div class="pull-right">
+      <div class="panel-title row">
+        <div class="col-xs-1">
+        <span class="material-icon"></span>
+        </div>
+        <div class="col-xs-8 material-title" title="<%= title %>">
+          <span class="badge" title="<%= type %>"><%= typeLabel %></span>
+          <%= title %>
+        </div>
+        <div class="col-xs-3 text-right">
           <% if(inventory){ %> <span><%= inventory %></span><% } %>
           <a href="#" class="btn btn-default btn-sm inventory-minus">
             <span class="glyphicon glyphicon-minus"></span></a>
@@ -47,10 +52,15 @@
 <script type="text/template" id="track-material-tpl">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <div class="panel-title">
-        <span class="material-icon"></span><span class="title"><%= material.title %></span>
-        <span class="badge" style="text-transform:capitalize"><%= material.type %></span>
-        <div class="pull-right">
+      <div class="panel-title row">
+        <div class="col-xs-1">
+            <span class="material-icon"></span>
+        </div>
+        <div class="col-xs-7 material-title" title="<%= material.title %>">
+            <span class="badge" title="<%= material.type %>"><%= material.typeLabel %></span>
+            <%= material.title %>
+        </div>
+        <div class="col-xs-4 text-right">
           <span class="inventory"><%= inventory %></span>
           / <span class="quantity"><%= quantity %></span>
           <a href="#" class="btn btn-default btn-sm inventory-minus">
@@ -80,7 +90,8 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title">
-        <span class="title"><%= title %></span> <span class="badge"><%= level %></span>
+        <span class="badge"><%= level %></span>
+        <span class="title"><%= title %></span>
         <span class="badge"><%=type%></span>
         <div class="pull-right">
           <% if (tracked) { %>
@@ -120,7 +131,8 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title">
-        <%= title %> <span class="badge"><%= level %></span>
+        <span class="badge"><%= level %></span>
+        <%= title %>
         <span class="badge"><%=type%></span>
         <div class="pull-right">
           <span class="blueprint-quantity"><%=quantity%></span>
@@ -179,40 +191,35 @@
     <div id="blueprints-collection-view" class="row tab-pane active">
       <div id="blueprints-filter" style="margin-bottom:1.6em"
           class="clearfix">
-        <div class="col-xs-3 blueprints-filter-type">
+        <div class="col-xs-4 col-md-3 blueprints-filter-type">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
                 id="menu-filter-2" data-toggle="dropdown"
                 style="width:100%;text-align:left;">
-              <span class="btn-label" data-value="">All</span>
+              <span class="btn-label" data-value="">All types</span>
               <span class="pull-right"><span class="caret"></span></span>
             </button>
             <ul class="dropdown-menu">
-              <li><a href="#" data-value="">All</a></li>
+              <li><a href="#" data-value="">All types</a></li>
               <li role="separator" class="divider"></li>
             </ul>
           </div>
         </div>
-        <div class="col-xs-2 blueprints-filter-level">
+        <div class="col-xs-3 col-md-2 blueprints-filter-level">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
                 id="menu-filter-3" data-toggle="dropdown"
                 style="width:100%;text-align:left;">
-              <span class="btn-label" data-value="">All</span>
+              <span class="btn-label" data-value="">All levels</span>
               <span class="pull-right"><span class="caret"></span></span>
             </button>
             <ul class="dropdown-menu">
-              <li><a href="#" data-value="">All</a></li>
+              <li><a href="#" data-value="">All levels</a></li>
               <li role="separator" class="divider"></li>
             </ul>
           </div>
         </div>
-        <div class="col-xs-5">
-          <input type="text"
-            class="form-control blueprints-filter-search"
-            placeholder="Search..."/>
-        </div>
-        <div class="col-xs-2 text-right blueprints-sort">
+        <div class="col-md-2 col-md-push-5 col-xs-5 text-right blueprints-sort">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
                 id="sort-by-2" data-toggle="dropdown"
@@ -225,6 +232,11 @@
               <li role="separator" class="divider"></li>
             </ul>
           </div>
+        </div>
+        <div class="col-md-5 col-md-pull-2 col-xs-12">
+          <input type="text"
+            class="form-control blueprints-filter-search"
+            placeholder="Search..."/>
         </div>
       </div>
       <div class="collection-items"></div>
@@ -239,24 +251,21 @@
     <div id="materials-collection-view" class="row tab-pane">
       <div id="materials-filter" style="margin-bottom:1.6em"
           class="clearfix">
-        <div class="col-xs-3 materials-filter-type">
+        <div class="col-md-3 col-xs-6 materials-filter-type">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
                 id="menu-filter-3" data-toggle="dropdown"
                 style="width:100%;text-align:left;">
-              <span class="materials-filter-type btn-label">All</span>
+              <span class="materials-filter-type btn-label">All types</span>
               <span class="pull-right"><span class="caret"></span></span>
             </button>
             <ul class="dropdown-menu materials-filter-type">
-              <li><a href="#" data-type="">All</a></li>
+              <li><a href="#" data-type="">All types</a></li>
               <li role="separator" class="divider"></li>
             </ul>
           </div>
         </div>
-        <div class="col-xs-7">
-          <input type="text" class="form-control materials-filter-search" placeholder="Search..."/>
-        </div>
-        <div class="col-xs-2 text-right materials-sort">
+        <div class="col-md-2 col-md-push-7 col-xs-6 text-right materials-sort">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
                 id="sort-by-3" data-toggle="dropdown"
@@ -270,6 +279,9 @@
             </ul>
           </div>
         </div>
+        <div class="col-md-7 col-md-pull-2 col-xs-12">
+          <input type="text" class="form-control materials-filter-search" placeholder="Search..."/>
+        </div>
       </div>
       <div class="collection-items"></div>
       <nav class="col-md-12">
@@ -282,10 +294,13 @@
   </div>
 
   <div class="text-muted small text-center">
-    <p>Companion web-app for Elite: Dangerous, manage blueprints and material inventory
+    <p>Collector-Drone: Companion web-app for Elite: Dangerous, manage blueprints and material inventory
     for crafting engineer upgrades.<br/>
-    Copyright (C) 2016  Frederik Schumacher<br/>
-    Checkout the <a href="https://github.com/fre-sch/collector-drone">source at github</a><br/>
+    Data pulled from <a href="https://forums.frontier.co.uk/showthread.php/248275">Engineering Database &amp; Calculator</a>
+    gathered by <a href="https://forums.frontier.co.uk/member.php/118579-Qohen-Leth">Qohen-Leth</a>.
+    Icons and colors by <a href="http://www.edassets.org/">edassets.org</a>.<br/>
+    Checkout the <a href="https://github.com/fre-sch/collector-drone">source at github</a>.<br/>
+    Copyright &copy; 2016  Frederik Schumacher<br/>
     </p>
   </div>
 </div>

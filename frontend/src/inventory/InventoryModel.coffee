@@ -23,4 +23,4 @@ module.exports = Backbone.Model.extend
         quantity: 0
     quantityPlus: (value) ->
         q = @get "quantity"
-        @save quantity: q + value
+        @save quantity: Math.max(0, q + value)

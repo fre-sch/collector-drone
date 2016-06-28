@@ -21,8 +21,17 @@ inventory = require './inventory'
 module.exports = Backbone.Model.extend
     defaults:
         title: ""
+        type: ""
+        rarity: ""
         locations: []
     urlRoot: "/materials"
+
+    typeLabel: ->
+        switch(@get "type")
+            when "element" then "el"
+            when "commodity" then "com"
+            when "manufactured" then "man"
+            else @get("type")
 
     inventoryQuantity: ->
         -inventory.getOrCreate(@get "id").get("quantity")

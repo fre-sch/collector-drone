@@ -50,14 +50,16 @@ module.exports = Backbone.View.extend
             @model.trackBlueprint.toJSON(),
             @model.blueprint.toJSON()
         )
-        data.tracked = true
         $html = $(@template(data))
         for ingredient in data.ingredients
+            quantity = ingredient.quantity * @model.trackBlueprint.get("quantity")
+            inventoryQuantity = inventory.get(ingredient.material.id).get("quantity")
+            textClass = "text-danger" if quantity > inventoryQuantity
             itemView = @itemTpl
-                itemClass: "ingredient-#{ingredient.material.id}"
+                itemClass: "ingredient-#{ingredient.material.id} #{textClass}"
                 title: ingredient.material.title
-                quantity: ingredient.quantity * @model.trackBlueprint.get("quantity")
-                inventory: inventory.get(ingredient.material.id).get("quantity")
+                quantity: quantity
+                inventory: inventoryQuantity
 
             $html.find(".ingredients").append(itemView)
 
@@ -70,6 +72,14 @@ module.exports = Backbone.View.extend
         for ingredient in @model.blueprint.get("ingredients")
             quantity = ingredient.quantity * @model.trackBlueprint.get("quantity")
             inventoryQuantity = inventory.get(ingredient.material.id).get("quantity")
+
+            if quantity > inventoryQuantity
+                @$el.find(".ingredient-#{ingredient.material.id}"
+                ).addClass("text-danger")
+            else
+                @$el.find(".ingredient-#{ingredient.material.id}"
+                ).removeClass("text-danger")
+
             @$el.find(".ingredient-#{ingredient.material.id} .quantity"
             ).html quantity
             @$el.find(".ingredient-#{ingredient.material.id} .inventory"

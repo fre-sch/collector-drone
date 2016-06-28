@@ -41,6 +41,7 @@ module.exports = Backbone.View.extend
 
     render: ->
         data = @model.toJSON()
+        data.typeLabel = @model.typeLabel()
         data.inventory = if @inventoryItem then @inventoryItem.get("quantity") else 0
         @$el.html @template(data)
         this

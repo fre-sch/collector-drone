@@ -2218,7 +2218,7 @@ tbody.collapse.in {
     clear: both;
     font-weight: normal;
     line-height: 1.42857143;
-    color: rgb(83, 46, 18);
+    color: rgb(226, 106, 10);
     white-space: nowrap;
 }
 .dropdown-menu> li> a:hover, .dropdown-menu> li> a:focus {
@@ -2672,7 +2672,7 @@ textarea.input-group-sm> .form-control, textarea.input-group-sm> .input-group-ad
     font-size: 1.2em;
 }
 .nav-pills> li+ li {
-    margin-left: 2px;
+    margin-left: 0px;
 }
 .nav-pills> li.active> a, .nav-pills> li.active> a:hover, .nav-pills> li.active> a:focus {
     color: rgb(22, 22, 22);
@@ -2693,13 +2693,22 @@ textarea.input-group-sm> .form-control, textarea.input-group-sm> .input-group-ad
 }
 .nav-justified> li> a {
     text-align: center;
-    margin-bottom: 5px;
+    margin-bottom: 0;
 }
 .nav-justified> .dropdown .dropdown-menu {
     top: auto;
     left: auto;
 }
 @media (min-width: 768px) {
+    .nav-justified> li {
+        display: table-cell;
+        width: 1%;
+    }
+    .nav-justified> li> a {
+        margin-bottom: 0;
+    }
+}
+@media (max-width: 768px) {
     .nav-justified> li {
         display: table-cell;
         width: 1%;
@@ -3306,14 +3315,15 @@ textarea.input-group-sm> .form-control, textarea.input-group-sm> .input-group-ad
 }
 .pager li> a, .pager li> span {
     display: inline-block;
-    padding: 5px 14px;
-    background-color: #2f2f2f;
-    border: 1px solid transparent;
-    border-radius: 15px;
+    padding: 0.2em 0.6em;
+    background-color: rgb(83, 46, 18);
+    border: none;
+    border-radius: 0;
 }
 .pager li> a:hover, .pager li> a:focus {
     text-decoration: none;
-    background-color: #272727;
+    background-color: rgb(226, 106, 10);
+    color: rgb(22, 22, 22);
 }
 .pager .next> a, .pager .next> span {
     float: right;
@@ -3394,12 +3404,13 @@ a.label:hover, a.label:focus {
     font-weight: normal;
     color: rgb(226, 106, 10);
     line-height: 1;
-    vertical-align: top;
     white-space: nowrap;
     text-align: center;
     background-color: rgb(83, 46, 18);
     border-radius: 1px;
-    vertical-align: baseline;
+    vertical-align: middle;
+    text-transform: uppercase;
+    margin-bottom: 0.2em;
 }
 .badge:empty {
     display: none;
@@ -3843,7 +3854,7 @@ a.list-group-item-danger.active, button.list-group-item-danger.active, a.list-gr
 }
 .panel-body {
     padding: 4px;
-    color: rgb(83, 46, 18);
+    color: rgb(226, 106, 10);
 }
 .panel-heading {
     padding: 4px;
@@ -5050,7 +5061,7 @@ label, .radio label, .checkbox label, .help-block {
     color: rgb(226, 106, 10);
 }
 .pager a {
-    color: #e1e1e1;
+    color: rgb(226, 106, 10);
 }
 .close {
     opacity: 0.4;

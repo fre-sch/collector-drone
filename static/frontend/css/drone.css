@@ -27,6 +27,22 @@
     background-color: rgb(86, 86, 86);
 }
 
+.rarity-standard .panel-heading {
+    color: rgb(229, 162, 13);
+    border-color: rgb(229, 162, 13);
+}
+.rarity-standard .panel-body {
+    color: rgb(229, 162, 13);
+}
+.rarity-standard .btn {
+    color: rgb(229, 162, 13);
+    background-color: rgb(84, 64, 19);
+}
+.rarity-standard .panel-default .panel-heading .badge {
+    color: rgb(229, 162, 13);
+    background-color: rgb(84, 64, 19);
+}
+
 .material-icon {
     display: inline-block;
     vertical-align: middle;
@@ -37,29 +53,31 @@
 }
 
 .rarity-very-rare .material-icon {
-    background: url(icons/material-very-rare.png) no-repeat;
+    background: rgb(218, 218, 218) url(icons/material-very-rare.png) no-repeat;
 }
 
 .rarity-rare .material-icon {
-    background: url(icons/material-rare.png) no-repeat;
+    background: rgb(218, 218, 218) url(icons/material-rare.png) no-repeat;
 }
 
 .rarity-common .material-icon {
-    background: url(icons/material-common.png) no-repeat;
+    background: rgb(226, 106, 10) url(icons/material-common.png) no-repeat;
 }
 
 .rarity-very-common .material-icon {
-    background: url(icons/material-very-common.png) no-repeat;
+    background: rgb(226, 106, 10) url(icons/material-very-common.png) no-repeat;
 }
 
 .rarity-standard .material-icon {
-    background: url(icons/material-standard.png) no-repeat;
+    background: rgb(229, 162, 13) url(icons/material-standard.png) no-repeat;
 }
 
 .blueprint span.title {
     max-width: 5em;
 }
 
-.material span.title {
-    max-width: 5em;
+.material-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

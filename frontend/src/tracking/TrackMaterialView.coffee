@@ -41,6 +41,7 @@ module.exports = Backbone.View.extend
             quantity: @model.get("quantity")
             inventory: @inventory.get("quantity")
             material: @material.toJSON()
+        data.material.typeLabel = @material.typeLabel()
         @$el.html @template(data)
         return this
 
