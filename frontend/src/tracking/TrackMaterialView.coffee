@@ -20,7 +20,9 @@
 module.exports = Backbone.View.extend
     template: _.template $("#track-material-tpl").html()
 
-    className: "col-md-4"
+    className: ->
+        rarity = @material?.get("rarity")?.replace(/\W+/, "-") or "common"
+        "col-md-6 material rarity-#{rarity}"
 
     events:
         "click .inventory-plus": "inventoryPlus"

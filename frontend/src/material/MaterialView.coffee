@@ -24,7 +24,7 @@ module.exports = Backbone.View.extend
 
     className: ->
         rarity = @model.get("rarity").replace(/\W+/, "-")
-        "col-md-4 material rarity-#{rarity}"
+        "col-md-6 material rarity-#{rarity}"
 
     events:
         "click .btn.inventory-minus": "inventoryMinus"

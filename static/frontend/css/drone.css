@@ -1,0 +1,57 @@
+.rarity-very-rare .panel-body,
+.rarity-rare .panel-body {
+    color: rgb(86, 86, 86);
+}
+
+.rarity-very-rare .panel-heading,
+.rarity-rare .panel-heading {
+    color: rgb(218, 218, 218);
+    border-color: rgb(218, 218, 218);
+}
+
+.rarity-very-rare .btn,
+.rarity-rare .btn {
+    color: rgb(218, 218, 218);
+    background-color: rgb(86, 86, 86);
+}
+
+.rarity-very-rare .btn:hover,
+.rarity-rare .btn:hover {
+    color: rgb(22, 22, 22);
+    background-color: rgb(218, 218, 218);
+}
+
+.rarity-very-rare .panel-default .panel-heading .badge,
+.rarity-rare .panel-default .panel-heading .badge {
+    color: rgb(218, 218, 218);
+    background-color: rgb(86, 86, 86);
+}
+
+.material-icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    margin-right: 0.3em;
+    margin-top: -2px;
+}
+
+.rarity-very-rare .material-icon {
+    background: url(icons/material-very-rare.png) no-repeat;
+}
+
+.rarity-rare .material-icon {
+    background: url(icons/material-rare.png) no-repeat;
+}
+
+.rarity-common .material-icon {
+    background: url(icons/material-common.png) no-repeat;
+}
+
+.rarity-very-common .material-icon {
+    background: url(icons/material-very-common.png) no-repeat;
+}
+
+.rarity-standard .material-icon {
+    background: url(icons/material-standard.png) no-repeat;
+}

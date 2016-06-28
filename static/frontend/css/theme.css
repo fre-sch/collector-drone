@@ -1460,8 +1460,8 @@ output {
     padding: 4px 8px;
     font-size: 16px;
     line-height: 1.42857143;
-    color: #e1e1e1;
-    background-color: rgb(22, 22, 22);
+    color: rgb(226, 106, 10);
+    background-color: rgb(18,18,18);
     background-image: none;
     border: none;
     border-radius: 0;
@@ -1472,8 +1472,7 @@ output {
     transition: none;
 }
 .form-control:focus {
-    border: none;
-    outline: 0;
+    outline: 1px solid rgb(83, 46, 18);
     -webkit-box-shadow: none;
     box-shadow: none;
 }
@@ -1833,7 +1832,6 @@ textarea.input-lg, select[multiple].input-lg {
     touch-action: manipulation;
     cursor: pointer;
     background-image: none;
-    /*border: 1px solid rgba(255, 113, 0, 0.3);*/
     white-space: nowrap;
     padding: 4px 8px;
     font-size: 16px;
@@ -1856,8 +1854,8 @@ textarea.input-lg, select[multiple].input-lg {
 .btn:active, .btn.active {
     outline: 0;
     background-image: none;
-    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
     cursor: not-allowed;
@@ -1890,9 +1888,9 @@ a.btn.disabled, fieldset[disabled] a.btn {
     border: none;
 }
 .btn-default:active:hover, .btn-default.active:hover, .open> .dropdown-toggle.btn-default:hover, .btn-default:active:focus, .btn-default.active:focus, .open> .dropdown-toggle.btn-default:focus, .btn-default:active.focus, .btn-default.active.focus, .open> .dropdown-toggle.btn-default.focus {
-    color: #ffffff;
-    background-color: #414e55;
-    border-color: rgba(0, 0, 0, 0);
+    color: rgb(22, 22, 22);
+    background-color: rgb(83, 46, 18);
+    border: none;
 }
 .btn-default:active, .btn-default.active, .open> .dropdown-toggle.btn-default {
     background-image: none;
@@ -2197,11 +2195,11 @@ tbody.collapse.in {
     list-style: none;
     font-size: 16px;
     text-align: left;
-    background-color: #4a5d68;
+    background-color: rgb(0, 0, 0);
     border: 1px solid transparent;
     border-radius: 0;
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    -webkit-box-shadow: none;
+    box-shadow: none;
     background-clip: padding-box;
 }
 .dropdown-menu.pull-right {
@@ -2212,7 +2210,7 @@ tbody.collapse.in {
     height: 1px;
     margin: 10px 0;
     overflow: hidden;
-    background-color: #222222;
+    background-color: rgb(83, 46, 18);
 }
 .dropdown-menu> li> a {
     display: block;
@@ -2220,13 +2218,13 @@ tbody.collapse.in {
     clear: both;
     font-weight: normal;
     line-height: 1.42857143;
-    color: #e1e1e1;
+    color: rgb(83, 46, 18);
     white-space: nowrap;
 }
 .dropdown-menu> li> a:hover, .dropdown-menu> li> a:focus {
     text-decoration: none;
-    color: #e1e1e1;
-    background-color: #3d3d3d;
+    color: rgb(22, 22,22);
+    background-color: rgb(226, 106, 10);
 }
 .dropdown-menu> .active> a, .dropdown-menu> .active> a:hover, .dropdown-menu> .active> a:focus {
     color: #ffffff;
@@ -3837,7 +3835,7 @@ a.list-group-item-danger.active, button.list-group-item-danger.active, a.list-gr
 }
 .panel {
     margin-bottom: 22px;
-    background-color: #2f2f2f;
+    background-color: rgb(22, 22, 22);
     border: 1px solid transparent;
     border-radius: 0;
     -webkit-box-shadow: none;
@@ -3983,8 +3981,8 @@ a.list-group-item-danger.active, button.list-group-item-danger.active, a.list-gr
     border-color: transparent;
 }
 .panel-default> .panel-heading {
-    color: #4a5d68;
-    background-color: #f5f5f5;
+    color: rgb(226, 106, 10);
+    background-color: transparent;
     border-color: transparent;
 }
 .panel-default> .panel-heading+ .panel-collapse> .panel-body {
@@ -5018,9 +5016,6 @@ table .text-muted, .table .text-muted {
 }
 table> thead> tr> th, .table> thead> tr> th, table> tbody> tr> th, .table> tbody> tr> th, table> tfoot> tr> th, .table> tfoot> tr> th, table> thead> tr> td, .table> thead> tr> td, table> tbody> tr> td, .table> tbody> tr> td, table> tfoot> tr> td, .table> tfoot> tr> td {
     border-color: transparent;
-}
-input, textarea {
-    color: #e1e1e1;
 }
 label, .radio label, .checkbox label, .help-block {
     font-size: 16px;
