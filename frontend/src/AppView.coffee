@@ -32,11 +32,21 @@ module.exports = Backbone.View.extend
 
         @listenTo tracking.blueprints, "add", @addTrackBlueprint
         @listenTo tracking.materials, "add", @addTrackMaterial
+        @listenTo tracking.blueprints, "remove", @removeTrackBlueprint
+        @listenTo tracking.materials, "remove", @removeTrackMaterial
         @listenTo tracking.blueprints, "reset", @onTrackBlueprintsReset
         @listenTo tracking.materials, "reset", @onTrackMaterialsReset
 
         new TrackingTabView(model: tracking)
         return this
+
+    removeTrackMaterial: ->
+        if not tracking.materials.length
+            $("#introduction").show()
+
+    removeTrackBlueprint: ->
+        if not tracking.blueprints.length
+            $("#introduction").show()
 
     onTrackBlueprintsReset: (collection, options) ->
         for model in collection.models
@@ -54,7 +64,7 @@ module.exports = Backbone.View.extend
                 model: trackMaterial
                 material: material
                 inventory: inventory.getOrCreate(trackMaterial.id)
-
+            $("#introduction").hide()
             @$trackMaterials.append(view.render().el)
             return
         , this, trackMaterial)
@@ -70,7 +80,7 @@ module.exports = Backbone.View.extend
                 model:
                     trackBlueprint: trackBlueprint
                     blueprint: blueprint
-
+            $("#introduction").hide()
             @$trackBlueprints.append view.render().el
             return this
         , this, trackBlueprint)

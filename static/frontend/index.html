@@ -18,10 +18,8 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title row">
-        <div class="col-xs-1">
-        <span class="material-icon"></span>
-        </div>
-        <div class="col-xs-8 material-title" title="<%= title %>">
+        <div class="col-xs-9 material-title" title="<%= title %>">
+          <span class="material-icon"></span>
           <span class="badge" title="<%= type %>"><%= typeLabel %></span>
           <%= title %>
         </div>
@@ -53,10 +51,8 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title row">
-        <div class="col-xs-1">
+        <div class="col-xs-8 material-title" title="<%= material.title %>">
             <span class="material-icon"></span>
-        </div>
-        <div class="col-xs-7 material-title" title="<%= material.title %>">
             <span class="badge" title="<%= material.type %>"><%= material.typeLabel %></span>
             <%= material.title %>
         </div>
@@ -158,21 +154,25 @@
 <br/>
 
 <div class="container">
-  <div class="well" style="min-height: 30em">
+  <div class="well" style="min-height: 20em">
     <div id="track-toolbar" style="margin-bottom: 1.6em">
       <nav>
         <ul class="nav nav-pills nav-justified" id="track-tab-view">
-          <li><a href="#track-blueprints" data-toggle="pill">
+          <li class="active"><a href="#track-blueprints" data-toggle="pill">
             Blueprints (<span class="num-blueprints">0</span>)</a></li>
-          <li class="active"><a href="#track-materials" data-toggle="pill">
+          <li><a href="#track-materials" data-toggle="pill">
             Materials (<span class="num-materials">0</span>)</a></li>
         </ul>
       </nav>
     </div>
 
     <div class="tab-content">
-      <div class="tab-pane row" id="track-blueprints"></div>
-      <div class="tab-pane active row" id="track-materials"></div>
+      <div class="text-center" id="introduction">
+        <h4 style="margin-top:4em;">Welcome to Collector-Drone<br/><br/>
+        To get started, add a blueprint or material by pressing "START COLLECTING".</h4>
+      </div>
+      <div class="tab-pane active row" id="track-blueprints"></div>
+      <div class="tab-pane row" id="track-materials"></div>
     </div>
   </div>
 
@@ -205,7 +205,7 @@
             </ul>
           </div>
         </div>
-        <div class="col-xs-3 col-md-2 blueprints-filter-level">
+        <div class="col-xs-4 col-md-2 blueprints-filter-level">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
                 id="menu-filter-3" data-toggle="dropdown"
@@ -219,7 +219,7 @@
             </ul>
           </div>
         </div>
-        <div class="col-md-2 col-md-push-5 col-xs-5 text-right blueprints-sort">
+        <div class="col-md-2 col-md-push-5 col-xs-4 text-right blueprints-sort">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
                 id="sort-by-2" data-toggle="dropdown"
