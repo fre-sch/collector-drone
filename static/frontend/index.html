@@ -36,7 +36,7 @@
     </div>
     <div class="panel-footer">
       <div class="btn-group btn-group-justified">
-        <a href="#" class="btn btn-default btn-sm favorite"><span
+        <a href="#" class="btn btn-default btn-sm track"><span
             class="glyphicon glyphicon-plus"></span> Start Collecting
         </a>
       </div>
@@ -48,7 +48,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title">
-        <span class="material-icon"></span><%= material.title %>
+        <span class="material-icon"></span><span class="title"><%= material.title %></span>
         <span class="badge" style="text-transform:capitalize"><%= material.type %></span>
         <div class="pull-right">
           <span class="inventory"><%= inventory %></span>
@@ -80,7 +80,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title">
-        <%= title %> <span class="badge"><%= level %></span>
+        <span class="title"><%= title %></span> <span class="badge"><%= level %></span>
         <span class="badge"><%=type%></span>
         <div class="pull-right">
           <% if (tracked) { %>

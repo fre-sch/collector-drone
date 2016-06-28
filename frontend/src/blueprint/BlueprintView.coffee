@@ -20,7 +20,7 @@ tracking = require './tracking'
 ### BlueprintView ###
 module.exports = Backbone.View.extend
     template: _.template $("#blueprint-tpl").html()
-    className: "col-md-6 blueprint"
+    className: "col-sm-6 blueprint"
 
     events:
         "click a.track": "track"
