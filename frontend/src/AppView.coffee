@@ -41,11 +41,11 @@ module.exports = Backbone.View.extend
         return this
 
     removeTrackMaterial: ->
-        if not tracking.materials.length
+        if not tracking.materials.length and not tracking.blueprints.length
             $("#introduction").show()
 
     removeTrackBlueprint: ->
-        if not tracking.blueprints.length
+        if not tracking.materials.length and not tracking.blueprints.length
             $("#introduction").show()
 
     onTrackBlueprintsReset: (collection, options) ->
