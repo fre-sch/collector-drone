@@ -2,9 +2,15 @@
 Collector-Drone
 ===============
 
-Companion web-app for Elite: Dangerous, manage blueprints and material inventory
+Unofficial companion web-app for Elite: Dangerous (property of Frontier
+Developments). Collector-Drone lets you manage blueprints and material inventory
 for crafting engineer upgrades.
 
+Data pulled from `Engineering Database & Calculator <https://forums.frontier.co.uk/showthread.php/248275>`_
+gathered by `Qohen-Leth <https://forums.frontier.co.uk/member.php/118579-Qohen-Leth>`_.
+Icons and colors by `edassets.org <http://www.edassets.org/>`_.
+Checkout the `source at github <https://github.com/fre-sch/collector-drone>`_.
+Copyright 2016  Frederik Schumacher
 
 *****
 Setup

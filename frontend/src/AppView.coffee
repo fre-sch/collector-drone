@@ -1,4 +1,5 @@
-# Companion web-app for Elite: Dangerous, manage blueprints and material
+# Unofficial companion web-app for Elite: Dangerous (property of Frontier
+# Developments). Collector-Drone lets you manage blueprints and material
 # inventory for crafting engineer upgrades.
 # Copyright (C) 2016  Frederik Schumacher
 #
@@ -14,6 +15,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 inventory = require './inventory'
 tracking = require "./tracking"
 TrackBlueprintView = require './TrackBlueprintView'
