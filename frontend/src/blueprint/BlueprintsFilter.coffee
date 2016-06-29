@@ -25,11 +25,6 @@ module.exports = Backbone.Model.extend
         search: ""
         sort: null
 
-    loadTypes: ->
-        $.ajax
-            url: "/blueprints/types"
-            method: "GET"
-
     loadLevels: ->
         [1, 2, 3, 4, 5]
 
@@ -38,9 +33,11 @@ module.exports = Backbone.Model.extend
             type = model.get("type")
             level = model.get("level")
             title = model.get("title")?.toLowerCase()
-            (if @get("type") then @get("type") == type else true
-            ) and (if @get("level") then @get("level") == level else true
-            ) and (if @get("search") then title.indexOf(@get("search").toLowerCase()) >= 0 else true)
+            _.every([
+                if @get("type") then @get("type") == type else true,
+                if @get("level") then @get("level") == level else true,
+                if @get("search") then title.indexOf(@get("search").toLowerCase()) >= 0 else true
+            ])
 
     sort: ->
         sort = @get "sort"

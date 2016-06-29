@@ -24,7 +24,6 @@ module.exports = Backbone.Model.extend
         type: ""
         rarity: ""
         locations: []
-    urlRoot: "/materials"
 
     typeLabel: ->
         switch(@get "type")

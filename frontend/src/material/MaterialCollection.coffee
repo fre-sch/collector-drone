@@ -20,12 +20,6 @@ MaterialModel = require './MaterialModel'
 ### MaterialCollection ###
 module.exports = Backbone.Collection.extend
     model: MaterialModel
-    url: "/materials"
-    total: 0
-
-    parse: (data) ->
-        @total = data.count
-        data.items
 
     fetchOne: (id, options) ->
         mdl = @add(id: id)

@@ -28,8 +28,10 @@ module.exports = Backbone.Model.extend
         (model) =>
             type = model.get("type")
             title = model.get("title")?.toLowerCase()
-            (if @get("type") then @get("type") == type else true
-            ) and (if @get("search") then title.indexOf(@get("search").toLowerCase()) >= 0 else true)
+            _.every([
+                if @get("type") then @get("type") == type else true,
+                if @get("search") then title.indexOf(@get("search").toLowerCase()) >= 0 else true
+            ])
 
     sort: ->
         sort = @get "sort"
@@ -41,8 +43,3 @@ module.exports = Backbone.Model.extend
                 return (a, b) -> utils.cmp(b.get(field), a.get(field))
             else if dir == "asc"
                 return (a, b) -> utils.cmp(a.get(field), b.get(field))
-
-    loadTypes: ->
-        $.ajax
-            url: "/materials/types"
-            method: "GET"

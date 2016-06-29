@@ -57,23 +57,11 @@ App = ->
         el: $("#materials-filter")
         model: materialsFilter
 
-    materialsFilter.loadTypes()
-        .done (result) ->
-            items = []
-            for item in result.items
-                if item != null
-                    items.push label: item, value: item
-            materialsFilterView.typeMenuModel.set items: items
-            return
+    materialsFilterView.typeMenuModel.set
+        items: CollectorDroneData.materialTypes
 
-    blueprintsFilter.loadTypes()
-        .done (result) ->
-            items = []
-            for item in result.items
-                if item != null
-                    items.push label: item, value: item
-            blueprintsFilterView.typeMenuModel.set items: items
-            return
+    blueprintsFilterView.typeMenuModel.set
+        items: CollectorDroneData.blueprintTypes
 
     blueprintsFilterView.levelMenuModel.set items:
         for item in blueprintsFilter.loadLevels()
@@ -87,8 +75,8 @@ App = ->
         blueprints: blueprintsFiltered
         materials: materialsFiltered
 
-    blueprintsFiltered.fetch(reset: true)
-    materialsFiltered.fetch(reset: true, data: {with: "locations"})
+    blueprintsFiltered._source.reset(CollectorDroneData.blueprints)
+    materialsFiltered._source.reset(CollectorDroneData.materials)
     inventory.fetch(reset: true)
     tracking.materials.fetch(reset: true)
     tracking.blueprints.fetch(reset: true)

@@ -23,4 +23,3 @@ module.exports = Backbone.Model.extend
         ingredients: []
         engineers: {}
         tracked: false
-    urlRoot: "/blueprints"

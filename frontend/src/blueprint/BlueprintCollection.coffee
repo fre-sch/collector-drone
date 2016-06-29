@@ -21,14 +21,6 @@ BlueprintModel = require "./BlueprintModel"
 module.exports = Backbone.Collection.extend
     model: BlueprintModel
 
-    url: "/blueprints"
-
-    total: 0
-
-    parse: (data) ->
-        @total = data.count
-        data.items
-
     getOrFetch: (id, options) ->
         mdl = @get(id)
         if mdl
