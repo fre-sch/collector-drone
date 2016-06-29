@@ -20,9 +20,7 @@
 module.exports = Backbone.View.extend
     template: _.template $("#track-material-tpl").html()
 
-    className: ->
-        rarity = @material?.get("rarity")?.replace(/\W+/, "-") or "common"
-        "col-sm-6 material rarity-#{rarity}"
+    className: "col-sm-6 material"
 
     events:
         "click .inventory-plus": "inventoryPlus"
@@ -43,6 +41,8 @@ module.exports = Backbone.View.extend
             material: @material.toJSON()
         data.material.typeLabel = @material.typeLabel()
         @$el.html @template(data)
+        rarity = data.material.rarity.replace(/\W+/, "-")
+        @$el.addClass "rarity-#{rarity}"
         return this
 
     update: ->
