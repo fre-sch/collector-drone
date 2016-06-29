@@ -7,5 +7,5 @@ __pycache__
 config.yml
 .tags
 .tags1
-frontend/build
 *.log
+static/

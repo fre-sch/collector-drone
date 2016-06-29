@@ -18,8 +18,21 @@ module.exports = function(grunt) {
     browserify: {
       dist: {
         src: 'build/App.js',
-        dest: '../static/frontend/js/dist/app.js'
+        dest: 'build/dist/app.js'
       }
+    },
+    copy: {
+        static: {
+            expand: true,
+            src: ["static/**"],
+            dest: "../"
+        },
+        dist: {
+            expand: true,
+            cwd: "build/dist/",
+            src: ["app.js"],
+            dest: "../static/js/dist/"
+        }
     },
     watch: {
       scripts: {
@@ -34,8 +47,14 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-browserify');
 
-  grunt.registerTask('default', ['coffee:compile', 'browserify:dist']);
+  grunt.registerTask('default', [
+      'coffee:compile',
+      'browserify:dist',
+      "copy:static",
+      "copy:dist"
+  ]);
 
 };

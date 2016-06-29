@@ -85,7 +85,7 @@ def parse_sort(value, cls):
 
 @app.route("/", methods=["GET"])
 def index():
-    return redirect(url_for('static', filename='frontend/index.html'))
+    return redirect(url_for('static', filename='index.html'))
 
 
 @app.route("/materials", methods=["GET"])
