@@ -23,10 +23,10 @@ module.exports = Backbone.View.extend
         "click .previous": "previous"
         "click .next": "next"
 
-    next: ->
+    next: (event)->
         @model.next()
         event.preventDefault()
 
-    previous: ->
+    previous: (event)->
         @model.previous()
         event.preventDefault()

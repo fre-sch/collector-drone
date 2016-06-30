@@ -41,7 +41,7 @@ module.exports = Backbone.View.extend
         item = @model.get "selected"
         @$button.html item.label
 
-    itemClicked: ->
+    itemClicked: (event)->
         $target = $(event.target)
         item =
             value: $target.data "value"

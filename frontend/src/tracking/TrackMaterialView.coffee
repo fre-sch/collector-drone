@@ -50,23 +50,23 @@ module.exports = Backbone.View.extend
         @$el.find("span.inventory").html(@inventory.get("quantity"))
         @$el.find("span.quantity").html @model.get("quantity")
 
-    inventoryPlus: ->
+    inventoryPlus: (event)->
         @inventory.quantityPlus 1
         event.preventDefault()
         this
 
-    inventoryMinus: ->
+    inventoryMinus: (event)->
         @inventory.quantityPlus -1
         event.preventDefault()
         this
 
-    removeTrack: ->
+    removeTrack: (event)->
         @model.quantityPlus -1
         @model.destroy() if @model.get("quantity") <= 0
         event.preventDefault()
         this
 
-    addTrack: ->
+    addTrack: (event)->
         @model.quantityPlus 1
         event.preventDefault()
         this

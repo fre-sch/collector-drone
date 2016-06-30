@@ -34,7 +34,7 @@ module.exports = Backbone.View.extend
         @$el.html @template(@model.toJSON())
         return this
 
-    track: ->
+    track: (event)->
         tracking.trackBlueprint(@model)
         event.preventDefault()
         this

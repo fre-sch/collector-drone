@@ -47,17 +47,17 @@ module.exports = Backbone.View.extend
         @$el.html @template(data)
         this
 
-    inventoryPlus: ->
+    inventoryPlus: (event)->
         @inventoryItem.quantityPlus 1
         event.preventDefault()
         this
 
-    inventoryMinus: ->
+    inventoryMinus: (event)->
         @inventoryItem.quantityPlus -1
         event.preventDefault()
         this
 
-    track: ->
+    track: (event)->
         tracking.trackMaterial @model
         event.preventDefault()
         this
