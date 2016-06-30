@@ -91,3 +91,8 @@
         clear: left;
     }
 }
+.caret-right .caret {
+    position: absolute;
+    top: 0.8em;
+    right: 0.6em;
+}
