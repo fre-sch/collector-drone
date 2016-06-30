@@ -91,6 +91,33 @@
         clear: left;
     }
 }
+#introduction {
+    margin: -1em -4px -4px -4px;
+}
+#introduction .item {
+    min-height: 20em;
+}
+.carousel-caption {
+    position:static;
+    margin: 0 15%;
+    color: inherit;
+    font-size: 1.3em;
+}
+.carousel-control {
+    color: inherit;
+}
+.carousel-control:hover, .carousel-control:focus {
+    color: rgb(226, 106, 10);
+}
+.carousel-indicators li {
+    border-color: inherit;
+}
+.carousel-indicators .active {
+    background-color: rgb(226, 106, 10);
+}
+.carousel-indicators .active {
+    background-color: rgb(226, 106, 10);
+}
 .caret-right .caret {
     position: absolute;
     top: 0.8em;

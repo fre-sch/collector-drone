@@ -190,10 +190,74 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     <div class="tab-content">
-      <div class="text-center" id="introduction">
-        <h4 style="margin-top:4em;">Welcome to Collector-Drone<br/><br/>
-        To get started, add a blueprint or material by pressing "START COLLECTING".</h4>
-      </div>
+
+        <div id="introduction" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#introduction" data-slide-to="0" class="active"></li>
+            <li data-target="#introduction" data-slide-to="1"></li>
+            <li data-target="#introduction" data-slide-to="2"></li>
+            <li data-target="#introduction" data-slide-to="3"></li>
+          </ol>
+
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner" role="listbox">
+            <div class="item active">
+              <div class="carousel-caption">
+                  <h3>Welcome to Collector-Drone</h3>
+                  <p>With collector-drone you can search and filter for
+                  blueprints and materials. Once you've found a blueprint or
+                  material you'd like to pursue, you can "START COLLECTING". The
+                  blueprint and its required materials will then be added to
+                  this upper tracking area.</p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="carousel-caption">
+                  <h3>Material Inventory</h3>
+                  <p>Collector-drone keeps count of your material inventory. You
+                  can increase and decrease the inventory quantity for a
+                  material by using the plus and minus buttons.</p>
+                  <p>If you remove a blueprint from the tracking area, its
+                  associated materials will be removed as well according to the
+                  required quantity.</p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="carousel-caption">
+                  <h3>Crafting Blueprints</h3>
+                  <p>If you craft a blueprint, the required materials will have
+                  their inventory quantity reduced. Beware that you can craft a
+                  blueprint even if all inventory quantities equal zero.</p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="carousel-caption">
+                  <h3>Locally stored</h3>
+                  <p>Unfortunately, you'll have to keep the material inventory
+                  synchronized yourself, there's still no way to synchronize
+                  automatically with your Elite: Dangerous account. The tracking
+                  and inventory state are stored locally on your computer (using
+                  a browser technology called LocalStorage).</p>
+                  <p>So the next time you come around, your inventory will be as
+                  you left it.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <a class="left carousel-control" href="#introduction"
+                role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#introduction"
+                role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+
       <div class="tab-pane active row" id="track-blueprints"></div>
       <div class="tab-pane row" id="track-materials"></div>
     </div>
