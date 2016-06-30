@@ -45,5 +45,4 @@ module.exports = Backbone.View.extend
         view = new MaterialView(model: model)
         el = view.render().el
         @$el.append el
-        @$el.append '<div class="clearfix"></div>' if i % 2 == 1
         return this
