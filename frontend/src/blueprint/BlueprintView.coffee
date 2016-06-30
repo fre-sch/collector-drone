@@ -36,3 +36,5 @@ module.exports = Backbone.View.extend
 
     track: ->
         tracking.trackBlueprint(@model)
+        event.preventDefault()
+        this
