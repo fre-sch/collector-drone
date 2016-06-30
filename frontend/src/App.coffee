@@ -48,10 +48,12 @@ App = ->
 
     @blueprintsCollectionView = new BlueprintsCollectionView
         model: blueprintsFiltered
+        filter: blueprintsFilter
         pager: new PagerModel(collection: blueprintsFiltered)
 
     @materialsCollectionView = new MaterialsCollectionView
         model: materialsFiltered
+        filter: materialsFilter
         pager: new PagerModel(collection: materialsFiltered)
 
     blueprintsFilterView = new BlueprintsFilterView

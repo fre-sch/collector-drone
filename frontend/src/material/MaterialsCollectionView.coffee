@@ -24,7 +24,9 @@ module.exports = Backbone.View.extend
     el: $("#materials-collection-view .collection-items")
 
     initialize: (options) ->
-        {@pager} = options
+        {@filter, @pager} = options
+
+        @filter.on "change", => @pager.set offset: 0
 
         new PagerView
             el: "#materials-collection-view .pager"

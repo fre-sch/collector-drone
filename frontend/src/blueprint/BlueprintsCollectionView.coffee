@@ -27,6 +27,8 @@ module.exports = Backbone.View.extend
     initialize: (options) ->
         {@filter, @pager} = options
 
+        @filter.on "change", => @pager.set offset: 0
+
         new PagerView
             el: "#blueprints-collection-view .pager"
             model: @pager
