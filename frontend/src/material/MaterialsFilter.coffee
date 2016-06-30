@@ -40,7 +40,11 @@ module.exports = Backbone.Model.extend
             [field, dir] = sort.split(",")
             if field == "inventory"
                 return (model) -> model.inventoryQuantity()
+            else if field == "rarity" and dir == "asc"
+                return (model) -> -model.raritySort()
+            else if field == "rarity" and dir == "desc"
+                return (model) -> model.raritySort()
             else if dir == "desc"
-                return (a, b) -> utils.cmp(b.get(field), a.get(field))
+                return (a, b) -> utils.cmp b.get(field), a.get(field)
             else if dir == "asc"
-                return (a, b) -> utils.cmp(a.get(field), b.get(field))
+                return (a, b) -> utils.cmp a.get(field), b.get(field)

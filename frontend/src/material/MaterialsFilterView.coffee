@@ -29,11 +29,11 @@ module.exports = Backbone.View.extend
         @typeMenuModel = new MenuModel
         @sortMenuModel = new MenuModel
 
-        new MenuView
+        @sortMenuView = new MenuView
             el: @$el.find(".materials-sort")
             model: @sortMenuModel
 
-        new MenuView
+        @typeMenuView = new MenuView
             el: @$el.find(".materials-filter-type")
             model: @typeMenuModel
 
@@ -42,8 +42,8 @@ module.exports = Backbone.View.extend
             {label: "Title Z-A", value: "title,desc"}
             {label: "Type A-Z", value: "type,asc"}
             {label: "Type Z-A", value: "type,desc"}
-            {label: "Rarity A-Z", value: "rarity,asc"}
-            {label: "Rarity Z-A", value: "rarity,desc"}
+            {label: "Rarity Asc", value: "rarity,asc"}
+            {label: "Rarity Desc", value: "rarity,desc"}
             {label: "Inventory", value: "inventory"}
         ]
 

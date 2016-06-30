@@ -26,6 +26,9 @@ module.exports = Backbone.Model.extend
         rarity: ""
         locations: []
 
+    raritySort: ->
+        ["very rare", "rare", "standard", "common", "very common"].indexOf @get("rarity")
+
     typeLabel: ->
         switch(@get "type")
             when "element" then "el"
