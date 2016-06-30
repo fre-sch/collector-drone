@@ -79,9 +79,9 @@ App = ->
         blueprints: blueprintsFiltered
         materials: materialsFiltered
 
+    inventory.fetch(reset: true)
     blueprintsFiltered._source.reset(CollectorDroneData.blueprints)
     materialsFiltered._source.reset(CollectorDroneData.materials)
-    inventory.fetch(reset: true)
     tracking.materials.fetch(reset: true)
     tracking.blueprints.fetch(reset: true)
     return this
