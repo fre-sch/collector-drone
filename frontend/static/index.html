@@ -183,7 +183,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <div class="tab-content">
 
-        <div id="introduction" class="carousel slide" data-ride="carousel">
+        <div id="introduction" class="carousel slide" data-ride="carousel"
+          data-interval="7000">
           <!-- Indicators -->
           <ol class="carousel-indicators">
             <li data-target="#introduction" data-slide-to="0" class="active"></li>
@@ -229,8 +230,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                   <p>Unfortunately, you'll have to keep the material inventory
                   synchronized yourself, there's still no way to synchronize
                   automatically with your Elite: Dangerous account. The tracking
-                  and inventory state are stored locally on your computer (using
-                  a browser technology called LocalStorage).</p>
+                  and inventory state are stored locally on your computer.</p>
                   <p>So the next time you come around, your inventory will be as
                   you left it.</p>
               </div>
@@ -267,9 +267,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ul>
   </nav>
   <div class="tab-content">
-    <div id="blueprints-collection-view" class="row tab-pane active">
+    <div id="blueprints-collection-view" class="tab-pane active">
       <div id="blueprints-filter" style="margin-bottom:1.6em"
-          class="clearfix">
+          class="row">
         <div class="col-xs-4 col-md-3 blueprints-filter-type">
           <div class="btn-group" style="width:100%">
             <button class="btn btn-default dropdown-toggle" type="button"
@@ -318,13 +318,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             placeholder="Search..."/>
         </div>
       </div>
-      <div class="collection-items"></div>
-      <nav class="col-md-12">
-        <ul class="pager" style="margin-top:0">
-          <li class="previous"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span> Previous</a></li>
-          <li class="next"><a href="#">Next <span class="glyphicon glyphicon-chevron-right"></span></a></li>
-        </ul>
-      </nav>
+      <div class="collection-items row"></div>
+      <div class="row">
+        <nav class="col-xs-12">
+          <ul class="pager" style="margin-top:0">
+            <li class="previous"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span> Previous</a></li>
+            <li class="next"><a href="#">Next <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
 
     <div id="materials-collection-view" class="row tab-pane">
