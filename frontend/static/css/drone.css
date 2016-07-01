@@ -72,8 +72,10 @@
     background: rgb(229, 162, 13) url(icons/material-standard.png) no-repeat;
 }
 
-.blueprint span.title {
-    max-width: 5em;
+.blueprint .panel-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .material-title {
@@ -81,7 +83,11 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
+.track-blueprint .title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
 @media (min-width: 768px) {
     #blueprints-collection-view .collection-items .col-sm-6:nth-child(2n+1),
@@ -96,6 +102,11 @@
 }
 #introduction .item {
     min-height: 20em;
+}
+@media (max-width: 767px) {
+    #introduction .item {
+        min-height: 30em;
+    }
 }
 .carousel-caption {
     position:static;
@@ -122,4 +133,10 @@
     position: absolute;
     top: 0.8em;
     right: 0.6em;
+}
+
+@media (max-width: 767px) {
+    .panel {
+        margin-bottom: 8px;
+    }
 }
