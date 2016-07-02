@@ -56,8 +56,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </div>
     </div>
     <div class="panel-body">
-        <% for(var i=0, t=[]; i<locations.length; t.push(locations[i++].title));
-        print(t.join(", ")) %>
+        <% for(var i=0; i<locations.length; ++i) { %>
+            <span class="location"><%=locations[i].title%></span>
+        <% } %>
     </div>
     <div class="panel-footer">
       <div class="btn-group btn-group-justified">
@@ -73,12 +74,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title row">
-        <div class="col-xs-7 col-md-8 material-title" title="<%= material.title %>">
+        <div class="col-xs-8 col-md-9 material-title" title="<%= material.title %>">
             <span class="material-icon"></span>
             <span class="badge" title="<%= material.type %>"><%= material.typeLabel %></span>
             <%= material.title %>
         </div>
-        <div class="col-xs-5 col-md-4 text-right">
+        <div class="col-xs-4 col-md-3 text-right">
           <span class="inventory"><%= inventory %></span>
           / <span class="quantity"><%= quantity %></span>
           <a href="#" class="btn btn-default btn-sm inventory-minus">
@@ -89,8 +90,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </div>
     </div>
     <div class="panel-body">
-        <% for(var i=0, t=[]; i<material.locations.length; t.push(material.locations[i++].title));
-        print(t.join(", ")) %>
+        <% for(var i=0; i<material.locations.length; ++i) { %>
+            <span class="location"><%=material.locations[i].title%></span>
+        <% } %>
     </div>
     <div class="panel-footer">
       <div class="btn-group btn-group-justified">

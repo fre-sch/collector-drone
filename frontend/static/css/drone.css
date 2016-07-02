@@ -89,6 +89,39 @@
     text-overflow: ellipsis;
 }
 
+.track-material .location,
+.material .location {
+    display: inline-block;
+    padding: .2em .6em .3em;
+    margin: .4em .4em .4em 0;
+    font-weight: normal;
+    line-height: 1;
+    text-align: center;
+    vertical-align: baseline;
+    border-radius: 1em;
+    background: rgb(83, 46, 18);
+}
+
+@media (max-width: 767px) {
+    .track-material .location,
+    .material .location {
+        margin: .2em .4em .2em 0;
+    }
+}
+
+.track-material.rarity-rare .location,
+.track-material.rarity-very-rare .location,
+.material.rarity-rare .location,
+.material.rarity-very-rare .location {
+    color: rgb(218, 218, 218);
+    background-color: rgb(86, 86, 86);
+}
+.track-material.rarity-standard .location,
+.material.rarity-standard .location {
+    color: rgb(229, 162, 13);
+    background-color: rgb(84, 64, 19);
+}
+
 @media (min-width: 768px) {
     #blueprints-collection-view .collection-items .col-sm-6:nth-child(2n+1),
     #materials-collection-view .collection-items .col-sm-6:nth-child(2n+1),

@@ -5088,7 +5088,7 @@ label, .radio label, .checkbox label, .help-block {
     border-bottom: 1px solid rgb(226, 106, 10);
     color: rgb(226, 106, 10);
     border-radius: 0;
-    font-weight: 900;
+    font-weight: bold;
 }
 .thumbnail {
     background-color: #2f2f2f;
