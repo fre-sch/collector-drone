@@ -43,6 +43,11 @@
     background-color: rgb(84, 64, 19);
 }
 
+.rarity-standard .btn:hover {
+    color: rgb(22, 22, 22);
+    background-color: rgb(229, 162, 13);
+}
+
 .material-icon {
     display: inline-block;
     vertical-align: middle;
