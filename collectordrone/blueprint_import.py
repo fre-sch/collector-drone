@@ -141,14 +141,13 @@ def ingredients_factory(db, blueprint, row):
         quantity = ingr["quantity"] or "0"
         inst = db.query(Ingredient).filter(
             Ingredient.blueprint == blueprint,
-            Ingredient.material == material,
-            Ingredient.quantity == quantity
+            Ingredient.material == material
         ).first()
-        if not inst:
+        if not inst and ingr["quantity"]:
             ingredient = Ingredient(
                 blueprint=blueprint,
                 material=material_factory(db, ingr["title"]),
-                quantity=ingr["quantity"] or "0"
+                quantity=ingr["quantity"]
             )
             db.add(ingredient)
 
