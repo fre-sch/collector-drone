@@ -103,6 +103,9 @@ class Location(Base):
             d["materials"] = [r.to_dict() for r in self.materials]
         return d
 
+    def __repr__(self):
+        return repr(self.to_dict())
+
 
 class Blueprint(Base):
     __tablename__ = "blueprint"

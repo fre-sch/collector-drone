@@ -1,3 +1,4 @@
+# coding=utf-8
 # Unofficial companion web-app for Elite: Dangerous (property of Frontier
 # Developments). Collector-Drone lets you manage blueprints and material
 # inventory for crafting engineer upgrades.
@@ -15,14 +16,17 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from models import Material, Location, tbl_location_material
+from utils import DotDict
 import click
 import csv
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
-from utils import DotDict
 import yaml
-
-from models import Material, Location
+import requests
+from pprint import pprint
+from collections import defaultdict
+import re
 
 
 def rarity(val):
@@ -41,6 +45,20 @@ def material_type(val):
     return enum.get(val.lower(), val.lower())
 
 
+def iq(a, b):
+    return a.lower() == b.lower()
+
+
+def slugify(val):
+    return re.sub(ur"\W+", "_", val.lower())
+
+
+def location_part_tpl(prefix, value):
+    if not value:
+        return None
+    return u"{}{}".format(prefix, value)
+
+
 def location_factory(db, mat, row):
     for location in row.get("locations", []):
         inst = db.query(Location).filter(
@@ -52,10 +70,14 @@ def location_factory(db, mat, row):
         db.add(inst)
 
 
-def material_factory(db, row):
-    inst = db.query(Material).filter(
-        func.lower(Material.title) == func.lower(row["title"])
+def material_get(db, title):
+    return db.query(Material).filter(
+        func.lower(Material.title) == func.lower(title)
     ).first()
+
+
+def material_factory(db, row):
+    inst = material_get(db, row["title"])
     if inst:
         if "type" in row:
             inst.type = material_type(row["type"])
@@ -130,6 +152,68 @@ def inara_import(csvfile):
                     (l.strip() for l in row["locations"].split(","))
                 )
             material_factory(db, row)
+    db.commit()
+
+
+@cli.command()
+@click.argument("spreadsheet_id")
+@click.argument("sheet_name")
+@click.argument("sheet_range")
+def edgrind_import(spreadsheet_id, sheet_name, sheet_range):
+    config = _load_config()
+    db = _configure_db(config)
+    url_tpl = 'https://sheets.googleapis.com/v4/spreadsheets/{id}/values/{name}!{range}'
+    url = url_tpl.format(id=spreadsheet_id, name=sheet_name, range=sheet_range)
+    params = dict(key=config["gapi.key"])
+
+    resp = requests.get(url, params=params)
+    assert resp.status_code == 200, "googleapi request error: {}".format(resp.content)
+    data = resp.json()
+    rows = data["values"]
+    headers = [slugify(it.strip()) for it in rows.pop(0)]
+
+    db.query(Location).delete()
+    tbl_location_material.delete()
+
+    for row in rows:
+        item = dict(zip(headers, [it.strip() for it in row]))
+
+        locations = []
+
+        if item.get("loc_1", u""):
+            locations.append(Location(title=item["loc_1"]))
+
+        if item.get("loc_2", u""):
+            locations.append(Location(title=item["loc_2"]))
+
+        if iq(item.get("mission_reward", u""), u"yes"):
+            if item.get("mission_data"):
+                mission_title = "Mission Reward: " + item["mission_data"]
+            else:
+                mission_title = "Mission Reward"
+            locations.append(Location(title=mission_title))
+
+        locations.extend([Location(title=it) for it in filter(None, [
+            location_part_tpl("Faction: ", item.get("power_faction")),
+            location_part_tpl("Economy: ", item.get("system_economy")),
+            location_part_tpl("Government: ", item.get("system_government")),
+            location_part_tpl("State: ", item.get("system_state")),
+            location_part_tpl("Ship Types: ", item.get("ship_types")),
+        ])])
+
+        material = material_get(db, item["component"])
+        assert material, "failed to find material: " + item["component"]
+        material.locations[:] = []
+        for location in locations:
+            inst = db.query(Location).filter(
+                func.lower(Location.title) == func.lower(location.title)
+            ).first()
+            if inst:
+                material.locations.append(inst)
+            else:
+                material.locations.append(location)
+        db.add(material)
+
     db.commit()
 
 
