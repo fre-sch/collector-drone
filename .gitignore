@@ -1,11 +1,11 @@
-env/
-data/
+/env
+/data
+/.idea
+/config.yml
+/static
 data.db
 *.pyc
 __pycache__
-.idea/
-config.yml
 .tags
 .tags1
 *.log
-static/
