@@ -12,6 +12,8 @@ Icons and colors by `edassets.org <http://www.edassets.org/>`_.
 Checkout the `source at github <https://github.com/fre-sch/collector-drone>`_.
 Copyright 2016  Frederik Schumacher
 
+`http://collector-drone.one/ <http://collector-drone.one/>`_
+
 *****
 Setup
 *****
