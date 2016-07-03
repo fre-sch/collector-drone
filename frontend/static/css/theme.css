@@ -1833,8 +1833,8 @@ textarea.input-lg, select[multiple].input-lg {
     cursor: pointer;
     background-image: none;
     white-space: nowrap;
-    padding: 4px 8px;
-    font-size: 16px;
+    padding: 0.2em 0.4em;
+    font-size: 1.2em;
     line-height: 1.42857143;
     border-radius: 0;
     -webkit-user-select: none;
@@ -3868,7 +3868,7 @@ a.list-group-item-danger.active, button.list-group-item-danger.active, a.list-gr
 .panel-title {
     margin-top: 0;
     margin-bottom: 0;
-    font-size: 18px;
+    font-size: 1.4em;
     color: inherit;
 }
 .panel-title> a, .panel-title> small, .panel-title> .small, .panel-title> small> a, .panel-title> .small> a {
@@ -4976,7 +4976,7 @@ button.close {
     border: none;
 }
 .btn-sm, .btn-xs {
-    font-size: 12px;
+    font-size: 0.6em;
 }
 body {
     font-weight: 300;

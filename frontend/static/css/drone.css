@@ -178,3 +178,9 @@
         margin-bottom: 8px;
     }
 }
+
+@media (max-width: 767px) {
+    body {
+        font-size: 12px;
+    }
+}

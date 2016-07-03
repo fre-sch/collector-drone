@@ -56,8 +56,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </div>
     </div>
     <div class="panel-body">
-        <% for(var i=0; i<locations.length; ++i) { %>
-            <span class="location"><%=locations[i].title%></span>
+        <%
+        var titles = locations.map(function(it){return it.title});
+        titles.sort(function(a,b){return a.length-b.length});
+        for(var i=0; i<titles.length; ++i) { %>
+            <span class="location"><%=titles[i]%></span>
         <% } %>
     </div>
     <!--
@@ -92,8 +95,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </div>
     </div>
     <div class="panel-body">
-        <% for(var i=0; i<material.locations.length; ++i) { %>
-            <span class="location"><%=material.locations[i].title%></span>
+        <%
+        var titles = material.locations.map(function(it){return it.title});
+        titles.sort(function(a,b){return a.length-b.length});
+        for(var i=0; i<titles.length; ++i) { %>
+            <span class="location"><%=titles[i]%></span>
         <% } %>
     </div>
     <!--
@@ -131,7 +137,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     <div class="panel-footer">
       <div class="btn-group btn-group-justified">
-          <a href="#" class="btn btn-default btn-sm track"><span
+          <a href="#" class="btn btn-default track"><span
               class="glyphicon glyphicon-plus"></span>
             Start Collecting</a>
       </div>
@@ -163,9 +169,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     <div class="panel-footer">
       <div class="btn-group btn-group-justified">
-        <a href="#" class="btn btn-default btn-sm remove"><span
+        <a href="#" class="btn btn-default remove"><span
             class="glyphicon glyphicon-remove"></span> Remove</a>
-        <a href="#" class="btn btn-default btn-sm craft"><span
+        <a href="#" class="btn btn-default craft"><span
             class="glyphicon glyphicon-ok"></span> Craft</a>
       </div>
     </div>
