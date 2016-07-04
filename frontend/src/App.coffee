@@ -34,9 +34,20 @@ tracking = require './tracking'
 inventory = require './inventory'
 
 
+fix_stuck_materials = ()->
+    tbp = localStorage.getItem("trackBlueprint")
+    tm = localStorage.getItem("trackMaterial")
+    if tbp?.length == 0 and tm?.length > 0
+        for id in tm.split ","
+            localStorage.removeItem("trackMaterial-#{id}")
+        localStorage.removeItem("trackMaterial")
+    return
+
 ### App.js ###
 App = ->
     $.ajaxSetup(contentType: "application/json")
+
+    fix_stuck_materials()
 
     blueprintsFilter = new BlueprintsFilter
     blueprintsFiltered = FilteredCollection(
@@ -86,6 +97,7 @@ App = ->
     materialsFiltered._source.reset(CollectorDroneData.materials)
     tracking.materials.fetch(reset: true)
     tracking.blueprints.fetch(reset: true)
+
     return this
 
 new App()
