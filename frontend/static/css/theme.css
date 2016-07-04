@@ -1833,8 +1833,8 @@ textarea.input-lg, select[multiple].input-lg {
     cursor: pointer;
     background-image: none;
     white-space: nowrap;
-    padding: 0.2em 0.4em;
-    font-size: 1.2em;
+    padding: 0.3em 0.4em;
+    font-size: 1.1em;
     line-height: 1.42857143;
     border-radius: 0;
     -webkit-user-select: none;
@@ -3857,7 +3857,7 @@ a.list-group-item-danger.active, button.list-group-item-danger.active, a.list-gr
     color: rgb(226, 106, 10);
 }
 .panel-heading {
-    padding: 4px;
+    padding: 4px 4px 2px 4px;
     border-bottom: 1px solid transparent;
     border-top-right-radius: -1;
     border-top-left-radius: -1;
@@ -3868,7 +3868,7 @@ a.list-group-item-danger.active, button.list-group-item-danger.active, a.list-gr
 .panel-title {
     margin-top: 0;
     margin-bottom: 0;
-    font-size: 1.4em;
+    font-size: 1.3em;
     color: inherit;
 }
 .panel-title> a, .panel-title> small, .panel-title> .small, .panel-title> small> a, .panel-title> .small> a {
@@ -4605,7 +4605,7 @@ button.close {
     opacity: 0.5;
     filter: alpha(opacity=50);
     font-size: 20px;
-    color: #ffffff;
+    color: inherit;
     text-align: center;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
     background-color: rgba(0, 0, 0, 0);
@@ -4628,7 +4628,7 @@ button.close {
 }
 .carousel-control:hover, .carousel-control:focus {
     outline: 0;
-    color: #ffffff;
+    color: rgb(226, 106, 10);
     text-decoration: none;
     opacity: 0.9;
     filter: alpha(opacity=90);
@@ -4677,7 +4677,7 @@ button.close {
     height: 10px;
     margin: 1px;
     text-indent: -999px;
-    border: 1px solid #ffffff;
+    border: 1px solid rgb(226, 106, 10);
     border-radius: 10px;
     cursor: pointer;
     background-color: #000 \9;
@@ -4687,7 +4687,7 @@ button.close {
     margin: 0;
     width: 12px;
     height: 12px;
-    background-color: #ffffff;
+    background-color: rgb(226, 106, 10);
 }
 .carousel-caption {
     position: absolute;

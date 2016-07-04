@@ -21,8 +21,20 @@
 module.exports = Backbone.Model.extend
     defaults:
         limit: 12
-        offset: 0
+        current: 1
+        pages: 1
         collection: null
+
+    initialize: ->
+        @listenTo @get("collection"), "reset", @updatePages
+
+    updatePages: ->
+        @set
+            current: 1
+            pages: @calcPages()
+
+    calcPages: ->
+        Math.max(1, Math.ceil(@total() / @get("limit")))
 
     total: ->
         @get("collection").size()
@@ -31,17 +43,13 @@ module.exports = Backbone.Model.extend
         Math.floor((@total() - 1) / @get("limit") ) * @get("limit")
 
     next: ->
-        offset = Math.min(@get("offset") + @get("limit"), @max())
-        @set offset: offset
+        @set current: Math.min(@get("current") + 1, @get("pages"))
         return this
 
     previous: ->
-        offset = Math.max(@get("offset") - @get("limit"), 0)
-        @set offset: offset
+        @set current: Math.max(@get("current") - 1, 1)
         return this
 
-    pages: ->
-        maxPage = @max() / @get("limit")
-        for i in [1..maxPage]
-            page: i
-            offset: (i - 1) * @get("limit")
+    offset: ->
+        offset = (@get("current") - 1) * @get("limit")
+        Math.max(0, offset)

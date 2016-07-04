@@ -30,7 +30,7 @@ module.exports = Backbone.View.extend
         @filter.on "change", => @pager.set offset: 0
 
         new PagerView
-            el: "#blueprints-collection-view .pager"
+            el: "#blueprints-collection-view .drone-pagination"
             model: @pager
 
         @listenTo @model, "reset", @render
@@ -39,8 +39,8 @@ module.exports = Backbone.View.extend
 
     render: ->
         @$el.empty()
-        begin = @pager.get("offset")
-        end = @pager.get("offset") + @pager.get("limit")
+        begin = @pager.offset()
+        end = @pager.offset() + @pager.get("limit")
         @createItemView model, i for model, i in @model.slice begin, end
         return this
 

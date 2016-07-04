@@ -22,6 +22,30 @@ module.exports = Backbone.View.extend
     events:
         "click .previous": "previous"
         "click .next": "next"
+        "click .page": "goto"
+
+    itemTpl: _.template("""<a href="#"
+            data-page="<%=page%>"
+            class="page page-<%=page%><%=(active?" active":"")%>"><%=page%></a>""")
+
+    initialize: ->
+        @listenTo @model, "change:pages", @pagesChanged
+        @listenTo @model, "change:current", @currentChanged
+
+    pagesChanged: ->
+        @$el.find(".page").remove()
+        numPages = @model.get("pages")
+        items = []
+        items.push @itemTpl(active: i == 1, page: i) for i in [1..numPages]
+        @$el.find(".drone-pages").html(items.join "")
+        @delegateEvents()
+
+    currentChanged: ->
+        current = @model.get("current")
+        @$el.find(".page-#{current}")
+            .addClass("active")
+            .siblings().removeClass("active")
+        return this
 
     next: (event)->
         @model.next()
@@ -29,4 +53,8 @@ module.exports = Backbone.View.extend
 
     previous: (event)->
         @model.previous()
+        event.preventDefault()
+
+    goto: (event)->
+        @model.set current: $(event.target).data("page")
         event.preventDefault()
