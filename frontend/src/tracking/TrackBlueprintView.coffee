@@ -88,13 +88,17 @@ module.exports = Backbone.View.extend
 
         return this
 
-    track: ->
+    track: (event)->
         tracking.trackBlueprint(@model.blueprint)
+        event.preventDefault()
+        return this
 
-    untrack: ->
+    untrack: (event)->
         tracking.untrackBlueprint(@model.blueprint)
+        event.preventDefault()
+        return this
 
-    craft: ->
+    craft: (event)->
         @model.trackBlueprint.quantityPlus -1
 
         for ingredient in @model.blueprint.get("ingredients")
@@ -105,3 +109,7 @@ module.exports = Backbone.View.extend
 
         if @model.trackBlueprint.get("quantity") <= 0
             @untrack()
+
+        Backbone.trigger("action:blueprint:craft")
+        event.preventDefault()
+        return this

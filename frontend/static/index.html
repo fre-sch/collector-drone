@@ -429,7 +429,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
   ga('create', 'UA-80245677-1', 'auto');
-  ga('send', 'pageview');
+  ga('set', 'appName', 'collector-drone');
+  ga('send', 'screenview', {screenName: 'main'});
 </script>
 </body>
 </html>

@@ -52,21 +52,25 @@ module.exports = Backbone.View.extend
 
     inventoryPlus: (event)->
         @inventory.quantityPlus 1
+        Backbone.trigger("action:inventory:change")
         event.preventDefault()
         this
 
     inventoryMinus: (event)->
         @inventory.quantityPlus -1
+        Backbone.trigger("action:inventory:change")
         event.preventDefault()
         this
 
     removeTrack: (event)->
         @model.quantityPlus -1
         @model.destroy() if @model.get("quantity") <= 0
+        Backbone.trigger("action:material:untrack")
         event.preventDefault()
         this
 
     addTrack: (event)->
         @model.quantityPlus 1
+        Backbone.trigger("action:material:track")
         event.preventDefault()
         this
