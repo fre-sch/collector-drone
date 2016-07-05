@@ -55,4 +55,5 @@ module.exports = Backbone.View.extend
         @model.set search: @$searchInput.val()
         @model.set type: @typeMenuModel.get("selected")?.value
         @model.set sort: @sortMenuModel.get("selected")?.value
+        Backbone.trigger "action:material:filter"
         return this

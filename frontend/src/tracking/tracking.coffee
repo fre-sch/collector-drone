@@ -75,7 +75,7 @@ class TrackingController
             if tracked.get("quantity") <= 0
                 tracked.destroy()
 
-        Backbone.trigger("action:blueprint:untrack")
+        Backbone.trigger("action:material:untrack")
         return this
 
 

@@ -25,9 +25,9 @@ module.exports = Backbone.View.extend
     className: "col-sm-6 track-blueprint"
 
     events:
-        "click .track": "track"
-        "click .remove": "untrack"
-        "click .craft": "craft"
+        "click .btn.track": "track"
+        "click .btn.remove": "untrack"
+        "click .btn.craft": "craft"
 
     itemTpl: _.template("""
         <div class="row <%=itemClass%>" style="font-size: 0.9em">
@@ -90,12 +90,12 @@ module.exports = Backbone.View.extend
 
     track: (event)->
         tracking.trackBlueprint(@model.blueprint)
-        event.preventDefault()
+        event?.preventDefault()
         return this
 
     untrack: (event)->
         tracking.untrackBlueprint(@model.blueprint)
-        event.preventDefault()
+        event?.preventDefault()
         return this
 
     craft: (event)->
@@ -110,6 +110,6 @@ module.exports = Backbone.View.extend
         if @model.trackBlueprint.get("quantity") <= 0
             @untrack()
 
-        Backbone.trigger("action:blueprint:craft")
-        event.preventDefault()
+        Backbone.trigger "action:blueprint:craft"
+        event?.preventDefault()
         return this

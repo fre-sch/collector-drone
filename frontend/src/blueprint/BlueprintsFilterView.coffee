@@ -61,4 +61,5 @@ module.exports = Backbone.View.extend
         @model.set type: @typeMenuModel.get("selected")?.value
         @model.set level: @levelMenuModel.get("selected")?.value
         @model.set sort: @sortMenuModel.get("selected")?.value
+        Backbone.trigger "action:blueprint:filter"
         return this

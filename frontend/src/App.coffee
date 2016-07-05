@@ -32,6 +32,7 @@ MaterialsFilterView = require "./MaterialsFilterView"
 ResourceTabView = require "./ResourceTabView"
 tracking = require './tracking'
 inventory = require './inventory'
+Ga = require './Ga'
 
 
 fix_stuck_materials = ()->
@@ -98,29 +99,7 @@ App = ->
     tracking.materials.fetch(reset: true)
     tracking.blueprints.fetch(reset: true)
 
-    Backbone.on "action:blueprint:track", ->
-        window.ga "send", "event",
-            eventCategory: "blueprint"
-            eventAction: "track"
-            eventLabel: "Track blueprint"
-
-    Backbone.on "action:blueprint:untrack", ->
-        window.ga "send", "event",
-            eventCategory: "blueprint"
-            eventAction: "untrack"
-            eventLabel: "Untrack blueprint"
-
-    Backbone.on "action:inventory:plus", ->
-        window.ga "send", "event",
-            eventCategory: "inventory"
-            eventAction: "plus"
-            eventLabel: "Increase material inventory"
-
-    Backbone.on "action:inventory:minus", ->
-        window.ga "send", "event",
-            eventCategory: "inventory"
-            eventAction: "minus"
-            eventLabel: "Decrease material inventory"
+    new Ga(Backbone)
 
     return this
 
