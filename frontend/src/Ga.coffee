@@ -23,7 +23,8 @@ class Ga
         model.on "action:blueprint:track", @sendBlueprintTrack
         model.on "action:blueprint:untrack", @sendBlueprintUntrack
         model.on "action:blueprint:craft", @sendBlueprintCraft
-        model.on "action:inventory:change", @sendInventoryChange
+        model.on "action:inventory:plus", @sendInventoryPlus
+        model.on "action:inventory:minus", @sendInventoryMinus
         model.on "action:blueprint:filter", @sendBlueprintFilter
         model.on "action:material:filter", @sendMaterialFilter
 
@@ -45,11 +46,17 @@ class Ga
             eventAction: "craft"
             eventLabel: "Craft blueprint"
 
-    sendInventoryChange: ()->
+    sendInventoryPlus: ()->
         window.ga "send", "event",
             eventCategory: "inventory"
-            eventAction: "change"
-            eventLabel: "Change material inventory"
+            eventAction: "plus"
+            eventLabel: "Increase material inventory"
+
+    sendInventoryMinus: ()->
+        window.ga "send", "event",
+            eventCategory: "inventory"
+            eventAction: "minus"
+            eventLabel: "Decrease material inventory"
 
     sendBlueprintFilter: ()->
         window.ga "send", "event",

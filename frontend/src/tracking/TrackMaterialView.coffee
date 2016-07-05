@@ -52,13 +52,13 @@ module.exports = Backbone.View.extend
 
     inventoryPlus: (event)->
         @inventory.quantityPlus 1
-        Backbone.trigger("action:inventory:change")
+        Backbone.trigger("action:inventory:plus")
         event.preventDefault()
         this
 
     inventoryMinus: (event)->
         @inventory.quantityPlus -1
-        Backbone.trigger("action:inventory:change")
+        Backbone.trigger("action:inventory:minus")
         event.preventDefault()
         this
 
