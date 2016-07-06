@@ -21,15 +21,13 @@ MaterialView = require './MaterialView'
 
 ### MaterialsCollectionView ###
 module.exports = Backbone.View.extend
-    el: $("#materials-collection-view .collection-items")
+    el: $("#library-materials .collection-items")
 
     initialize: (options) ->
         {@filter, @pager} = options
-
         @filter.on "change", => @pager.set offset: 0
-
         new PagerView
-            el: "#materials-collection-view .drone-pagination"
+            el: "#library-materials .drone-pagination"
             model: @pager
 
         @listenTo @model, "reset", @render

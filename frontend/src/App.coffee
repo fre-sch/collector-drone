@@ -99,6 +99,30 @@ App = ->
     tracking.materials.fetch(reset: true)
     tracking.blueprints.fetch(reset: true)
 
+    Router = Backbone.Router.extend
+        routes:
+            ":section": "viewSection"
+            "library/:view": "libraryView"
+
+        viewSection: (section="tracking")->
+            $section = $("#" + section)
+            if $section.get()
+                $section.addClass("active").siblings().removeClass("active")
+                $("#view-" + section).addClass("active").siblings().removeClass("active")
+                Backbone.trigger("action:section", section)
+            return this
+
+        libraryView: (view="blueprints")->
+            @viewSection "library"
+            $view  = $("#library-"+view)
+            if $view.get()
+                $view.addClass("active").siblings().removeClass("active")
+                $("#view-library-" + view).addClass("active").siblings().removeClass("active")
+                Backbone.trigger("action:library:" + view)
+            return this
+
+    @router = new Router()
+    Backbone.history.start()
     new Ga(Backbone)
 
     return this

@@ -27,6 +27,7 @@ class Ga
         model.on "action:inventory:minus", @sendInventoryMinus
         model.on "action:blueprint:filter", @sendBlueprintFilter
         model.on "action:material:filter", @sendMaterialFilter
+        model.on "action:section", @sendScreenView
 
     sendBlueprintTrack: ()->
         window.ga "send", "event",
@@ -70,5 +71,7 @@ class Ga
             eventAction: "filter"
             eventLabel: "Filter/search material"
 
+    sendScreenView: (view)->
+        window.ga "send", "screenview", screenName: view
 
 module.exports = Ga

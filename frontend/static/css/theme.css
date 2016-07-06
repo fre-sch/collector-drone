@@ -14,9 +14,11 @@ html {
     font-family: 'Titillium Web', sans-serif;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
+    height: 100%;
 }
 body {
     margin: 0;
+    height: 100%;
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
     display: block;
@@ -231,7 +233,7 @@ body {
     font-size: 14px;
     line-height: 1.42857143;
     color: rgb(226, 106, 10);
-    background-color: rgb(22, 22, 22);
+    background: rgb(33, 27, 21);
 }
 input, button, select, textarea {
     font-family: inherit;
@@ -2748,17 +2750,15 @@ textarea.input-group-sm> .form-control, textarea.input-group-sm> .input-group-ad
     border-top-left-radius: 0;
 }
 .navbar {
-    position: relative;
-    min-height: 40px;
-    margin-bottom: 22px;
-    border: 1px solid transparent;
+    border: none;
+    min-height: 48px;
 }
 @media (min-width: 768px) {
     .navbar {
         border-radius: 0;
     }
 }
-@media (min-width: 768px) {
+@media (min-width: 320px) {
     .navbar-header {
         float: left;
     }
@@ -2843,7 +2843,7 @@ textarea.input-group-sm> .form-control, textarea.input-group-sm> .input-group-ad
 }
 .navbar-brand {
     float: left;
-    padding: 9px 15px;
+    padding: 6px 15px;
     font-size: 20px;
     line-height: 22px;
     height: 40px;
@@ -2892,9 +2892,9 @@ textarea.input-group-sm> .form-control, textarea.input-group-sm> .input-group-ad
     margin: 4.5px -15px;
 }
 .navbar-nav> li> a {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    line-height: 22px;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 48px;
 }
 @media (max-width: 767px) {
     .navbar-nav .open .dropdown-menu {
@@ -2916,7 +2916,7 @@ textarea.input-group-sm> .form-control, textarea.input-group-sm> .input-group-ad
         background-image: none;
     }
 }
-@media (min-width: 768px) {
+@media (min-width: 320px) {
     .navbar-nav {
         float: left;
         margin: 0;
@@ -2925,8 +2925,8 @@ textarea.input-group-sm> .form-control, textarea.input-group-sm> .input-group-ad
         float: left;
     }
     .navbar-nav> li> a {
-        padding-top: 9px;
-        padding-bottom: 9px;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 }
 .navbar-form {
@@ -3053,7 +3053,7 @@ textarea.input-group-sm> .form-control, textarea.input-group-sm> .input-group-ad
     }
 }
 .navbar-default {
-    background-color: #444444;
+    background-color: rgb(22, 22, 22);
     border-color: transparent;
 }
 .navbar-default .navbar-brand {
@@ -3067,15 +3067,17 @@ textarea.input-group-sm> .form-control, textarea.input-group-sm> .input-group-ad
     color: #e1e1e1;
 }
 .navbar-default .navbar-nav> li> a {
-    color: #e1e1e1;
+    color: rgb(226, 106, 10);
+    font-weight: lighter;
 }
 .navbar-default .navbar-nav> li> a:hover, .navbar-default .navbar-nav> li> a:focus {
     color: #e1e1e1;
     background-color: #3d3d3d;
 }
 .navbar-default .navbar-nav> .active> a, .navbar-default .navbar-nav> .active> a:hover, .navbar-default .navbar-nav> .active> a:focus {
-    color: #e1e1e1;
-    background-color: #3d3d3d;
+    color: rgb(226, 106, 10);
+    background-color: transparent;
+    font-weight: bold;
 }
 .navbar-default .navbar-nav> .disabled> a, .navbar-default .navbar-nav> .disabled> a:hover, .navbar-default .navbar-nav> .disabled> a:focus {
     color: #cccccc;
@@ -4602,36 +4604,26 @@ button.close {
     left: 0;
     bottom: 0;
     width: 15%;
-    opacity: 0.5;
-    filter: alpha(opacity=50);
     font-size: 20px;
     color: inherit;
     text-align: center;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-    background-color: rgba(0, 0, 0, 0);
+    background-color: transparent;
 }
 .carousel-control.left {
-    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
-    background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
-    background-repeat: repeat-x;
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
+    background: transparent;
 }
 .carousel-control.right {
     left: auto;
     right: 0;
-    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
-    background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
-    background-repeat: repeat-x;
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);
+    background: transparent;
 }
 .carousel-control:hover, .carousel-control:focus {
     outline: 0;
     color: rgb(226, 106, 10);
     text-decoration: none;
-    opacity: 0.9;
-    filter: alpha(opacity=90);
+    opacity: 1;
+    filter: none;
 }
 .carousel-control .icon-prev, .carousel-control .icon-next, .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right {
     position: absolute;
@@ -4961,7 +4953,7 @@ button.close {
     -webkit-box-shadow: none;
     box-shadow: none;
     border: none;
-    font-size: 12px;
+    font-size: 1.2em;
 }
 .navbar-default .badge {
     background-color: #fff;

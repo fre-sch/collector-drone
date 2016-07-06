@@ -59,12 +59,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 {% include "_track-material-tpl.html" %}
 {% include "_blueprint-tpl.html" %}
 {% include "_track-blueprint-tpl.html" %}
-
-<br/>
+{% include "_navbar.html"%}
 
 <div class="container">
-  <section id="tracking">
-    <div class="well" style="min-height: 20em">
+
+  <section id="tracking" class="active">
       <div id="track-toolbar">
         <nav>
           <ul class="nav nav-pills nav-justified" id="track-tab-view">
@@ -80,73 +79,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="tab-pane active row" id="track-blueprints"></div>
         <div class="tab-pane row" id="track-materials"></div>
       </div>
-    </div>
   </section>
 
   <section id="library">
   <nav id="resource-filter-tabs">
     <ul class="nav nav-pills nav-justified">
-      <li class="active"><a href="#blueprints-collection-view"
-          data-toggle="pill" id="show-blueprints-collection-view">Blueprints
+      <li id="view-library-blueprints" class="active"><a href="#/library/blueprints">Blueprints
         (<span class="num-blueprints">0</span>)</a>
       </li>
-      <li><a href="#materials-collection-view"
-          data-toggle="pill" id="show-materials-collection-view">Materials
+      <li id="view-library-materials"><a href="#/library/materials">Materials
         (<span class="num-materials">0</span>)</a></li>
     </ul>
   </nav>
   <div class="tab-content">
-    <div id="blueprints-collection-view" class="tab-pane active">
-      <div id="blueprints-filter" style="margin-bottom:1.6em"
-          class="row">
-        <div class="col-xs-4 col-md-3 blueprints-filter-type">
-          <div class="btn-group" style="width:100%">
-            <button class="btn btn-default dropdown-toggle" type="button"
-                id="menu-filter-2" data-toggle="dropdown"
-                style="width:100%;text-align:left;">
-              <span class="btn-label" data-value="">All types</span>
-              <span class="caret-right"><span class="caret"></span></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="#" data-value="">All types</a></li>
-              <li role="separator" class="divider"></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-xs-4 col-md-2 blueprints-filter-level">
-          <div class="btn-group" style="width:100%">
-            <button class="btn btn-default dropdown-toggle" type="button"
-                id="menu-filter-3" data-toggle="dropdown"
-                style="width:100%;text-align:left;">
-              <span class="btn-label" data-value="">All levels</span>
-              <span class="caret-right"><span class="caret"></span></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="#" data-value="">All levels</a></li>
-              <li role="separator" class="divider"></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-2 col-md-push-5 col-xs-4 text-right blueprints-sort">
-          <div class="btn-group" style="width:100%">
-            <button class="btn btn-default dropdown-toggle" type="button"
-                id="sort-by-2" data-toggle="dropdown"
-                style="width:100%;text-align:left;">
-              <span class="btn-label">Unsorted</span>
-              <span class="caret-right"><span class="caret"></span></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="#" data-value="">Unsorted</a></li>
-              <li role="separator" class="divider"></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-5 col-md-pull-2 col-xs-12">
-          <input type="text"
-            class="form-control blueprints-filter-search"
-            placeholder="Search..."/>
-        </div>
-      </div>
+    <div id="library-blueprints" class="tab-pane active">
+      {% include "_blueprints-filter.html" %}
       <div class="collection-items row"></div>
       <div class="clearfix drone-pagination" style="margin-bottom:1em;">
         <a href="#" class="btn btn-default previous pull-left"><span
@@ -159,41 +106,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </div>
     </div>
 
-    <div id="materials-collection-view" class="tab-pane">
-      <div id="materials-filter" style="margin-bottom:1.6em"
-          class="row">
-        <div class="col-md-3 col-xs-6 materials-filter-type">
-          <div class="btn-group" style="width:100%">
-            <button class="btn btn-default dropdown-toggle" type="button"
-                id="menu-filter-3" data-toggle="dropdown"
-                style="width:100%;text-align:left;">
-              <span class="materials-filter-type btn-label">All types</span>
-              <span class="caret-right"><span class="caret"></span></span>
-            </button>
-            <ul class="dropdown-menu materials-filter-type">
-              <li><a href="#" data-type="">All types</a></li>
-              <li role="separator" class="divider"></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-2 col-md-push-7 col-xs-6 text-right materials-sort">
-          <div class="btn-group" style="width:100%">
-            <button class="btn btn-default dropdown-toggle" type="button"
-                id="sort-by-3" data-toggle="dropdown"
-                style="width:100%; text-align:left;">
-              <span class="btn-label">Unsorted</span>
-              <span class="caret-right"><span class="caret"></span></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="#" data-type="">Unsorted</a></li>
-              <li role="separator" class="divider"></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-7 col-md-pull-2 col-xs-12">
-          <input type="text" class="form-control materials-filter-search" placeholder="Search..."/>
-        </div>
-      </div>
+    <div id="library-materials" class="tab-pane">
+      {% include "_materials-filter.html" %}
       <div class="collection-items row"></div>
       <div class="clearfix drone-pagination" style="margin-bottom:1em;">
         <a href="#" class="btn btn-default previous pull-left"><span

@@ -21,16 +21,13 @@ BlueprintView = require './BlueprintView'
 
 ### BlueprintsCollectionView ###
 module.exports = Backbone.View.extend
-    el: $("#blueprints-collection-view .collection-items")
-    limit: 12
+    el: $("#library-blueprints .collection-items")
 
     initialize: (options) ->
         {@filter, @pager} = options
-
         @filter.on "change", => @pager.set offset: 0
-
         new PagerView
-            el: "#blueprints-collection-view .drone-pagination"
+            el: "#library-blueprints .drone-pagination"
             model: @pager
 
         @listenTo @model, "reset", @render
