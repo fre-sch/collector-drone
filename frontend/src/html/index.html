@@ -82,18 +82,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   </section>
 
   <section id="library">
-  <nav id="resource-filter-tabs">
-    <ul class="nav nav-pills nav-justified">
-      <li id="view-library-blueprints" class="active"><a href="#/library/blueprints">Blueprints
-        (<span class="num-blueprints">0</span>)</a>
-      </li>
-      <li id="view-library-materials"><a href="#/library/materials">Materials
-        (<span class="num-materials">0</span>)</a></li>
-    </ul>
-  </nav>
+      <div class="section-head">
+          <nav id="resource-filter-tabs">
+            <ul class="nav nav-pills nav-justified">
+              <li id="view-library-blueprints" class="active"><a href="#/library/blueprints">Blueprints
+                (<span class="num-blueprints">0</span>)</a>
+              </li>
+              <li id="view-library-materials"><a href="#/library/materials">Materials
+                (<span class="num-materials">0</span>)</a></li>
+            </ul>
+          </nav>
+          <div class="tab-content">
+              {% include "_blueprints-filter.html" %}
+              {% include "_materials-filter.html" %}
+          </div>
+      </div>
+
   <div class="tab-content">
     <div id="library-blueprints" class="tab-pane active">
-      {% include "_blueprints-filter.html" %}
       <div class="collection-items row"></div>
       <div class="clearfix drone-pagination" style="margin-bottom:1em;">
         <a href="#" class="btn btn-default previous pull-left"><span
@@ -107,7 +113,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     <div id="library-materials" class="tab-pane">
-      {% include "_materials-filter.html" %}
       <div class="collection-items row"></div>
       <div class="clearfix drone-pagination" style="margin-bottom:1em;">
         <a href="#" class="btn btn-default previous pull-left"><span

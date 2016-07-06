@@ -21,8 +21,6 @@ MenuView = require './MenuView'
 
 ### BlueprintsFilterView ###
 module.exports = Backbone.View.extend
-    el: $("#blueprints-filter")
-
     events:
         "change .blueprints-filter-search": "updateFilterModel"
 

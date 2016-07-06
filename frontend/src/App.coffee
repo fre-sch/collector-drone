@@ -69,10 +69,11 @@ App = ->
         pager: new PagerModel(collection: materialsFiltered)
 
     blueprintsFilterView = new BlueprintsFilterView
+        el: $("#library-blueprints-filter")
         model: blueprintsFilter
 
     materialsFilterView = new MaterialsFilterView
-        el: $("#materials-filter")
+        el: $("#library-materials-filter")
         model: materialsFilter
 
     materialsFilterView.typeMenuModel.set
@@ -114,11 +115,13 @@ App = ->
 
         libraryView: (view="blueprints")->
             @viewSection "library"
-            $view  = $("#library-"+view)
+            $view  = $("#library-" + view)
             if $view.get()
                 $view.addClass("active").siblings().removeClass("active")
                 $("#view-library-" + view).addClass("active").siblings().removeClass("active")
-                Backbone.trigger("action:library:" + view)
+                console.info "#view-library-#{view}-filter"
+                $("#library-#{view}-filter").addClass("active").siblings().removeClass("active")
+                Backbone.trigger("action:section", "library:" + view)
             return this
 
     @router = new Router()
