@@ -5,6 +5,8 @@ db:
   # url: sqlite:///<path/to/app/data.db
   url: <sqlalchemy db url>
   echo: false # true, if you need to see sql statements
+gapi:
+    key: # your own google api key with access to google spreadsheets
 logging:
   version: 1
   disable_existing_loggers: false

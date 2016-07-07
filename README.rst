@@ -9,7 +9,6 @@ for crafting engineer upgrades.
 Data pulled from `Engineering Database & Calculator <https://forums.frontier.co.uk/showthread.php/248275>`_
 gathered by `Qohen-Leth <https://forums.frontier.co.uk/member.php/118579-Qohen-Leth>`_.
 Icons and colors by `edassets.org <http://www.edassets.org/>`_.
-Checkout the `source at github <https://github.com/fre-sch/collector-drone>`_.
 Copyright 2016  Frederik Schumacher
 
 `http://collector-drone.one/ <http://collector-drone.one/>`_
@@ -53,18 +52,8 @@ Run API::
 
 API is now available as ``http://localhost:5000``
 
-Setup and Build Frontend
-========================
 
-Frontend is written in Coffeescript and needs to be compiled to JavaScript::
-
-    > cd frontend
-    frontend> npm install
-    frontend> grunt
-
-If API is running and frontend is built, visiting ``http://localhost:5000/``
-should redirect to the actual app
-``http://localhost:5000/static/frontend/index.html``.
+The frontend code has its own repository: https://github.com/fre-sch/collector-drone-frontend
 
 
 *****************
