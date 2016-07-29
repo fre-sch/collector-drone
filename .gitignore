@@ -3,7 +3,6 @@
 /.idea
 /config.yml
 /static
-data.db
 *.pyc
 __pycache__
 .tags
