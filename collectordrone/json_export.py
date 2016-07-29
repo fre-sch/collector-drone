@@ -24,6 +24,8 @@ import yaml
 import logging
 import logging.config
 import json
+from time import time
+import os
 
 
 config = DotDict()
@@ -38,13 +40,16 @@ Session = sessionmaker(bind=engine)
 
 
 @click.command()
-@click.argument("outfile")
-def json_export(outfile):
+@click.argument("outdir")
+def json_export(outdir):
     db = Session()
-    data = dict()
+    data = dict(
+        version = str(int(time()))
+    )
     data["materials"] = [
         it.to_dict(["locations"])
-        for it in db.query(Material).options(subqueryload(Material.locations))
+        for it in db.query(Material)\
+            .options(subqueryload(Material.locations))
     ]
     data["materialTypes"] = [
         dict(label=it[0], value=it[0])
@@ -52,8 +57,9 @@ def json_export(outfile):
         if it[0]
     ]
     data["blueprints"] = [
-        it.to_dict(["ingredients"])
+        it.to_dict(["ingredients", "engineers"])
         for it in db.query(Blueprint)\
+                .options(joinedload(Blueprint.engineers))\
                 .options(subqueryload(Blueprint.ingredients))\
                 .options(subqueryload("ingredients.material"))
     ]
@@ -62,11 +68,13 @@ def json_export(outfile):
         for it in db.query(distinct(Blueprint.type)).order_by(Blueprint.type.asc())
         if it[0]
     ]
-    with open(outfile, "w") as fp:
+    out_filename = "data.{}.js".format(data["version"])
+    out_path = os.path.join(outdir, out_filename)
+    with open(out_path, "w") as fp:
         fp.write('CollectorDroneData=')
         json.dump(data, fp)
-
     db.close()
+    print out_filename
 
 
 if __name__ == '__main__':

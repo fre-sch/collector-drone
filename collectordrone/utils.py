@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import yaml
 from UserDict import UserDict
 
 
@@ -31,3 +32,20 @@ class DotDict(UserDict):
                 return None
             current_data = current_data[chunk]
         return current_data
+
+
+def load_config():
+    config = DotDict()
+    with open("config.yml", "r") as fp:
+        config.update(yaml.load(fp))
+    return config
+
+
+def slugify(val):
+    return re.sub(ur"\W+", "_", val.lower())
+
+
+def prefix_tpl(prefix, value):
+    if not value:
+        return None
+    return u"{}{}".format(prefix, value)

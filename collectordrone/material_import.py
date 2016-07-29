@@ -17,12 +17,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from models import Material, Location, tbl_location_material
-from utils import DotDict
+import utils
 import click
 import csv
-from sqlalchemy import create_engine, func
-from sqlalchemy.orm import sessionmaker
-import yaml
+import database
 import requests
 from pprint import pprint
 from collections import defaultdict
@@ -97,13 +95,6 @@ def material_factory(db, row):
     return inst
 
 
-def _load_config():
-    config = DotDict()
-    with open("config.yml", "r") as fp:
-        config.update(yaml.load(fp))
-    return config
-
-
 def _configure_db(config):
     engine = create_engine(config["db.url"], echo=config["db.echo"])
     Session = sessionmaker(bind=engine)
@@ -118,7 +109,7 @@ def cli():
 @cli.command()
 @click.argument('csvfile')
 def edb_import(csvfile):
-    config = _load_config()
+    config = utils.load_config()
     db = _configure_db(config)
     fields = (
         "title",
@@ -159,9 +150,9 @@ def inara_import(csvfile):
 @click.argument("spreadsheet_id")
 @click.argument("sheet_name")
 @click.argument("sheet_range")
-def edgrind_import(spreadsheet_id, sheet_name, sheet_range):
-    config = _load_config()
-    db = _configure_db(config)
+def google_sheet_import(spreadsheet_id, sheet_name, sheet_range):
+    config = utils.load_config()
+    db = database.session(config)
     url_tpl = 'https://sheets.googleapis.com/v4/spreadsheets/{id}/values/{name}!{range}'
     url = url_tpl.format(id=spreadsheet_id, name=sheet_name, range=sheet_range)
     params = dict(key=config["gapi.key"])

@@ -1,0 +1,5 @@
+{% extends 'admin/base.html' %}
+{% block head_tail %}
+{{ super() }}
+<link href="{{ url_for('static', filename='darkly.css') }}" rel="stylesheet">
+{% endblock head_tail %}

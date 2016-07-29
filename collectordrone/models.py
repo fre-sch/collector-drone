@@ -53,6 +53,7 @@ class Engineer(Base):
     __tablename__ = "engineer"
     id = Column(Integer, primary_key=True)
     name = Column(String)
+    location = Column(String)
 
     def to_dict(self, rel=list()):
         d = to_dict(self)
@@ -60,13 +61,16 @@ class Engineer(Base):
             d["blueprints"] = [r.to_dict() for r in self.blueprints]
         return d
 
+    def __str__(self):
+        return "{}(id:{})".format(self.name, self.id)
+
 
 class Material(Base):
     __tablename__ = "material"
     id = Column(Integer, primary_key=True)
     title = Column(String)
     description = Column(String)
-    _rarity = Column(Integer, name="rarity")
+    rarity_sort = Column(Integer, name="rarity")
     type = Column(String)
 
     @property
@@ -78,7 +82,7 @@ class Material(Base):
             3: "rare",
             4: "very rare"
         }
-        return enum.get(self._rarity, "common")
+        return enum.get(self.rarity_sort, "common")
 
     def to_dict(self, rel=list()):
         d = to_dict(self)
@@ -88,11 +92,25 @@ class Material(Base):
             d["locations"] = [r.to_dict() for r in self.locations]
         return d
 
+    def __str__(self):
+        return "{}(id:{})".format(self.title, self.id)
+
 
 class Location(Base):
     __tablename__ = "location"
     id = Column(Integer, primary_key=True)
+    category = Column(Enum(
+        "uss",
+        "mission",
+        "poi",
+        "commodity",
+        "mining",
+        "scan",
+        "salvage",
+        "other"))
+    mission_type = Column(String)
     title = Column(String)
+
     materials = relationship(Material,
             secondary=tbl_location_material,
             backref=backref("locations"))
@@ -103,8 +121,8 @@ class Location(Base):
             d["materials"] = [r.to_dict() for r in self.materials]
         return d
 
-    def __repr__(self):
-        return repr(self.to_dict())
+    def __str__(self):
+        return "{}(id:{})".format(self.title, self.id)
 
 
 class Blueprint(Base):
@@ -130,15 +148,19 @@ class Blueprint(Base):
             d["ingredients"] = [i.to_dict() for i in self.ingredients]
         return d
 
+    def __str__(self):
+        return "{}(id:{})".format(self.title, self.id)
+
 
 class PrimaryEffect(Base):
     __tablename__ = "primary_effect"
     id = Column(Integer, primary_key=True)
     blueprint_id = Column(Integer, ForeignKey("blueprint.id"))
     title = Column(String)
-    influence = Column(Enum("GAIN", "LOSS"))
+    effect = Column(Enum("positive", "negative"))
     min = Column(Numeric(10, 2, asdecimal=False))
     max = Column(Numeric(10, 2, asdecimal=False))
+    scale = Column(Enum("percent", "absolute"))
     blueprint = relationship(Blueprint, backref=backref("effects"))
 
     def to_dict(self, rel=list()):
@@ -146,6 +168,9 @@ class PrimaryEffect(Base):
         if "blueprint" in rel:
             d["blueprint"] = self.blueprint.to_dict()
         return d
+
+    def __str__(self):
+        return "{}(id:{})".format(self.title, self.id)
 
 
 class Ingredient(Base):
@@ -162,3 +187,8 @@ class Ingredient(Base):
         d["material"] = self.material.to_dict()
         d["quantity"] = self.quantity
         return d
+
+    def __str__(self):
+        return "{}({})".format(
+            self.material and self.material.title or "material missing",
+            self.quantity)
