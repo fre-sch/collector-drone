@@ -2634,7 +2634,7 @@ input[type="search"] {
   }
 }
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 0.3em;
 }
 .radio,
 .checkbox {
@@ -2987,7 +2987,7 @@ select[multiple].input-lg {
   .form-horizontal .control-label {
     text-align: right;
     margin-bottom: 0;
-    padding-top: 11px;
+    padding-top: 0.2em;
   }
 }
 .form-horizontal .has-feedback .form-control-feedback {
@@ -5840,7 +5840,7 @@ button.list-group-item-danger.active:focus {
   border-radius: 6px;
 }
 .well-sm {
-  padding: .2em 1em;
+  padding: 0em .3em;
   border-radius: 3px;
 }
 .close {

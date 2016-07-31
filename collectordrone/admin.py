@@ -33,7 +33,7 @@ class BlueprintView(ModelView):
         'title', 'type', 'level', 'engineers', 'ingredients', 'effects',
     )
     inline_models = (
-        Ingredient,
+        Ingredient, PrimaryEffect
     )
 
 

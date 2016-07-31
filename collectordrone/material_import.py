@@ -25,6 +25,7 @@ import requests
 from pprint import pprint
 from collections import defaultdict
 import re
+import json
 
 
 def rarity(val):
@@ -120,28 +121,6 @@ def edb_import(csvfile):
     with open(csvfile, "rb") as fp:
         reader = csv.DictReader(fp, fields, restkey="extra", delimiter=",", quotechar='"')
         for row in reader:
-            material_factory(db, row)
-    db.commit()
-
-
-@cli.command()
-@click.argument('csvfile')
-def inara_import(csvfile):
-    config = _load_config()
-    db = _configure_db(config)
-    fields = (
-        "title",
-        "type",
-        "rarity",
-        "locations",
-    )
-    with open(csvfile, "rb") as fp:
-        reader = csv.DictReader(fp, fields, restkey="extra", delimiter=";", quotechar='"')
-        for row in reader:
-            if row["locations"]:
-                row["locations"] = filter(None,
-                    (l.strip() for l in row["locations"].split(","))
-                )
             material_factory(db, row)
     db.commit()
 
