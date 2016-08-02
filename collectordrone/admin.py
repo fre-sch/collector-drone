@@ -50,9 +50,14 @@ class MaterialView(ModelView):
     form_edit_rules = (
         'title', 'type', 'rarity_sort', 'locations'
     )
+    inline_models = (
+        Location,
+    )
+
 
 class LocationView(ModelView):
     column_list = ("title")
+
 
 
 config = DotDict()

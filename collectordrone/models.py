@@ -97,19 +97,19 @@ class Material(Base):
 
 
 class Location(Base):
-    __tablename__ = "location"
-    id = Column(Integer, primary_key=True)
-    category = Column(Enum(
-        "uss",
+    CATEGORIES = (
         "mission",
-        "poi",
         "commodity",
         "mining",
-        "scan",
-        "salvage",
-        "other"))
+        "other"
+    )
+
+    __tablename__ = "location"
+    id = Column(Integer, primary_key=True)
+    category = Column(Enum(*CATEGORIES))
     mission_type = Column(String)
     title = Column(String)
+    details = Column(String)
 
     materials = relationship(Material,
             secondary=tbl_location_material,
@@ -122,7 +122,10 @@ class Location(Base):
         return d
 
     def __str__(self):
-        return "{}(id:{})".format(self.title, self.id)
+        return "Location({}, {}, {})".format(self.category, self.mission_type, self.title)
+
+    def __repr__(self):
+        return "Location({}, {}, {})".format(self.category, self.mission_type, self.title)
 
 
 class Blueprint(Base):

@@ -1,9 +1,14 @@
-import click
-import requests
+# coding: UTF-8
 import utils
 import database
+from models import Location, Material, tbl_location_material
+import click
 import re
-from models import Location
+import csv
+from sqlalchemy import func
+
+
+fn_lower = func.lower
 
 
 def slugify(val):
@@ -17,17 +22,17 @@ def location_part_tpl(prefix, value):
 
 
 class RowObject(object):
-    system_economies = (
-        "Agriculture",
-        "Extraction",
-        "Refinery",
-        "Industrial",
-        "Tourism",
-        "High-Tech",
-    )
+    ECONOMIES = {
+        u"agr": u"Agriculture",
+        u"ext": u"Extraction",
+        u"ref": u"Refinery",
+        u"ind": u"Industrial",
+        u"tou": u"Tourism",
+        u"hig": u"High-Tech",
+    }
 
-    def __init__(self, headers, row):
-        self.__dict__["data"] = dict(zip(headers, [it.strip() for it in row]))
+    def __init__(self, row):
+        self.__dict__["data"] = row
 
     def __getattr__(self, key):
         return self.data.get(key, "").strip()
@@ -47,21 +52,31 @@ class RowObject(object):
             categories.append("commodity")
         if self.is_mineable:
             categories.append("mining")
-        if self.is_scan:
-            categories.append("scan")
-        if self.is_salvage:
-            categories.append("salvage")
-    return categories
+        if not categories:
+            categories.append("other")
+        return categories
 
     @property
     def is_mission_reward(self):
         return (
-            self.cmp("missionreward", "yes") or self.cmp("missionreward", "only")
+            self.cmp("mission_reward", "yes") or self.cmp("mission_reward", "only")
         )
 
     @property
     def system_economies(self):
-        it.lower() for it in self.system_economy.split("/")
+        economies = []
+        for it in filter(None, self.system_economy.split("/")):
+            economies.append(self.ECONOMIES.get(it[:3].lower(), ""))
+        return economies
+
+    @property
+    def system_data(self):
+        return filter(None, [
+            utils.prefix_tpl(u"Faction: ", self.power),
+            utils.prefix_tpl(u"Economy: ", u", ".join(self.system_economies)),
+            utils.prefix_tpl(u"Government: ", self.system_government),
+            utils.prefix_tpl(u"State: ", self.system_state),
+        ])
 
     @property
     def mission_types(self):
@@ -69,92 +84,110 @@ class RowObject(object):
 
     @property
     def is_purchasable(self):
-        return self.cmp("subtype", "commodity") and self.marketdata
+        return self.cmp("subtype", "commodity") and self.market_data
 
     @property
     def is_mineable(self):
         return (
             self.cmp("loc1", "mining")
             or self.cmp("loc2", "mining")
-            or not self.cmp("mininglocation", "")
-        )
-
-    @property
-    def is_scan(self):
-        return (
-            "scan" in self.loc1.lower()
-            or "scan" in self.loc2.lower()
-        )
-
-    @property
-    def is_salvage(self):
-        return (
-            "salvage" in self.loc1.lower()
-            or "salvage" in self.loc2.lower()
+            or not self.cmp("mining_location", "")
         )
 
     def __repr__(self):
         return repr(self.data)
 
 
+def parse_locations(item):
+    locations = []
+    for category in item.categories:
+        if category == "mission":
+            for mission_type in item.mission_types:
+                locations.append(Location(
+                    category=category,
+                    mission_type=mission_type,
+                    title=mission_type,
+                    details=";".join(item.system_data)
+                ))
+
+        elif category == "commodity":
+            locations.append(Location(
+                category=category,
+                title="Commodity",
+                details=utils.prefix_tpl("Market: ", item.market_data)
+            ))
+
+        elif category == "mining":
+            locations.append(Location(
+                category=category,
+                title="Mining",
+                details=item.mining_location
+            ))
+
+    if item.loc1 and not item.cmp("loc1", "mining"):
+        locations.append(Location(
+            category="other",
+            title=item.loc1,
+            details=";".join(filter(None,
+                [item.ship_type] + item.system_data
+            ))
+        ))
+
+    if item.loc2 and not item.cmp("loc2", "mining"):
+        locations.append(Location(
+            category="other",
+            title=item.loc2,
+            details=";".join(filter,None(
+                [item.ship_type] + item.system_data
+            ))
+        ))
+
+    return locations
+
+
 @click.command()
-@click.argument("spreadsheet_id")
-@click.argument("sheet_name")
-@click.argument("sheet_range")
-def main(spreadsheet_id, sheet_name, sheet_range):
+@click.argument("csvfile")
+def main(csvfile):
     config = utils.load_config()
     db = database.session(config)
-    url_tpl = 'https://sheets.googleapis.com/v4/spreadsheets/{id}/values/{name}!{range}'
-    url = url_tpl.format(id=spreadsheet_id, name=sheet_name, range=sheet_range)
-    params = dict(key=config["gapi.key"])
+    fields = (
+        'component',
+        'type',
+        'rarity',
+        'subtype',
+        'loc1',
+        'loc2',
+        'mission_reward',
+        'ship_type',
+        'market_data',
+        'mining_location',
+        'mission_type',
+        'system_state',
+        'system_economy',
+        'system_government',
+        'power'
+    )
+    with open(csvfile, "rb") as fp:
+        fp.readline() # skip headers
 
-    resp = requests.get(url, params=params)
-    assert resp.status_code == 200, "googleapi request error: {}".format(resp.content)
-    data = resp.json()
-    rows = data["values"]
-    headers = [slugify(it.strip()) for it in rows.pop(0)]
+        reader = csv.DictReader(fp, fields, delimiter=",", quotechar='"')
 
-    # db.query(Location).delete()
-    # tbl_location_material.delete()
+        db.query(Location).delete()
+        tbl_location_material.delete()
 
-    for row in rows:
-        item = RowObject(headers, row)
-        locations = []
-        system_data = filter(None, [
-            utils.prefix_tpl("Faction: ", item.power),
-            utils.prefix_tpl("Economy: ", item.system_economy),
-            utils.prefix_tpl("Government: ", item.system_government),
-            utils.prefix_tpl("State: ", item.system_state),
-        ])
+        for row in reader:
+            item = RowObject(row)
+            material = db.query(Material).filter(
+                fn_lower(Material.title) == fn_lower(item.component)
+            ).first()
+            if not material:
+                print "missing material %s"%item.component
+                exit(1)
 
-        for category in item.categories:
-            if category == "mission":
-                for mission_type in item.mission_types:
-                    locations.append(Location(
-                        category=category,
-                        mission_type=mission_type,
-                        title=";".join(system_data)
-                    ))
+            material.locations[:] = parse_locations(item)
+            db.add(material)
 
-            if category == "commodity:
-                locations.append(Location(
-                    category=category,
-                    title=utils.prefix_tpl("Market: ", item.marketdata)
-                ))
-
-            if category == "mining:
-                locations.append(Location(
-                    category=category,
-                    title=item.mininglocation
-                ))
-
-            if category == "scan":
-                if item.shiptype
-
-
-
-
-
+    db.commit()
 
 if __name__ == '__main__':
     main()
